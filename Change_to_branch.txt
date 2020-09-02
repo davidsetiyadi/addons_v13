@@ -1,0 +1,2 @@
+git checkout tree (tree ganti nama branch)
+git push origin tree (tree ganti namabranch
