@@ -25,9 +25,9 @@
 	'version': '13.0',
 	'category': 'Tools',
 	'sequence': 1,
-	'summary': 'Restrict Multiple Sign in for Same User in Odoo.: porting 13',
+	'summary': 'Restrict Multiple Sign in for Same User in Odoo. Porting v13',
 	'description': """
-Restrict Multiple Sign in for Same User: porting 13
+Restrict Multiple Sign in for Same User
 =======================================
 
 Module to Restrict Multiple Sign in for Same User in Odoo.""",

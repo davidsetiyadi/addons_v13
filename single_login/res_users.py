@@ -23,26 +23,31 @@
 
 import logging
 import odoo
-# from odoo.osv import fields, osv, orm
 from odoo import api, fields, models, tools
 from datetime import date,datetime,time,timedelta
 from odoo import SUPERUSER_ID
 from odoo.http import request
 from odoo.tools.translate import _
-from odoo.http import Response
-from odoo import http
 from odoo.exceptions import AccessDenied, AccessError, UserError, ValidationError
+from odoo import http, tools
+from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
+from odoo.addons.portal.controllers.web import Home as HomePortal
 
 _logger = logging.getLogger(__name__)
 
 #----------------------------------------------------------
 # Odoo Web web Controllers
 #----------------------------------------------------------
-class Home(http.Controller):
+
+class Home(HomePortal):
+
+	def _login_redirect(self, uid, redirect=None):
+		return super()._login_redirect(uid, redirect)
 
 	@http.route('/web/login', type='http', auth="none")
 	def web_login(self, redirect=None, **kw):
-		ensure_db()
+		odoo.addons.web.controllers.main.ensure_db()
+
 		request.params['login_success'] = False
 		if request.httprequest.method == 'GET' and redirect and request.session.uid:
 			return http.redirect_with_hash(redirect)
@@ -65,7 +70,7 @@ class Home(http.Controller):
 			except AccessDenied as e:
 				request.uid = old_uid
 				if e.args == AccessDenied().args:
-					values['error'] = _("Wrong login/password")
+					values['error'] = "Login failed due to one of the following reasons"
 					values['error2'] = "- Wrong login/password"
 					values['error3'] = "- User already logged in from another system"
 				else:
@@ -85,44 +90,54 @@ class Home(http.Controller):
 		return response
 
 
-class Root_new(odoo.http.Root):
-	def get_response(self, httprequest, result, explicit_session):
-		if isinstance(result, Response) and result.is_qweb:
-			try:
-				result.flatten()
-			except Exception:
-				if request.db:
-					result = request.registry['ir.http']._handle_exception(e)
-				else:
-					raise
-		
-		if isinstance(result, basestring):
-			response = Response(result, mimetype='text/html')
-		else:
-			response = result
-		
-		if httprequest.session.should_save:
-			self.session_store.save(httprequest.session)
-		# We must not set the cookie if the session id was specified using a http header or a GET parameter.
-		# There are two reasons to this:
-		# - When using one of those two means we consider that we are overriding the cookie, which means creating a new
-		#   session on top of an already existing session and we don't want to create a mess with the 'normal' session
-		#   (the one using the cookie). That is a special feature of the Session Javascript class.
-		# - It could allow session fixation attacks.
-		if not explicit_session and hasattr(response, 'set_cookie'):
-			response.set_cookie('session_id', httprequest.session.sid, max_age=2 * 60)
-		
-		return response
+# class Root_new(odoo.http.Root):
+	
+	
+# 	def get_response(self, httprequest, result, explicit_session):
+# 		if isinstance(result, Response) and result.is_qweb:
+# 			try:
+# 				result.flatten()
+# 			except Exception as e:
+# 				if request.db:
+# 					result = request.registry['ir.http']._handle_exception(e)
+# 				else:
+# 					raise
 
-root = Root_new()
-odoo.http.Root.get_response = root.get_response
+# 		if isinstance(result, (bytes, str)):
+# 			response = Response(result, mimetype='text/html')
+# 		else:
+# 			response = result
+
+# 		save_session = (not request.endpoint) or request.endpoint.routing.get('save_session', True)
+# 		if not save_session:
+# 			return response
+
+# 		if httprequest.session.should_save:
+# 			if httprequest.session.rotate:
+# 				self.session_store.delete(httprequest.session)
+# 				httprequest.session.sid = self.session_store.generate_key()
+# 				if httprequest.session.uid:
+# 					httprequest.session.session_token = security.compute_session_token(httprequest.session, request.env)
+# 				httprequest.session.modified = True
+# 			self.session_store.save(httprequest.session)
+	 
+# 		if not explicit_session and hasattr(response, 'set_cookie'):
+# 			response.set_cookie(
+# 				'session_id', httprequest.session.sid, max_age=2* 60, httponly=True)
+
+# 		return response
+
+	
+
+# root = Root_new()
+# odoo.http.Root.get_response = root.get_response
 
 class Users(models.Model):
-	_inherit = 'res.users'
-
-	login = fields.Char(required=True,string="Session ID", size=100, help="Used to log into the system")
-	expiration_date = fields.Datetime('Expiration Date')
-	logged_in =  fields.Boolean('Logged in')
+	_inherit = "res.users"
+		
+	session_id = fields.Char(string='Session IDs', size=100)
+	expiration_date = fields.Datetime('Expiration Dates')
+	logged_in =  fields.Boolean('Logged ins')
 
 	@classmethod
 	def _login(cls, db, login, password):
@@ -130,109 +145,47 @@ class Users(models.Model):
 		if not password:
 			raise AccessDenied()
 		ip = request.httprequest.environ['REMOTE_ADDR'] if request else 'n/a'
-		# try:
-		#     with cls.pool.cursor() as cr:
-		#         self = api.Environment(cr, SUPERUSER_ID, {})[cls._name]
-		#         with self._assert_can_auth():
-		#             user = self.search(self._get_login_domain(login))
-		#             if not user:
-		#                 raise AccessDenied()
-		#             user = user.with_user(user)
-		#             user._check_credentials(password)
-		#             user._update_last_login()
-
-		# except AccessDenied:
-		#     _logger.info("Login failed for db:%s login:%s from %s", db, login, ip)
-		#     raise
-
-		# _logger.info("Login successful for db:%s login:%s from %s", db, login, ip)
-		
 		try:
 			with cls.pool.cursor() as cr:
 				self = api.Environment(cr, SUPERUSER_ID, {})[cls._name]
-				session_id = request.httprequest.session.sid
-				temp_browse = self.browse(cr, SUPERUSER_ID, user_id)
+				session_id = request.httprequest.session.sid		
+				temp_browse = self.browse(res)
 				if isinstance(temp_browse, list): temp_browse = temp_browse[0]
 				exp_date = temp_browse.expiration_date
 				if exp_date and temp_browse.session_id:
-					exp_date = datetime.strptime(exp_date,"%Y-%m-%d %H:%M:%S")
+					# real_date = time.strftime(exp_date)
+					# exp_date = datetime.strptime(exp_date,"%Y-%m-%d %H:%M:%S")
 					if exp_date < datetime.utcnow() or temp_browse.session_id != session_id:
 						raise AccessDenied()
-				self.save_session(cr,user_id)
+				temp_browse.save_session()
 		except AccessDenied:
 			user_id = False
-			_logger.warn("User %s is already logged in into the system!", login)
+			_logger.warn(	"User %s is already logged in into the system!", login)
 			_logger.warn("Multiple sessions are not allowed for security reasons!")
-		finally:
-			cr.close()
+			raise
+		# finally:
+		# 	cr.close()
 
 		return res
 
 		#clears session_id and session expiry from res.users
 	def clear_session(self):
-		# if isinstance(user_id, list): user_id = user_id[0]
+		# if isinstance(user_id, list): user_id = user_id[0]		
 		self.sudo().write({'session_id':'','expiration_date':False,'logged_in':False})
 
 	#insert session_id and session expiry into res.users
 	def save_session(self):
 		# if isinstance(user_id, list): user_id = user_id[0]
+		
 		exp_date = datetime.utcnow() + timedelta(minutes=2)
 		sid = request.httprequest.session.sid
 		self.sudo().write( {'session_id':sid,'expiration_date':exp_date,'logged_in':True})
 
 	#schedular function to validate users session
 	def validate_sessions(self):
-		ids = self.sudo().search([('expiration_date','!=',False)])
+		ids = self.env['res.users'].sudo().search([('expiration_date','!=',False)])
 		# users = self.sudo().browse(cr, SUPERUSER_ID, ids)		
-		for user_id in ids:
-			exp_date = datetime.strptime(user_id.expiration_date,"%Y-%m-%d %H:%M:%S")
+		for user_id in ids:			
+			exp_date = user_id.expiration_date#datetime.strptime(user_id.expiration_date,"%Y-%m-%d %H:%M:%S")
 			if exp_date < datetime.utcnow():
 				user_id.clear_session()
-# class res_users(osv.osv):
-	# _inherit = 'res.users'
-	# def _login(self, db, login, password):
-	# 	cr = self.pool.cursor()
-	# 	cr.autocommit(True)
-	# 	user_id = super(res_users,self)._login(db, login, password)
-		
-	# 	try:
-	# 		session_id = request.httprequest.session.sid
-	# 		temp_browse = self.browse(cr, SUPERUSER_ID, user_id)
-	# 		if isinstance(temp_browse, list): temp_browse = temp_browse[0]
-	# 		exp_date = temp_browse.expiration_date
-	# 		if exp_date and temp_browse.session_id:
-	# 			exp_date = datetime.strptime(exp_date,"%Y-%m-%d %H:%M:%S")
-	# 			if exp_date < datetime.utcnow() or temp_browse.session_id != session_id:
-	# 				raise odoo.exceptions.AccessDenied()
-	# 		self.save_session(cr,user_id)
-	# 	except odoo.exceptions.AccessDenied:
-	# 		user_id = False
-	# 		_logger.warn("User %s is already logged in into the system!", login)
-	# 		_logger.warn("Multiple sessions are not allowed for security reasons!")
-	# 	finally:
-	# 		cr.close()
-	
-	# 	return user_id
-
-
-	# #clears session_id and session expiry from res.users
-	# def clear_session(self, cr, user_id):
-	# 	if isinstance(user_id, list): user_id = user_id[0]
-	# 	self.write(cr, SUPERUSER_ID, user_id, {'session_id':'','expiration_date':False,'logged_in':False})
-
-	# #insert session_id and session expiry into res.users
-	# def save_session(self, cr, user_id):
-	# 	if isinstance(user_id, list): user_id = user_id[0]
-	# 	exp_date = datetime.utcnow() + timedelta(minutes=2)
-	# 	sid = request.httprequest.session.sid
-	# 	self.write(cr, SUPERUSER_ID, user_id, {'session_id':sid,'expiration_date':exp_date,'logged_in':True})
-
-	# #schedular function to validate users session
-	# def validate_sessions(self, cr, uid):
-	# 	ids = self.search(cr,SUPERUSER_ID,[('expiration_date','!=',False)])
-	# 	users = self.browse(cr, SUPERUSER_ID, ids)
-		
-	# 	for user_id in users:
-	# 		exp_date = datetime.strptime(user_id.expiration_date,"%Y-%m-%d %H:%M:%S")
-	# 		if exp_date < datetime.utcnow():
-	# 			self.clear_session(cr, user_id.id)
