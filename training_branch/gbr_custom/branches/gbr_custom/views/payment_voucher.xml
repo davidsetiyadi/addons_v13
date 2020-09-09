@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>	
+<data>
+	<record id="view_gbr_voucher_payment_form" model="ir.ui.view">
+        <field name="name">gbr.payment.voucher.form</field>
+        <field name="model">gbr.payment.voucher</field>
+        <field name="arch" type="xml">
+            <form string="Register Payment">
+                <header>
+                    <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                    <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>
+                    <button name="cancel" states="draft" string="Cancel" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,reconciled,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="button_journal_entries"
+                                string="Journal Items" type="object"
+                                groups="account.group_account_user" 
+                                icon="fa-bars" invisible="1"/>
+                       
+                        <button class="oe_stat_button" name="open_payment_matching_screen"
+                                string="Payment Matching" type="object"
+                                groups="account.group_account_user"
+                                 icon="fa-dollar" attrs="{'invisible':[('amount_total','=',0)]}"/>                           
+                    </div>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <!-- <field name="invoice_ids" invisible="1"/> -->
+                        <group name="partner_group" invisible="context.get('active_model') == 'account.move'">
+                        	<field name="divisi_id"/>
+                        	<field name="no"/>
+                        	<field name="payment_date"/>
+                            <field name="payment_type" widget="radio" invisible="1"/>
+                            <field name="partner_type" widget="selection" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))]}" invisible="1"/>
+                            <field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))]}" context="{'default_is_company': True, 'form_view_ref': 'gbr_custom.view_vendor_gbr_inherit_form' }" string="Vendor" options="{'no_create': True}"/>
+                            <field name="company_id" groups="base.group_multi_company" required="1" invisible="1"/>
+                                                           
+                            <field name="catatan"/>
+                        </group>
+                        <group>
+                            <field name="amount" invisible="1"/>
+                            <field name="amount_total" invisible="1"/>
+                            <field name="journal_id" widget="selection" attrs="{'invisible': [('amount', '=', 0), ('state', '!=', 'draft')]}"/>
+                            
+                            <!-- <field name="show_partner_bank_account" invisible="1"/> -->
+                            <!-- <field name="require_partner_bank_account" invisible="1"/> -->
+                            <!-- <field name="payment_method_code" invisible="1"/> -->
+                        </group>                                                       
+                        
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="invoice_lines_ids" invisible="0" domain="[('partner_id', '=', partner_id),('state','=','posted'),('invoice_payment_state','=','not_paid'),('type','in',('entry','in_invoice','in_refund','in_receipt'))]" context="{'form_view_ref':'view_invoice_tree'}">
+                                <!-- ('entry', 'Journal Entry'),
+                                ('out_invoice', 'Customer Invoice'), Out
+                                ('out_refund', 'Customer Credit Note'), out 
+                                ('in_invoice', 'Vendor Bill'), in 
+                                ('in_refund', 'Vendor Credit Note'), in 
+                                ('out_receipt', 'Sales Receipt'), out
+                                ('in_receipt', 'Purchase Receipt'), in -->
+                        	 	<tree>
+                        	 		<field name="company_id" invisible="1"/>
+                                    <field name="type_code" string="Mlk"/>
+                        	 		<field name="state" optional="hide"/>
+                                    <field name="name" optional="hide"/>
+                                    <field name="no" string="No" optional="show"/>
+                                    <field name="amount_total_signed" sum="amount_total_signed" string="Total" optional="show"/>
+                                    <field name="amount_residual_signed" sum="amount_residual_signed" string="Sisa Hutang" optional="show"/>
+                                    <field name="partner_id" string="Vendor" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="o_attachment_preview"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_voucher_payment_2_form" model="ir.ui.view">
+        <field name="name">gbr.payment.voucher.form</field>
+        <field name="model">gbr.payment.voucher</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_voucher_payment_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">     
+            <xpath expr="//field[@name='no']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                <field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))]}" context="{'default_is_company': True, 'form_view_ref': 'gbr_custom.view_pelanggan_gbr_form' }" string="Pelanggan" options="{'no_create': True}"/>
+                <field name="employee_id" domain="[('is_collector','=',True)]" options="{'no_create': True}"/>
+            </xpath>
+            <field name="invoice_lines_ids" position="attributes">
+                 <attribute name="domain">[('partner_id', '=', partner_id),('state','=','posted'),('invoice_payment_state','=','not_paid'),('type','in',('entry','out_invoice','out_refund','out_receipt'))]</attribute>
+            </field>               
+        </field>
+    </record>
+    <record id="view_gbr_voucher_payment_tree" model="ir.ui.view">
+        <field name="name">gbr.payment.voucher.tree</field>
+        <field name="model">gbr.payment.voucher</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
+            	<field name="id" string="ID"/>
+            	<field name="no" string="No"/>
+                <field name="payment_date"/>
+                <field name="partner_id" string="Vendor"/>
+                <field name="amount" sum="Amount"/>
+                <field name="divisi_id"/>
+                <field name="catatan" string="Catatan"/>
+                <field name="name" invisible="1"/>
+                <field name="journal_id"/>                                                        
+                <field name="state"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="partner_type" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_gbr_voucher_payment_search" model="ir.ui.view">
+        <field name="name">gbr.payment.voucher.search</field>
+        <field name="model">gbr.payment.voucher</field>
+        <field name="arch" type="xml">
+            <search string="Payments">
+            	<field name="id" string="ID"/>
+                <field name="is_semua_data"/>
+            	<field name="payment_date" string="Tanggal"/>
+            	<field name="voucher_number_id" string="No"/>
+            	<field name="partner_id" string="Vendor"/>
+            	<field name="catatan" string="Catatan"/>                	
+                <field name="name" string="Payment"
+                    filter_domain="['|', '|', ('name', 'ilike', self), ('partner_id', 'ilike', self), ('communication', 'ilike', self)]"/>
+                <!-- <field name="journal_id"/>                     -->
+            </search>
+        </field>
+    </record>
+    <record id="action_gbr_voucher_payment" model="ir.actions.act_window">
+        <field name="name">Pembayaran Hutang</field>
+        <field name="res_model">gbr.payment.voucher</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('payment_type', '=', 'outbound')]</field>
+        <field name="context">{
+            'default_payment_type': 'outbound',
+            'default_partner_type': 'supplier',                
+            'res_partner_search_mode': 'supplier',
+            'pemb_hutang': True,
+            'form_view_ref': 'gbr_custom.view_gbr_voucher_payment_form',
+            'create_from_voucher_payment': True, 'disable_search':True
+        }</field>
+        <field name="view_id" ref="view_gbr_voucher_payment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Pembelian - Pembayaran Hutang
+            </p><p>
+              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+             </p>
+        </field>
+    </record>
+    <record id="action_gbr_voucher_payment_customer" model="ir.actions.act_window">
+        <field name="name">Penerimaan Piutang</field>
+        <field name="res_model">gbr.payment.voucher</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('payment_type', '=', 'inbound')]</field>
+        <field name="context">{
+            'default_payment_type': 'inbound',
+            'default_partner_type': 'customer',                
+            'res_partner_search_mode': 'customer',
+            'pen_piutang': True,
+            'form_view_ref': 'gbr_custom.view_gbr_voucher_payment_2_form',
+            'create_from_voucher_payment': True, 'disable_search':True
+        }</field>
+
+        <field name="view_id" ref="view_gbr_voucher_payment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Penerimaan Piutang
+            </p><p>
+             
+            </p>
+        </field>
+    </record>
+    <record id="view_transfer_account_payment_tree" model="ir.ui.view">
+        <field name="name">account.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
+                <field name="id" string="ID"/>              
+                <field name="name" string="Name" optional="hide"/>
+                <field name="no" string="NO"/>
+                <field name="payment_date" string="Tanggal"/>
+                <field name="partner_id" string="Vendor" invisible="1"/>
+                <field name="journal_id" string="Dari Jurnal" optional="show"/>
+                <field name="destination_journal_id" string="ke Jurnal" optional="show"/>
+                <field name="currency_id" invisible="0" string="MU"/>
+                <field name="amount" sum="Amount" string="Nilai"/>
+                <field name="payment_method_id"/>        
+                <field name="divisi_id"/>
+                <field name="state" invisible="1"/>               
+                <field name="company_id" groups="base.group_multi_company" invisible="1"/>                
+                <field name="partner_type" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_transfer_account_payment_form" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Transfer Kas">
+                <header>
+                    <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+                    <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>
+                    <button name="cancel" states="draft" string="Cancel" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,reconciled,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" invisible="1">
+                        <button class="oe_stat_button" name="button_journal_entries"
+                                string="Journal Items" type="object"
+                                groups="account.group_account_user"
+                                attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-bars"/>
+                        <field name="move_line_ids" invisible="1"/>
+                        <button class="oe_stat_button" name="button_invoices" type="object" icon="fa-bars" attrs="{'invisible':[('reconciled_invoices_count','=', 0)]}" >
+                            <field name="reconciled_invoices_count"/>
+                            <span attrs="{'invisible':[('reconciled_invoices_count','&gt;',1)]}">Invoice</span>
+                            <span attrs="{'invisible':[('reconciled_invoices_count','&lt;=',1)]}">Invoices</span>
+                        </button>
+                        <button class="oe_stat_button" name="open_payment_matching_screen"
+                                string="Payment Matching" type="object"
+                                groups="account.group_account_user"
+                                attrs="{'invisible':[('move_reconciled','=',True)]}" icon="fa-dollar"/>
+                        <field name="has_invoices" invisible="1"/>
+                        <field name="move_reconciled" invisible="1"/>
+                    </div>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}" invisible="1">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group style="display: block; margin-left:auto; margin-right: auto; width:50%;" col="4">
+                        <field name="invoice_ids" invisible="1"/>
+                        <group name="partner_group" colspan="4">
+                            <group colspan="4">
+                                <field name="payment_type" widget="radio" invisible="1"/>
+                                <field name="partner_type" widget="selection" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))]}" invisible="1"/>
+                                <field name="divisi_id" options="{'no_create': True, 'no_open': True}" required="1"/>
+                               
+                                <field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))]}" context="{'default_is_company': True,'no_create': True, 'no_open': True}"/>
+                                
+                                <field name="company_id" groups="base.group_multi_company" required="1" invisible="1"/>
+                                <label for="no" string="No Bukti"/>
+                                <div>
+                                    <field name="type_code" readonly="1" style="padding-right:10px" class="oe_inline" />
+                                    <field name="no" invisible="0" readonly="1" attrs="{'invisible': [('payment_type', '=', 'outbound')]}" string="No Bukti" class="oe_inline" />                                    
+                                </div>
+                                <label for="payment_date" string="Tanggal"/>
+                                <div>
+                                    <field name="payment_date" string="Tanggal" style="padding-right:10px"/>                                    
+                                    <field name="tanggal_char" string="Tanggal"/>
+                                </div>
+
+                                <field name="amount" invisible="1"/>
+                                <field name="communication" string="Catatan"/>
+                            </group>
+                            <group string="Dari Rekening/Pos Perkiraan:" colspan="4">
+                                <label for="journal_id" string="#Acc"/>
+                                <div name="journal_id" class="o_row">
+                                    <field name="journal_id" widget="selection" attrs="{'invisible': [('amount', '=', 0), ('state', '!=', 'draft')]}" style="padding-right:10px" class="oe_inline" />                            
+                                    <field name="source_acc_id" readonly="1" class="oe_inline" />
+                                </div>
+                                <label for="catatan_2" string="Catatan"/>
+                                <div>
+                                    <field name="catatan_2" string="Catatan" class="oe_inline" style="padding-right:10px;"/>
+                                    <field name="tanggal_2" string="Tanggal"/>
+                                </div>
+                                <label for="amount" string="Nilai"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount" class="oe_inline" style="padding-right:10px;"/>
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                            </group>
+                            <group string="Ke Rekening/Pos Perkiraan:" colspan="4">
+                                <label for="destination_journal_id" string="#Acc"/>
+                                <div>
+                                    <field name="destination_journal_id" widget="selection" attrs="{'required': [('payment_type', '=', 'transfer')], 'invisible': [('payment_type', '!=', 'transfer')]}" string="#Acc" class="oe_inline" style="padding-right:10px;"/>
+                                    <field name="destination_acc_id" readonly="1" class="oe_inline" />
+                                </div>
+                                <field name="hide_payment_method" invisible="1"/>
+                                <field name="payment_method_id" widget="radio" attrs="{'invisible': [('hide_payment_method', '=', True)]}"/>
+                                <field name="partner_bank_account_id" attrs="{'invisible': [('show_partner_bank_account', '!=', True)], 'required': [('require_partner_bank_account', '=', True)]}" context="{'default_partner_id': partner_id}"/>
+                                <field name="show_partner_bank_account" invisible="1"/>
+                                <field name="require_partner_bank_account" invisible="1"/>
+                                <field name="payment_method_code" invisible="1"/>
+                                <label for="catatan_3" string="Catatan"/>
+                                <div>                              
+                                    <field name="catatan_3" string="Catatan" class="oe_inline" style="padding-right:10px;"/>
+                                    <field name="tanggal_3" string="Tanggal"/>
+                                </div>
+                            </group>
+                        </group>
+                        
+                        <group name="payment_difference" attrs="{'invisible': [('payment_difference', '=', 0.0)]}" groups="account.group_account_user" colspan="4">
+                            <label for="payment_difference"/>
+                            <div>
+                                <field name="payment_difference"/>
+                                <field name="payment_difference_handling" widget="radio" nolabel="1"/>
+                                <div attrs="{'invisible': [('payment_difference_handling','=','open')]}">
+                                    <label for="writeoff_account_id" class="oe_edit_only" string="Post Difference In"/>
+                                    <field name="writeoff_account_id" options="{'no_create': True}" string="Post Difference In" attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                                    <label for="writeoff_label" class="oe_edit_only" string="Label"/>
+                                    <field name="writeoff_label" attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                                </div>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="o_attachment_preview"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_account_transfer" model="ir.actions.act_window">
+        <field name="name">Transfer Kas</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,kanban,form,graph</field>
+        <field name="domain">[('payment_type', '=', 'transfer')]</field>
+        <field name="search_view_id" ref="gbr_custom.view_gbr_account_payment_search"/>
+        <field name="context">{
+            'default_payment_type': 'transfer',
+            'default_partner_type': 'customer',
+            'res_partner_search_mode': 'customer',
+            'tree_view_ref': 'gbr_custom.view_transfer_account_payment_tree',
+            'form_view_ref': 'gbr_custom.view_transfer_account_payment_form',
+            'default_type_code': 'KM','disable_search':True,'default_catatan': 'Transfer Kas',
+        }</field>
+        <field name="view_id" ref="view_transfer_account_payment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Kas - Transfer Kas
+            </p><p>
+              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+            </p>
+        </field>
+    </record>
+    <menuitem action="action_account_transfer" 
+        id="menu_action_account_transfer" 
+        parent="gbr_custom.menu_gbr_kas" sequence="3"/>
+
+    <menuitem id="menu_action_gbr_voucher_payment" name="Pembayaran Hutang" 
+        action="action_gbr_voucher_payment" 
+        parent="gbr_custom.menu_gbr_pembelian"
+        sequence="7"/>
+
+    <menuitem id="menu_action_gbr_voucher_payment_customer" name="Penerimaan Piutang" 
+        action="action_gbr_voucher_payment_customer" 
+        parent="gbr_custom.menu_gbr_penjualan"
+        sequence="11"/>
+</data>
+</odoo>

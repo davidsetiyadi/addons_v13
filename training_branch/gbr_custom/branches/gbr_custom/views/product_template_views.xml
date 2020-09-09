@@ -1,0 +1,1003 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="gbr_product_template_tree_view" model="ir.ui.view">
+		<field name="name">product.template.product.tree</field>
+		<field name="model">product.template</field>        
+		<field name="priority">99</field>
+		<field name="mode">primary</field>
+		<field name="inherit_id" ref="product.product_template_tree_view"/>
+		<field name="arch" type="xml">              
+			<field name="default_code" position="replace">
+				<field name="seller_id" optional="show" string="Vendor"/>                
+			</field>
+			<field name="barcode" position="replace">
+				 <field name="barcode" optional="show" string="Kode"/>
+				 <field name="default_code" optional="show" string="Kode (2)"/>
+			</field>                
+			<field name="name" position="after">
+				<field name="uom_po_id" readonly="1" optional="show" string="Satuan Beli"/>
+				<field name="uom_id" readonly="1" optional="show" string="Sat/ecr"/>                
+			</field>
+			<field name="list_price" position="replace"></field>
+			<field name="standard_price" position="replace"></field>
+			<field name="uom_id" position="replace"></field>                
+			<field name="type" position="replace">
+				 <field name="type" optional="show" string="Jenis"/>                 
+				 <field name="standard_price" optional="show" readonly="1" string="Harga Beli"/>    
+				 <field name="list_price" string="Harga Jual #1" optional="show"/>   
+			</field>                            
+		</field>
+	</record>
+	<record id="gbr_product_template_only_form_view" model="ir.ui.view">
+		<field name="name">product.template.product.form</field>
+		<field name="model">product.template</field>
+		<field name="mode">primary</field>
+		<field name="priority" eval="99" />
+		<field name="inherit_id" ref="product.product_template_form_view"/>
+		<field name="arch" type="xml">            
+			<field name="categ_id" position="replace">                
+			</field>
+			<xpath expr="//field[@name='type']" position="replace">             
+			</xpath>
+			<xpath expr="//div[@name='options']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+
+			<xpath expr="//group[@name='group_standard_price']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//group[@name='group_general']" position="before">
+				<group name="group_jenis" colspan="2">
+					<field name="type" string="Jenis"/>
+					<field name="categ_id" string="Product Category"/>
+					<label for="group_1_id" string="Group"/>
+					<div class="o_row">
+						<field name="group_1_id" required="0"/>
+						<field name="group_2_id" required="0" nolabel="1"/>
+						<field name="group_3_id" required="0" nolabel="1"/>                        
+					</div>
+					<label for="group_ii_id" string="Group ii"/>
+					<div class="o_row">
+						<field name="group_ii_id" required="0"/>
+					</div>
+				<!-- </group> -->
+				<!-- <group name="group_seller" colspan="2">				     -->
+					<field name="vendor_id" required="0"/>
+					<!-- <field name="seller_ids" context="{'default_product_tmpl_id':context.get('product_tmpl_id',active_id), 'product_template_invisible_variant': True}" nolabel="1" attrs="{'invisible': [('product_variant_count','&gt;',1)]}" invisible="1"/>
+					<field name="variant_seller_ids" context="{'default_product_tmpl_id': context.get('product_tmpl_id', active_id)}" nolabel="1" attrs="{'invisible': [('product_variant_count','&lt;=',1)]}" invisible="1"/>	 -->				
+				</group>
+				<group name="kode" colspan="1">
+					<field name="barcode" attrs="{'invisible': [('product_variant_count', '>', 1)]}" string="Kode"/>
+					<field name="default_code" attrs="{'invisible': [('product_variant_count', '>', 1)]}" string="Kode 2"/>
+				</group>
+			</xpath> 
+			<xpath expr="//field[@name='uom_id']" position="replace">
+				
+			</xpath>
+			<xpath expr="//page[@name='purchase']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+			<xpath expr="//page[@name='inventory']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>           
+			<xpath expr="//page[@name='sales']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>
+		</field>
+	</record>
+	<record id="gbr_acc_product_template_only_form_view" model="ir.ui.view">
+		<field name="name">product.template.product.form</field>
+		<field name="model">product.template</field>
+		<field name="priority" eval="99" />
+		<field name="inherit_id" ref="account.product_template_form_view"/>
+		<field name="arch" type="xml">                                         
+			<xpath expr="//page[@name='invoicing']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>           
+		</field>
+	</record>
+	<record id="gbr_pos_product_template_only_form_view" model="ir.ui.view">
+		<field name="name">product.template.product.form</field>
+		<field name="model">product.template</field>
+		<field name="priority" eval="99" />
+		<field name="inherit_id" ref="point_of_sale.product_template_form_view"/>
+		<field name="arch" type="xml">                                         
+			<xpath expr="//page[@name='pos']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath> 
+		</field>
+	</record>
+	<record id="gbr_acc_product_template_only_form_view" model="ir.ui.view">
+		<field name="name">product.template.product.form</field>
+		<field name="model">product.template</field>
+		<field name="priority" eval="99" />
+		<field name="inherit_id" ref="account.product_template_form_view"/>
+		<field name="arch" type="xml">                                         
+			<xpath expr="//page[@name='invoicing']" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</xpath>           
+		</field>
+	</record>
+	<!-- <record id="view_gbr_vit_stock_card_form" model="ir.ui.view">
+        <field name="name">vit.stock_card.form</field>
+        <field name="model">vit.stock_card</field>
+        <field name="priority" eval="99" />
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Calculate" type="object" name="action_calculate" class="oe_highlight"
+                         states="draft" />
+                    <button string="Confirm" type="object" name="action_confirm" class="oe_highlight"
+                         states="draft" />
+                    <button string="Cancel" type="object" name="action_draft"
+                         states="open" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" 
+                             string="Product" />
+                        <h1>
+                            <field name="product_id" domain="[('id','=',active_id)]"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_start" /> 
+                            <field name="date_end" />       
+                            <field name="breakdown_sn" invisible="1"/>
+                            <field name="lot_id" domain="[('product_id','=',product_id)]"
+                                   attrs="{'invisible': [('breakdown_sn','=',False)] }" />
+                            <field name="expired_date" />
+
+                        </group>
+                        <group>
+                            <field name="location_id" domain="[('usage','=','internal')]"/>    
+                            <field name="ref" />
+                            <field name="user_id" /> 
+                        </group>
+                    </group>                  
+
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <tree string="Detail Lines" create="false">
+                                    <field name="date" />           
+                                    <field name="picking_id" />         
+                                    <field name="lot_id" invisible="1"/>
+                                    <field name="name" />
+                                    <field name="qty_start" />      
+                                    <field name="qty_in" />     
+                                    <field name="qty_out" />        
+                                    <field name="qty_balance" />    
+                                    <field name="product_uom_id" />    
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+	<!-- <record id="action_stock_card_list" model="ir.actions.act_window">
+		<field name="name">Stock Card List</field>
+		<field name="res_model">vit.stock_card</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('product_id','=',active_id)]</field>		
+		<field name="context">{'default_product_id': active_id,'form_view_ref': 'gbr_custom.view_gbr_vit_stock_card_form'}</field>	 -->
+	<!-- </record> -->
+	<record id="gbr_product_template_form_view" model="ir.ui.view">
+		<field name="name">product.product.form</field>
+		<field name="model">product.product</field>
+		<!-- <field name="mode">primary</field> -->
+		<field eval="99" name="priority"/>
+		<field name="inherit_id" ref="gbr_custom.gbr_product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			<div name="button_box" position="inside">
+				<button class="oe_stat_button" name="action_view_penjualan" type="object" icon="fa-truck" attrs="{'invisible': [('purchase_ok', '=', False)]}" help="Penjualan">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="penjualan_product_qty" widget="statinfo" nolabel="1" class="mr4"/>
+                                <field name="uom_name"/>
+                            </span>
+                            <span class="o_stat_text">Penjualan</span>
+                        </div>
+                    </button>
+                <button class="oe_stat_button"
+                       name="action_open_quants"
+                       icon="fa-cubes"
+                       type="object" attrs="{'invisible':[('type', '!=', 'product')]}">
+                       <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="qty_available" widget="statinfo" nolabel="1" class="mr4"/>
+                                <field name="uom_name"/>
+                            </span>
+                            <span class="o_stat_text">Cek Stock</span>
+                       </div>
+                </button>                
+               <button string="Kartu Stock"
+                    type="object"
+                    name= "action_view_stock_move_lines"
+                    attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}"
+                    class="oe_stat_button" icon="fa-exchange"
+                    groups="stock.group_stock_user"/>
+               </div>
+			<xpath expr="//group[@name='kode']" position="inside">
+				<!-- <group name="kategori_uom" colspan="2"> -->
+				   <field name="category_uom_id" options="{'no_create': True}" string="Satuan" required="1"/>
+				   <field name="is_input_expired" options="{'no_create': True}"/>
+				   <label for="laporan_uom_id" string="Laporan"/>
+				   <div class="o_row">
+						<field name="laporan_uom_id" options="{'no_create': True}" string="Laporan" domain="[('category_id','=',category_uom_id)]"/>
+						<field name="laporan_uom_2_id" options="{'no_create': True}" string="Laporan" domain="[('category_id','=',category_uom_id)]"/>
+					</div>
+					<field name="dec"/>
+					<label for="min_stock" string="Min Stock"/>
+					<div class="o_row">
+						<field name="min_stock" options="{'no_create': True}" string="Min Stock"/>
+						<field name="min_stock_uom_id" options="{'no_create': True}" domain="[('category_id','=',category_uom_id)]"/>
+					</div>
+					<label for="uom_id" string="Sat Eceran"/>
+					<div class="o_row">
+						<field name="sat_eceran_uom_id" string="Sat/Eceran" options="{'no_create': True}" domain="[('category_id','=',category_uom_id)]" required="1"/>
+						<field name="sale_rate" required="1"/>
+					</div>
+					<field name="uom_id" string="Default Satuan" options="{'no_create': True}" domain="[('category_id','=',category_uom_id)]"/>
+				
+			</xpath>  
+		   
+
+			<xpath expr="//page[@name='general_information']/group" position="after">
+				<group string="Price list">
+					<div class="container">
+					<table class="table table-bordered">
+					    <thead>
+					      <tr>
+					        <th>Keterangan</th>
+					        <th>MU</th>
+					        <th>HARGA</th>
+					        <th>SET %</th>
+					        <th>PER</th>
+					        <th>SAT</th>
+					        <th>DISC %</th>
+					        <th>%</th>
+					        <th>NILAI IDR</th>
+					      </tr>
+    					</thead>
+    					<tbody>
+					      <tr>
+					        <td>Harga Beli</td>
+					        <td><field name="currency_1_id" required="1" nolabel="1"/></td>
+					        <td><field name="buying_price" required="1" nolabel="1"/></td>
+					        <td>-</td>
+					        <td><field name="per_price" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_1_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td><field name="disc_buying_price" required="0" nolabel="1"/></td>
+					        <td>-</td>
+					        <td><field name="price_buy" required="0" nolabel="1"/></td>
+					      </tr>
+					      <tr>
+					       <td>Harga Jual *1</td>
+					        <td><field name="currency_2_id" required="1" nolabel="1"/></td>
+					        <td><field name="sale_price" required="0" nolabel="1" context="{'noonchange': True}"/></td>
+					        <td><field name="sale_price_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="per_price_1" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_2_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td><field name="disc_sale_price" required="0" nolabel="1"/></td>
+					        <td><field name="price_1_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="price_1" required="0" nolabel="1"/></td>
+					      </tr>
+					      <tr>
+					        <td>Harga Jual *2</td>
+					        <td><field name="currency_3_id" required="1" nolabel="1"/></td>
+					        <td><field name="sale_price_2" required="0" nolabel="1" context="{'noonchange': True}"/></td>
+					        <td><field name="sale_price_2_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="per_price_2" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_3_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td><field name="disc_sale_price_2" required="0" nolabel="1"/></td>
+					        <td><field name="price_2_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="price_2" required="0" nolabel="1"/></td>
+					      </tr>
+					       <tr>
+					        <td>Harga Jual *3</td>
+					        <td><field name="currency_4_id" required="1" nolabel="1"/></td>
+					        <td><field name="sale_price_3" required="0" nolabel="1" context="{'noonchange': True}"/></td>
+					        <td><field name="sale_price_3_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="per_price_3" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_4_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td><field name="disc_sale_price_3" required="0" nolabel="1"/></td>
+					        <td><field name="price_3_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="price_3" required="0" nolabel="1"/></td>
+					      </tr>
+					       <tr>
+					        <td>Harga Jual *4</td>
+					        <td><field name="currency_5_id" required="1" nolabel="1"/></td>
+					        <td><field name="sale_price_4" required="0" nolabel="1" context="{'noonchange': True}"/></td>
+					        <td><field name="sale_price_4_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="per_price_4" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_5_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td><field name="disc_sale_price_4" required="0" nolabel="1"/></td>
+					        <td><field name="price_4_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="price_4" required="0" nolabel="1"/></td>
+					      </tr>
+					       <tr>
+					        <td>Harga Jual *5</td>
+					        <td><field name="currency_6_id" required="1" nolabel="1"/></td>
+					        <td><field name="sale_price_5" required="0" nolabel="1" context="{'noonchange': True}"/></td>
+					        <td><field name="sale_price_5_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="per_price_5" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_6_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td><field name="disc_sale_price_5" required="0" nolabel="1"/></td>
+					        <td><field name="price_5_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="price_5" required="0" nolabel="1"/></td>
+					      </tr>
+					       <tr>
+					        <td>Min H Jual</td>
+					        <td><field name="currency_7_id" required="1" nolabel="1"/></td>
+					        <td><field name="sale_price_6" required="0" nolabel="1" context="{'noonchange': True}"/></td>
+					        <td><field name="sale_price_6_prcnt" required="0" nolabel="1"/></td>
+					        <td><field name="per_price_6" required="0" nolabel="1"/></td>
+					        <td><field name="uom_price_7_id" required="0" nolabel="1" domain="[('category_id','=',category_uom_id)]"/></td>
+					        <td>-</td>
+
+					        <td><field name="price_6_prcnt" required="0" nolabel="1"/></td>			      
+					        <td><field name="price_6" required="0" nolabel="1"/></td>
+					      </tr>
+					    </tbody>
+    				</table>
+    				</div>		
+			   
+				</group>
+			</xpath>
+
+			<xpath expr="//page[@name='general_information']" position="attributes">
+				<attribute name="string">Data Utama</attribute>
+			</xpath>  
+			<xpath expr="//page[@name='general_information']" position="after">
+				<page name="inisialisasi" string="Inisialisasi">
+					<notebook name="inisialisasi">
+					<page name="inisialisasi_2" string="Inisialisasi">
+						<group>
+							<field name="history_sales" string="History P.Bln"/>
+							<field name="gbr_pricelist"/>
+							<field name="harga_baru" string="Harga Baru"/>
+							<field name="is_noted" string="Tampil saat Pilih Item"/>
+							<field name="noted" string="Catatan"/>
+						</group>
+						<group string="Kubikasi">
+							<field name="weight" string="Berat (KG)"/>
+							<field name="panjang"/>
+							<field name="lebar"/>
+							<field name="tinggi"/>
+							<field name="kubikasi_uom_id" domain="[('category_id','=',category_uom_id)]" options="{'no_open': True, 'no_create': True}"/>
+							<field name="volume" string="Total Volume (M^3)" invisible="1"/>
+							<field name="total_kubikasi" string="Total Volume (M^3)" invisible="0" readonly="1"/>
+							<field name="active"/>
+						</group>
+						<group string="Taxes">
+							<field name="taxes_id"/>
+							<field name="supplier_taxes_id"/>
+						</group>
+						
+					</page>
+					<page name="inisialisasi_3" string="Checklist Set">
+						<group col="4">
+						<group colspan="2">
+							<field name="is_user_set_po"/>
+							<field name="is_user_set_pem"/>
+							<field name="is_user_set_retur_pem"/>
+							<field name="is_user_set_quotation"/>
+							<field name="is_user_set_so"/>
+							<field name="is_user_set_penj_ecrn"/>
+							<field name="is_user_set_penj"/>
+							<field name="is_user_set_r_penj"/>
+							<field name="is_user_set_b_p_gdg"/>
+							<field name="is_user_set_b_tf"/>
+							<field name="is_user_set_b_msk"/>
+							<field name="is_user_set_b_klr"/>
+						</group>
+						<group colspan="2">
+							<field name="is_user_set_non_tax"/>
+							<field name="is_user_set_hj_manual"/>
+							<field name="is_user_set_p_no_disc_glbl"/>
+							<field name="is_user_set_p_no_charge"/>
+							<field name="is_user_set_item_bnus"/>
+							<field name="is_user_set_cttn_penj_item"/>
+							<field name="is_user_set_no_otorisasi"/>
+							<field name="is_user_set_can_be_minus"/>
+							<field name="is_user_set_except_barcode"/>
+							<field name="is_user_set_not_sp_disc"/>
+							<field name="is_user_set_not_item_bnus"/>
+							<field name="is_user_set_not_hj"/>
+							<field name="is_user_set_incl_ppk"/>
+							<field name="is_user_set_incl_ppn"/>
+						</group>
+						</group>
+					</page>
+					</notebook>
+					
+				</page>
+				<page name="lainnya" string="Lainnya">
+					<field name="nama_alias_ids" string="Nama Alias">
+						<tree editable="bottom">
+							<field name="name" string="Nama Alias"/>
+						</tree>
+					</field>
+				</page>
+				<page name="gamber" string="Gambar">
+					<group colspan="5">
+                		<field name="image_1920" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_128&quot;}"/>
+            		</group>   
+				</page>
+				<page name="sub_info" string="Sub Info">
+					<group>                		
+            			<field name="memo1" widget="html"/>
+            			<field name="memo2" widget="html"/>
+            			<field name="memo3" widget="html"/>
+            			<field name="memo4" widget="html"/>                		
+                	</group>
+				</page>
+				<page name="Link Perkiraan" string="Link Perkiraan">
+					<div>
+        				<h4 style="background-color:#7FFF00;text-align:center;height:42px;font-weight:bold;margin-top:6px;">
+        					Diisi apabila anda ingin link perkiraan berbeda dengan link Default perkiraan yang telah di set..
+						</h4>
+        			</div>
+					<notebook name="linkperkiraan">
+					<page name="general" string="General">
+						<group>
+							<field name="persediaan_id" domain="[('name','ilike','persediaan')]"/>
+						</group>						
+
+					</page>
+					<page name="pembelian" string="Pembelian">
+						<group>
+							<field name="pemb_cash_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="pemb_cash_disc_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="pemb_cash_ppn_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="pemb_cred_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="pemb_cred_disc_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="pemb_cred_tax_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="rtr_pemb_cash_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="rtr_pemb_cash_disc_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="rtr_pemb_cash_tax_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="rtr_pemb_cred_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="rtr_pemb_cred_disc_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="rtr_pemb_cred_tax_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="debit_not_hut_pemb_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="credit_not_hut_pemb_id" domain="[('code','=like','5'+'%')]"/>
+
+						</group>
+												
+					</page>
+					<page name="penjualan" string="Penjualan">		
+						<group>		
+							<field name="penj_ecrn_id" domain="['|',('code','=like','2'+'%'),('code','=like','4'+'%')]"/>
+							<field name="penj_ecrn_disc_id" domain="['|',('code','=like','2'+'%'),('code','=like','4'+'%')]"/>
+							<field name="penj_ecrn_tax_id" domain="['|',('code','=like','2'+'%'),('code','=like','1'+'%')]"/>
+							<field name="ret_penj_ecrn_id" />
+							<field name="ret_penj_ecrn_dis_id" />
+							<field name="ret_penj_ecrn_tax_id" />
+							<field name="penj_cash_id" domain="['|',('code','=like','2'+'%'),('code','=like','4'+'%')]"/>
+							<field name="penj_cash_disc_id" domain="['|',('code','=like','2'+'%'),('code','=like','4'+'%')]"/>
+							<field name="penj_cash_tax_id" domain="['|',('code','=like','1'+'%'),('code','=like','2'+'%')]"/>
+							<field name="penj_credit_id" domain="['|',('code','=like','2'+'%'),('code','=like','4'+'%')]"/>
+							<field name="penj_credit_disc_id" domain="['|',('code','=like','2'+'%'),('code','=like','4'+'%')]"/>
+							<field name="penj_credit_tax_id" domain="['|',('code','=like','1'+'%'),('code','=like','2'+'%')]"/>
+							<field name="ret_penj_cash_id" domain="[('code','=like','4'+'%')]"/>
+							<field name="ret_penj_cash_disc_id" domain="[('code','=like','4'+'%')]"/>
+							<field name="ret_penj_cash_tax_id" domain="['|',('code','=like','1'+'%'),('code','=like','2'+'%')]"/>
+							<field name="ret_penj_cash_hpp_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="ret_penj_cash_cost_id" />
+							<field name="ret_penj_credit_id" domain="[('code','=like','4'+'%')]"/>
+							<field name="ret_penj_credit_disc_id" domain="[('code','=like','4'+'%')]"/>
+							<field name="ret_penj_credit_tax_id" domain="['|',('code','=like','1'+'%'),('code','=like','2'+'%')]"/>
+							<field name="ret_penj_credit_hpp_id" domain="[('code','=like','5'+'%')]"/>
+							<field name="ret_penj_credit_cost_id" />
+							<field name="deb_not_piutang_penj_id" domain="[('code','=like','4'+'%')]"/>
+							<field name="cred_not_piutang_penj_id" domain="[('code','=like','4'+'%')]"/>
+
+
+						</group>
+					</page>
+					</notebook>
+				</page>
+				
+			</xpath>
+		</field>
+	</record>
+	<record id="product_product_tree_view" model="ir.ui.view">
+		<field name="name">product.product.tree</field>
+		<field name="model">product.product</field>
+		<field eval="7" name="priority"/>
+		<field name="arch" type="xml">
+			<tree string="Product Variants" multi_edit="1" duplicate="false" js_class="product_tree">
+				<field name="group_1_id" optional="show" readonly="1"/>
+				<field name="group_2_id" optional="show" readonly="1"/>
+				<field name="group_3_id" optional="show" readonly="1"/>
+				<field name="vendor_id" optional="show" readonly="1"/>
+				<field name="barcode" optional="show" readonly="1" string="Kode"/>
+				<field name="default_code" optional="show" readonly="1" string="Kode (2)"/>
+				
+				<field name="name" readonly="1" string="Nama"/>
+				<field name="product_template_attribute_value_ids" widget="many2many_tags" groups="product.group_product_variant" readonly="1" invisible="1"/>
+				
+				<field name="category_uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="show" readonly="1" string="Tipe Satuan"/>
+				<field name="sat_eceran_uom_id" string="Sat/Eceran" options="{'no_create': True}" domain="[('category_id','=',category_uom_id)]" required="0" optional="show"/>
+				<field name="qty_available" attrs="{'invisible':[('type', '!=', 'product')]}" optional="show" string="Qty"/>
+				<field name="type" optional="show" readonly="1" string="Jenis"/>
+				<field name="currency_1_id" optional="show" readonly="1" string="MU"/>
+				<field name="buying_price" optional="show" readonly="1" string="Harga Beli"/>
+				<field name="disc_buying_price" required="0" nolabel="1" string="Beli %"/>
+				<field name="price_buy" string="Nilai Beli" optional="show"/>
+				<field name="currency_2_id" optional="show" readonly="1" string="MU"/>
+				<field name="sale_price" optional="show" readonly="1" string="Harga Jual #1"/>
+				<field name="disc_sale_price" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_1_prcnt" required="0" optional="hide" string="%#1"/>       
+				
+		        <field name="currency_3_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_2" optional="hide" readonly="1" string="Harga Jual #2"/>
+				<field name="disc_sale_price_2" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_2_prcnt" required="0" optional="hide" string="%#2"/>
+				
+		        <field name="currency_4_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_3" optional="hide" readonly="1" string="Harga Jual #3"/>
+				<field name="disc_sale_price_3" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_3_prcnt" required="0" optional="hide" string="%#3"/>
+
+		        <field name="currency_5_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_4" optional="hide" readonly="1" string="Harga Jual #4"/>
+				<field name="disc_sale_price_4" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_4_prcnt" required="0" optional="hide" string="%#4"/>
+
+		        <field name="currency_6_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_5" optional="hide" readonly="1" string="Harga Jual #5"/>
+				<field name="disc_sale_price_5" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_5_prcnt" required="0" optional="hide" string="%#5"/>
+
+				
+				<field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
+				
+				<field name="lst_price" optional="hide" string="Sales Price"/>
+				<field name="standard_price" optional="hide" readonly="1"/>
+				<field name="categ_id" optional="hide"/>
+				<field name="price" invisible="not context.get('pricelist',False)" optional="hide"/>
+				<field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="hide" readonly="1" invisible="1"/>
+				<field name="product_tmpl_id" invisible="1" readonly="1"/>
+				<field name="active" invisible="1"/>
+			</tree>
+		</field>
+	</record>
+	<record id="product_product_tree2_view" model="ir.ui.view">
+		<field name="name">product.product.tree</field>
+		<field name="model">product.product</field>		
+		<field name="priority">99</field>
+		<field name="arch" type="xml">
+			<tree string="SIsa Stock" multi_edit="1" duplicate="false">
+				<field name="group_1_id" optional="show" readonly="1"/>
+				<field name="group_2_id" optional="show" readonly="1"/>
+				<field name="group_3_id" optional="show" readonly="1"/>
+				<field name="vendor_id" optional="show" readonly="1"/>
+				<field name="barcode" optional="show" readonly="1" string="Kode"/>
+				<field name="default_code" optional="show" readonly="1" string="Kode (2)"/>
+				
+				<field name="name" readonly="1" string="Nama"/>
+				<field name="product_template_attribute_value_ids" widget="many2many_tags" groups="product.group_product_variant" readonly="1" invisible="1"/>
+				
+				<field name="category_uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="show" readonly="1" string="Tipe Satuan"/>
+				<field name="sat_eceran_uom_id" string="Sat/Eceran" options="{'no_create': True}" domain="[('category_id','=',category_uom_id)]" required="0" optional="show"/>
+				<field name="qty_available" attrs="{'invisible':[('type', '!=', 'product')]}" optional="show" string="Sisa AC"/>
+				<field name="type" optional="show" readonly="1" string="Jenis"/>
+				<field name="currency_1_id" optional="show" readonly="1" string="MU"/>
+				<field name="buying_price" optional="show" readonly="1" string="Harga Beli"/>
+				<field name="disc_buying_price" required="0" nolabel="1" string="Beli %"/>
+				<field name="price_buy" string="Nilai Beli" optional="show"/>
+				<field name="currency_2_id" optional="show" readonly="1" string="MU"/>
+				<field name="sale_price" optional="show" readonly="1" string="Harga Jual #1"/>
+				<field name="disc_sale_price" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_1_prcnt" required="0" optional="hide" string="%#1"/>       
+				
+		        <field name="currency_3_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_2" optional="hide" readonly="1" string="Harga Jual #2"/>
+				<field name="disc_sale_price_2" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_2_prcnt" required="0" optional="hide" string="%#2"/>
+				
+		        <field name="currency_4_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_3" optional="hide" readonly="1" string="Harga Jual #3"/>
+				<field name="disc_sale_price_3" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_3_prcnt" required="0" optional="hide" string="%#3"/>
+
+		        <field name="currency_5_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_4" optional="hide" readonly="1" string="Harga Jual #4"/>
+				<field name="disc_sale_price_4" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_4_prcnt" required="0" optional="hide" string="%#4"/>
+
+		        <field name="currency_6_id" optional="hide" readonly="1" string="MU"/>
+		        <field name="sale_price_5" optional="hide" readonly="1" string="Harga Jual #5"/>
+				<field name="disc_sale_price_5" required="0" optional="hide" string="Disc %"/>
+		        <field name="price_5_prcnt" required="0" optional="hide" string="%#5"/>
+
+				
+				<field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
+				
+				<field name="lst_price" optional="hide" string="Sales Price"/>
+				<field name="standard_price" optional="hide" readonly="1"/>
+				<field name="categ_id" optional="hide"/>
+				<field name="price" invisible="not context.get('pricelist',False)" optional="hide"/>
+				<field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="hide" readonly="1" invisible="1"/>
+				<field name="product_tmpl_id" invisible="1" readonly="1"/>
+				<field name="active" invisible="1"/>
+			</tree>
+		</field>
+	</record>
+	<record id="product_search_form_view" model="ir.ui.view">
+        <field name="name">product.product.search</field>
+        <field name="model">product.product</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="replace">
+            	<field name="id" string="ID"/>
+            	<field name="barcode" filter_domain="[('barcode', 'ilike', self)]" string="Kode"/>
+            	<field name="default_code" filter_domain="[('default_code', 'ilike', self)]" string="Kode (2)"/>
+            	<field name="group_1_id" filter_domain="[ ('group_1_id.name', 'ilike', self)]" string="Group 1"/>
+            	<field name="group_2_id" filter_domain="[('group_2_id.name', 'ilike', self)]" string="Group 2"/>
+            	<field name="group_3_id" filter_domain="[('group_3_id.name', 'ilike', self)]" string="Group 3"/>
+            	<field name="vendor_id" filter_domain="[('vendor_id.name', 'ilike', self)]" string="Vendor"/>                	
+                <field name="name" string="Nama" filter_domain="['|', '|','|', ('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self),('nama_alias_ids.name','ilike',self)]"/>
+                <field name="description" filter_domain="[[('description', 'ilike', self)]]" string="Catatan"/>               	
+            </field>
+           <!--  <field name="attribute_line_ids" position="replace">
+                <field name="product_template_attribute_value_ids" groups="product.group_product_variant" invisible="1"/>
+                <field name="product_tmpl_id" string="Product Template" invisible="1"/>
+            </field> -->
+        </field>
+    </record>
+    <record id="gbr_custom_product_search" model="ir.ui.view">
+        <field name="name">gbr_custom.product.product.search</field>
+        <field name="model">product.product</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+        	<search string="Item">
+	        	<field name="id" string="ID"/>
+	        	<field name="is_semua_data"/>
+	        	<field name="barcode" filter_domain="[('barcode', 'ilike', self)]" string="Kode"/>
+	        	<field name="default_code" filter_domain="[('default_code', 'ilike', self)]" string="Kode (2)"/>
+	        	<field name="group_1_id" filter_domain="[ ('group_1_id.name', 'ilike', self)]" string="Group 1"/>
+	        	<field name="group_2_id" filter_domain="[('group_2_id.name', 'ilike', self)]" string="Group 2"/>
+	        	<field name="group_3_id" filter_domain="[('group_3_id.name', 'ilike', self)]" string="Group 3"/>
+	        	<field name="vendor_id" filter_domain="[('vendor_id.name', 'ilike', self)]" string="Vendor"/>                	
+	            <field name="name" string="Nama" filter_domain="['|', '|', ('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self)]"/>
+	            <field name="description" filter_domain="[('description', 'ilike', self)]" string="Catatan"/>               	
+           	</search>
+        </field>
+    </record>
+
+	<record id="gbr_product_template_action_product" model="ir.actions.act_window">
+		<field name="name">Item</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.product</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="gbr_custom.product_product_tree_view"/>
+		<field name="search_view_id" ref="gbr_custom.gbr_custom_product_search"/>
+		<field name="context">{"search_default_consumable": 1, 'default_type': 'product', 'quantity_available_locations_domain': ('internal',),'tree_view_ref': 'gbr_custom.product_product_tree_view' , 'form_view_ref': 'gbr_custom.gbr_product_template_form_view','disable_search':True}</field>		
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+               Master File - Item
+             </p><p>
+              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+             </p>
+		</field>
+	</record>
+	<record id="gbr_product_template_action_product2" model="ir.actions.act_window">
+		<field name="name">Sisa Stock</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.product</field>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="gbr_custom.product_product_tree2_view"/>
+		<field name="search_view_id" ref="gbr_custom.gbr_custom_product_search"/>
+		<field name="context">{"search_default_consumable": 1, 'default_type': 'product', 'quantity_available_locations_domain': ('internal',),'tree_view_ref': 'gbr_custom.product_product_tree2_view' ,'disable_search':True}</field>		
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+               Master File - Sisa Stock
+             </p><p>
+              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+             </p>
+		</field>
+	</record>
+	<record id="view_gbr_group_99_real_form" model="ir.ui.view">
+        <field name="name">gbr.group.99.form</field>
+        <field name="model">gbr.group.99</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Grouping">               
+                <sheet>                    
+                    <group>
+                    </group>
+                    <notebook>                        
+                        <page id="other_tab" string="Grouping *1" name="other_info">
+                            <field name="group_1_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Grouping *2" name="other_info_2">
+                            <field name="group_2_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_3" string="Grouping *3" name="other_info_3">
+                            <field name="group_3_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_4" string="Grouping II" name="other_info_4">
+                            <field name="group_4_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                    </notebook>
+                </sheet>                
+                
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="gbr_group_99_real_action_product" model="ir.actions.act_window">
+		<field name="name">Grouping</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gbr.group.99</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="gbr_custom.view_gbr_group_99_real_form"/>
+		<field name="domain">[('type','=','product')]</field>
+		<field name="target">new</field>
+		<!-- <field name="search_view_id" ref="gbr_custom.product_search_form_view"/> -->
+		<field name="context">{'default_type': 'product', 'form_view_ref': 'gbr_custom.view_gbr_group_99_real_form'}</field>		
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create a new Grouping
+			</p>
+		</field>
+	</record>
+	<record id="view_gbr_group_4a_real_form" model="ir.ui.view">
+        <field name="name">gbr.group.4a.form</field>
+        <field name="model">gbr.group.4a</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="true">               
+                <sheet>                    
+                    <group col="4">
+                        <group colspan="2">
+                       
+                        <!-- <span> Tambah data klik logo </span> <i class="fa fa-external-link"/>  -->
+                        </group>                        
+                    </group>
+                    <notebook>                        
+                        <page id="other_tab" string="Kelompok *1" name="other_info">
+                            <field name="group_1_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Kelompok *2" name="other_info_2">
+                            <field name="group_2_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_3" string="Grouping *1" name="other_info_3">
+                            <field name="group_3_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_4" string="Grouping *2" name="other_info_4">
+                            <field name="group_4_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_5" string="Grouping *3" name="other_info_5">
+                            <field name="group_5_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                    </notebook>
+                </sheet>                
+                
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                <!-- <footer>
+                    <button type="object" name="button_close" class="oe_highlight" string="Tutup" style="justify-content: center; width: 100% !important;"/>
+                </footer> -->
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_group_4a2_real_form" model="ir.ui.view">
+        <field name="name">gbr.group.4a.form</field>
+        <field name="model">gbr.group.4a</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="true">               
+                <sheet>                    
+                    <group col="4">
+                        <group colspan="2">
+                       
+                        <!-- <span> Tambah data klik logo </span> <i class="fa fa-external-link"/>  -->
+                        </group>                        
+                    </group>
+                    <notebook>                        
+                        <page id="other_tab" string="Kelompok *1" name="other_info">
+                            <field name="group_7_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Kelompok *2" name="other_info_2">
+                            <field name="group_8_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>                        
+                    </notebook>
+                </sheet>                
+                
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                <!-- <footer>
+                    <button type="object" name="button_close" class="oe_highlight" string="Tutup" style="justify-content: center; width: 100% !important;"/>
+                </footer> -->
+            </form>
+        </field>
+    </record>
+	<!-- <menuitem
+		id="menu_gbr_item"
+		name="Item"
+		parent="menu_gbr_custom_root"
+		sequence="4"/> -->
+		<menuitem
+			id="menu_gbr_item_name"
+			name="Item"
+			action="gbr_custom.gbr_product_template_action_product"
+			parent="menu_gbr_custom_root"
+			sequence="4"/>   
+		<menuitem
+			id="menu_gbr_group_99_action_product"
+			name="Grouping Item"
+			action="gbr_custom.gbr_group_99_action_product"
+			parent="gbr_custom.menu_gbr_unused"
+			sequence="1"/> 
+		<menuitem
+			id="menu_gbr_group_99_real_action_product"
+			name="Grouping Items"
+			action="gbr_custom.gbr_group_99_real_action_product"
+			parent="gbr_custom.menu_gbr_unused"
+			sequence="2"/> 
+
+		<menuitem
+            id="menu_gbr_sisa_item_name"
+            name="SIsa Stock"
+            action="gbr_product_template_action_product2"
+            parent="gbr_custom.menu_gbr_custom_root"
+            sequence="5"/> 
+
+</data>
+</odoo>

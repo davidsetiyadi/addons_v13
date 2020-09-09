@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="wizard_gbr_journal_khusus_form" model="ir.ui.view">
+		<field name="name">gbr.journal.khusus.form</field>
+		<field name="model">gbr.journal.khusus</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Grouping"  create="true">               
+                <sheet>                    
+                    <group col="2">  
+                    	<label for="date" string="Untuk Tanggal"/>
+                    	<div for="date" class="o_row" >
+                            <field name="date" string="Tanggal" style="padding-right:10px" class="oe_inline"/>
+                        	<field name="date_end" class="oe_inline"/>
+                        </div> 
+                    </group>
+                    <notebook>               
+                        <page id="other_tab" string="Jurnal Transaksi" name="other_info">
+                        	<!-- <group> -->
+                            <field name="j_pemb"/>
+                            <label for="j_pemb"/><br/>
+                            <field name="j_rtr_pemb"/>
+                            <label for="j_rtr_pemb"/><br/>
+                            <field name="j_dn_cn_hut_pemb" />
+                            <label for="j_dn_cn_hut_pemb"/><br/>
+                            <field name="j_dp_pembelian" />
+                            <label for="j_dp_pembelian"/><br/>
+                            <field name="j_pemb_hutang" />
+                            <label for="j_pemb_hutang"/><br/>
+                            <field name="j_pnj" />
+                            <label for="j_pnj"/><br/>
+                            <field name="j_rtr_penj" />
+                            <label for="j_rtr_penj"/><br/>
+                            <field name="j_dn_cn_ptg_penj" />
+                            <label for="j_dn_cn_ptg_penj"/><br/>
+                            <field name="j_dp_penj" />
+                            <label for="j_dp_penj"/><br/>
+                            <field name="j_inv_statement" />
+                            <label for="j_inv_statement"/><br/>
+                            <field name="j_pen_piutang" />  
+                            <label for="j_pen_piutang"/><br/>
+                            <field name="j_kas_msk" />
+                            <label for="j_kas_msk"/><br/>
+                            <field name="j_kas_klr" />
+                            <label for="j_kas_klr"/><br/>
+                            <field name="j_trns_kas" />  
+                            <label for="j_trns_kas"/> <br/>          
+                        	<!-- </group> -->
+                        </page>
+                    </notebook>                    
+                </sheet>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="proses_jurnal_button"                        
+                        name="button_process_journal"
+                        string="Proses"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+            </form>
+		</field>
+	</record>
+	<record id="action_journal_khusus" model="ir.actions.act_window">
+			<field name="name">Jurnal Transaksi</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">gbr.journal.khusus</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_gbr_journal_khusus_form"/>
+			<field name="target">new</field>
+		</record>
+	<menuitem name="Buat Jurnal Khusus (Jurnal Transaksi)" 
+            id="gbr_jurnal_transaksi_list" 
+            parent="gbr_custom.menu_gbr_sistem_setup" 
+            action="action_journal_khusus" sequence="4"/>
+</data>
+</odoo>

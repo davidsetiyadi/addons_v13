@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_company_gbr_inherit" model="ir.ui.view">
+			<field name="name">res.company.gbr.form.inherit</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form"/>
+			<field name="arch" type="xml">
+				
+				<label for="name" position="attributes">
+					<attribute name="string">Nama</attribute>
+				</label>
+				<label for="street" position="attributes">
+					<attribute name="string">Alamat</attribute>
+				</label>				
+				<field name="state_id" position="replace">
+					<field name='state_id' invisible="1"/>
+				</field>
+				<field name="zip" position="replace">
+					<field name='zip' invisible="1"/>
+				</field>
+				<field name="street2" position="replace">
+					<field name='street2' invisible="1"/>
+				</field>
+				<field name="partner_id" position="replace">
+					<field name='partner_id' readonly="1" string="Pemilik *)"/>
+				</field>
+				<field name="phone" position="replace">
+					<field name="phone" string="Telepone"/>
+				</field>
+				<field name="phone" position="after">
+					<field name="fax"/>
+				</field>
+				<field name="website" position="after">
+					<field name="npwp"/>
+				</field>
+
+				<field name="vat" position="replace">
+					<field name="vat" invisible="1"/>
+				</field>
+				<field name="company_registry" position="replace">
+					<field name="company_registry" invisible="1"/>
+				</field>
+				<field name="currency_id" position="replace">
+					<field name="currency_id" invisible="1"/>
+				</field>
+				<field name="parent_id" position="replace">
+					<field name="parent_id" invisible="1"/>
+				</field>
+				<field name="favicon" position="replace">
+					<field name="favicon" invisible="1"/>
+				</field>
+				<field name="website" position="after">
+					<field name="npwp"/>
+				</field>
+
+				<xpath expr='//field[@name="vat"]' position="before">
+					<group name="faktur_pajak" string="Faktur Pajak" colspan="4">
+						<field name="faktur_pjk"/>
+						<field name="faktur_rtr_pjk"/>
+						<field name="ttd"/>					
+						<field name="heading"/>
+						<field name="singkatan" placeholder="---"/>
+					</group>
+                </xpath>
+				
+			</field>
+		</record>
+	</data>
+</odoo>

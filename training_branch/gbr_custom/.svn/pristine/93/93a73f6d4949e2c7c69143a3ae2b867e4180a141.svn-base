@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="view_gbr_group_99_form" model="ir.ui.view">
+        <field name="name">gbr.group.99_tm.form</field>
+        <field name="model">gbr.group.99_tm</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="true">               
+                <sheet>                    
+                    <group col="4">
+                        <group colspan="2">
+                        <field name="group_id"/>                        
+                   		<span> Tambah data klik logo </span> <i class="fa fa-external-link"/> 
+                   		</group>                 		
+                    </group>
+                    <notebook>                        
+                        <page id="other_tab" string="Grouping *1" name="other_info">
+                            <field name="group_1_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Grouping *2" name="other_info_2">
+                            <field name="group_2_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_3" string="Grouping *3" name="other_info_3">
+                            <field name="group_3_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_4" string="Grouping II" name="other_info_4">
+                            <field name="group_4_ids" >
+                                <tree editable="bottom" create="true">
+                                	<control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                  			
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                    </notebook>
+                </sheet>                
+                
+                <!-- Chatter -->
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div> -->
+                <footer>
+                    <button type="object" name="button_close" class="oe_highlight" string="Tutup" style="justify-content: center; width: 100% !important;"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_group_4a_form" model="ir.ui.view">
+        <field name="name">gbr.group.4a_tm.form</field>
+        <field name="model">gbr.group.4a_tm</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="true">               
+                <sheet>                    
+                    <group col="4">
+                        <group colspan="2">
+                        <field name="group_id" context="{'form_view_ref':'gbr_custom.view_gbr_group_4a_real_form'}"/>                        
+                        <span> Tambah data klik logo </span> <i class="fa fa-external-link"/> 
+                        </group>                        
+                    </group>
+                    <notebook>                        
+                        <page id="other_tab" string="Kelompok *1" name="other_info">
+                            <field name="group_1_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Kelompok *2" name="other_info_2">
+                            <field name="group_2_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_3" string="Grouping *1" name="other_info_3">
+                            <field name="group_3_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_4" string="Grouping *2" name="other_info_4">
+                            <field name="group_4_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_5" string="Grouping *3" name="other_info_5">
+                            <field name="group_5_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                    </notebook>
+                </sheet>                
+                
+                <!-- Chatter -->
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div> -->
+                <footer>
+                    <button type="object" name="button_close" class="oe_highlight" string="Tutup" style="justify-content: center; width: 100% !important;"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_group_4a2_form" model="ir.ui.view">
+        <field name="name">gbr.group.4a_tm.form</field>
+        <field name="model">gbr.group.4a_tm</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="false">               
+                <sheet>                    
+                    <group col="4">
+                        <group colspan="2">
+                        <field name="group_id" context="{'form_view_ref':'gbr_custom.view_gbr_group_4a2_real_form'}"/>                        
+                        <span> Tambah data klik logo </span> <i class="fa fa-external-link"/> 
+                        </group>                        
+                    </group>
+                    <notebook>                        
+                        <page id="other_tab" string="Kelompok *1" name="other_info">
+                            <field name="group_7_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Kelompok *2" name="other_info_2">
+                            <field name="group_8_ids" >
+                                <tree editable="bottom" create="true">
+                                    <control>
+                                        <create name="add_line_control" string="Tambah" class="oe_highlight"/>
+                                    </control>
+                                    <field name="id" string="ID" optional="hide"/>
+                                    <field name="name" optional="show"/>                                            
+                                    <field name="write_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>                                  
+                    </notebook>
+                </sheet>
+                <!-- Chatter -->
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div> -->
+                <footer>
+                    <button type="object" name="button_close2" class="oe_highlight" string="Tutup" style="justify-content: center; width: 100% !important;"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="gbr_group_99_action_product" model="ir.actions.act_window">
+		<field name="name">Grouping Item</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gbr.group.99_tm</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="gbr_custom.view_gbr_group_99_form"/>
+		<field name="domain">[('type','=','product')]</field>
+		<field name="target">new</field>
+		<!-- <field name="search_view_id" ref="gbr_custom.product_search_form_view"/> -->
+		<field name="context">{'default_type': 'product', 'form_view_ref': 'gbr_custom.view_gbr_group_99_form'}</field>		
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create a new Grouping
+			</p>
+		</field>
+	</record>
+     <record id="gbr_group_4a_action_product" model="ir.actions.act_window">
+        <field name="name">Grouping Vendor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gbr.group.4a_tm</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="gbr_custom.view_gbr_group_4a_form"/>
+        <field name="target">new</field>
+        <!-- <field name="search_view_id" ref="gbr_custom.product_search_form_view"/> -->
+        <field name="context">{'default_type': 'product', 'form_view_ref': 'gbr_custom.view_gbr_group_4a_form'}</field>     
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Grouping
+            </p>
+        </field>
+    </record>
+    <record id="gbr_group_4a2_action_product" model="ir.actions.act_window">
+        <field name="name">Grouping Pelanggan</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gbr.group.4a_tm</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="gbr_custom.view_gbr_group_4a2_form"/>
+        <field name="target">new</field>
+        <!-- <field name="search_view_id" ref="gbr_custom.product_search_form_view"/> -->
+        <field name="context">{'default_type': 'product', 'form_view_ref': 'gbr_custom.view_gbr_group_4a2_form'}</field>     
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Grouping
+            </p>
+        </field>
+    </record>
+    <menuitem
+            id="menu_gbr_group_4a_action_product"
+            name="Grouping Vendor"
+            action="gbr_custom.gbr_group_4a_action_product"
+            parent="gbr_custom.menu_gbr_unused"
+            sequence="3"/>
+     <menuitem
+            id="menu_gbr_group_4a2_action_product"
+            name="Grouping Pelanggan"
+            action="gbr_custom.gbr_group_4a2_action_product"
+            parent="gbr_custom.menu_gbr_unused"
+            sequence="4"/>
+
+</data>
+</odoo>
