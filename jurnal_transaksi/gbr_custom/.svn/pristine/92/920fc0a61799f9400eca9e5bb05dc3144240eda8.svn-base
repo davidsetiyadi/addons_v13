@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>		
+		<record id="view_create_item_form" model="ir.ui.view">
+			<field name="name">purchase.order.line.form</field>
+			<field name="model">purchase.order.line</field>
+			<field name="type">form</field>
+			<field name="priority">99</field>
+			<field name="arch" type="xml">
+				<form string="Purchase Products Lines">				
+					<sheet>
+						<group>
+							<group>
+								<field name="product_id" string="Product" context="{'noonchange': True,'form_view_ref': 'gbr_custom.gbr_product_template_form_view','search_view_ref': 'gbr_custom.product_search_form_view'}"/>
+								<field name="product_uom_category_id" invisible="1"/>
+								<field name="default_code"/>
+								<field name="barcode"/>
+								<label for="product_qty" string="Jumlah"/>
+								<div>
+									<field name="product_qty" style="width:40%;"/>&amp;nbsp;&amp;nbsp;
+									<field name="product_uom" style="width:40%;"/>
+								</div>
+							</group>
+
+							<group>								
+								<label for="price_unit" string="Harga"/>
+								<div>
+									<field name="price_unit" style="width:40%;" placeholder="0.00"/>&amp;nbsp;&amp;nbsp;
+									<field name="price_subtotal" style="width:40%;" placeholder="0.00" invisible="1"/>
+								</div>
+
+								<label for="discount"/>
+								<div>
+									<field name="disc_item" id="discount2" readonly="1" placeholder="0.00" style="width:40%;"/>&amp;nbsp;&amp;nbsp;
+									<field name="discount" id="discount2" placeholder="0.00" style="width:40%;"/>
+									<!-- <field name="disc1" placeholder="0.00%" style="width:20%;"/>(%%)&amp;nbsp;
+									<field name="disc2" placeholder="0.00%" style="width:20%;"/>(%%)&amp;nbsp;
+									<field name="disc3" placeholder="0.00%" style="width:20%;"/>(%%) -->
+								</div><br/><br/>							
+
+								<label for="amount_total" string="Total"/>
+								<div>
+									<field name="amount_total" placeholder="0.00"/>
+								</div>
+							</group>
+
+						</group>
+						<group>
+							<field name="note"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_purchase_order_gbr_form_view" model="ir.ui.view">
+			<field name="name">purchase.order.gbr.form</field>
+			<field name="model">purchase.order</field>
+			<field name="type">form</field>
+			<field name="priority">99</field>
+			<field name="arch" type="xml">
+				<form name="po_order" string="Purchase Order">	
+					<header>
+						<button name="action_view_picking" string="Receive Products" class="oe_highlight" type="object" attrs="{'invisible': ['|', '|' , ('is_shipped', '=', True), ('state','not in', ('purchase','done')), ('picking_count', '=', 0)]}"/>
+						<button name="action_rfq_send" states="draft" string="Send by Email" type="object" context="{'send_rfq':True}" class="oe_highlight"/>
+	                    <button name="print_quotation" string="Print RFQ" type="object" states="draft" class="oe_highlight" groups="base.group_user"/>
+	                    <button name="button_confirm" type="object" states="sent" string="Confirm Order" class="oe_highlight" id="bid_confirm"/>
+	                    <button name="button_approve" type="object" states="to approve" string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager"/>
+
+	                    <button name="action_view_invoice_gbr" string="Create Bill" type="object" class="oe_highlight" context="{'create_bill':True}" attrs="{'invisible': ['|', ('state', 'not in', ('purchase', 'done')), ('invoice_status', 'in', ('no', 'invoiced'))]}"/>
+
+	                    <button name="action_rfq_send" states="sent" string="Re-Send by Email" type="object" context="{'send_rfq':True}"/>
+	                    <button name="print_quotation" string="Print RFQ" type="object" states="sent" groups="base.group_user"/>
+	                    <button name="button_confirm" type="object" states="draft" string="Confirm Order" id="draft_confirm"/>
+	                    <button name="action_rfq_send" states="purchase" string="Send PO by Email" type="object" context="{'send_rfq':False}"/>
+	                    
+	                    <button name="action_create_bill_gbr2" string="Create Bill" type="object" context="{'create_bill':True}" attrs="{'invisible': ['|', '|', ('state', 'not in', ('purchase', 'done')), ('invoice_status', 'not in', ('no', 'invoiced')), ('order_line', '=', [])]}"/>
+
+	                    <button name="button_draft" states="cancel" string="Set to Draft" type="object"/>
+	                    <button name="button_cancel" states="draft,to approve,sent,purchase" string="Cancel" type="object"/>
+	                    <button name="button_done" type="object" string="Lock" states="purchase"/>
+	                    <button name="button_unlock" type="object" string="Unlock" states="done" groups="purchase.group_purchase_manager"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,sent,purchase" readonly="1"/>
+					</header>
+					
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button type="object" widget="statinfo" name="action_view_picking" class="oe_stat_button" icon="fa-truck" attrs="{'invisible':[('picking_ids','=',[])]}">
+		                   		 <field name="picking_count" widget="statinfo" string="Receipt" help="Incoming Shipments"/>
+		                   		 <field name="picking_ids" invisible="1"/>
+	               			 </button>
+	               		</div>
+
+						<div class="oe_title">
+	                        <h1>
+	                            <field name="name" readonly="1"/>
+	                        </h1>
+                   		</div>
+                   		<group>
+							<group>
+								<field name="divisi_id" string="Divisi"/>
+								<label for="partner_id" string="Vendor"/>
+								<div>
+									<field name="partner_id" options="{'no_create': True}" /><br/>
+									<field name="type_order"/>
+								</div>
+								<field name="warehouse_id" string="Gudang" required="1"/>
+							</group>
+							<group>
+								<label for ="no" string="P.O. No"/>
+	                        	<div>
+		                            <field name="no" string="NO" readonly="1" style="padding-right:10px; "/>
+		                            <field name="no_append"  readonly="0" style="background:wheat;"/>
+		                        </div>
+								<field name="date_order" string="Tanggal" />
+	                            <field name="close_date"/>
+	                            <field name="currency_id" string="M.U"/>
+	                            <field name="is_print_qty"/>
+								<field name="is_print_price"/>
+								<field name="is_shipped" invisible="1"/>
+								<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Products" name="list_products">
+								<field name="order_line" context="{'disc_percent': True,'default_warehouse_id': warehouse_id}">
+									<tree string="Purchase Order Lines">
+										<field name="display_type" invisible="1"/>
+	                                    <field name="currency_id" invisible="1"/>
+	                                    <field name="state" invisible="1"/>
+	                                    <field name="product_type" invisible="1"/>
+	                                    <field name="product_uom_category_id" invisible="1"/>
+	                                    <field name="sequence" widget="handle"/>
+                                        <field name="product_id" invisible="1"/>
+  										<field name="default_code"/>
+  										<field name="barcode"/>
+  										<field name="name" widget="section_and_note_text"/>
+  										<field name="date_planned" optional="hide" attrs="{'required': [('display_type', '=', False)], 'readonly': [('parent.date_planned', '!=', False)]}"/>
+  										<field name="product_qty" string="Jumlah"/>
+  										<field name="product_uom" string="Satuan"/>
+  										<field name="price" string="Price"/>
+  										<field name="price_unit" invisible="1" string="@"/>
+  										<field name="price_subtotal" widget="monetary" string="Harga" invisible="1"/>
+  										<field name="discount" invisible="0" string="Disc (%)"/>
+  										<field name="disc1" invisible="1"/>
+  										<field name="disc2" invisible="1"/>
+  										<field name="disc3" invisible="1"/>
+  										<field name="amount_total" widget="monetary"/>
+  										<field name="sat_kecil" invisible="1"/>
+  										<field name="pb1" invisible="1"/>
+  										<field name="pb2" invisible="1"/>
+  										<field name="pb3" invisible="1"/>
+  										<field name="pb4" invisible="1"/> 
+  										<field name="term1" invisible="1"/>
+										<field name="term2" invisible="1"/>
+										<field name="term3" invisible="1"/>
+										<field name="term4" invisible="1"/>										
+  										<field name="note"/>
+  										<field name="cubic" invisible="0" optional="show"/>
+  										<field name="weight" invisible="0" optional="show"/>
+  										<field name="item_note" invisible="1"/>
+									</tree>
+									<form string="Purchase Products Lines">				
+										<sheet>
+											<group>
+												<group>
+													<field name="product_id" string="Product" context="{'form_view_ref': 'gbr_custom.gbr_product_template_form_view','search_view_ref': 'gbr_custom.product_search_form_view'}" domain="[('is_user_set_po','=',True)]"/>
+													<field name="product_uom_category_id" invisible="1"/>
+													<field name="default_code"/>
+													<field name="barcode"/>
+													<label for="product_qty" string="Jumlah"/>
+													<div>
+														<field name="product_qty" style="width:40%;"/>&amp;nbsp;&amp;nbsp;
+														<field name="product_uom" style="width:40%;"/>
+													</div>
+													 <field name="gbr_qty_avalible" string="Sisa Stock" readonly="1"/>
+												</group>
+
+												<group>								
+													<label for="price"/>
+													<div>
+														<field name="price_unit" style="width:40%;" invisible="1" placeholder="0.00"/>&amp;nbsp;
+														<field name='price' style="width:40%;" invisible="0"/>&amp;nbsp;
+														<field name="price_subtotal" style="width:40%;" placeholder="0.00" invisible="1"/>
+													
+													</div>		
+													<field name="discount" invisible="1"/>
+													<field name="discount_amount" id="discount2" placeholder="0.00" style="width:40%;" context="{'disc_percent': False}" string="Discount Amount"/> 				
+													<field name="discount_2" id="discount4" placeholder="0.00" style="width:40%;" context="{'disc_percent': False}" string="Discount (%)"/> 							
+													<field name="disc1" placeholder="0.00%" style="width:20%; padding-right:10px;" context="{'disc_percent': True}" invisible="1"/>
+													<field name="discount" invisible="1"/>
+													<!-- <field name="discount_total" readonly="1" string="Discount Total (%)"/> -->													
+													<br/><br/>							
+
+													<label for="amount_total" string="Total"/>
+													<div>
+														<field name="amount_total" placeholder="0.00"/>
+													</div>
+												</group>
+
+											</group>
+											<group>
+												<field name="note"/>
+											</group>
+										</sheet>
+									</form>
+								</field>
+
+								<button type="action" name="%(gbr_custom.wizard_purchase_filter_view)d" string="Tambah Dari Master File" context="{'from_purchase': True}" class="btn btn-info"/>
+								<br/><br/><br/>
+
+								<group class="oe_subtotal_footer oe_right">
+	                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" string="Total Harga"/>
+                         	        <field name="amount_disc" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+	                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+	                                <div class="oe_subtotal_footer_separator oe_inline">
+	                                    <label for="amount_total"/>
+	                                </div>
+	                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            	</group>
+                        	
+                            	<label for="discount"/>
+								<div>
+									<field name="discount" readonly="0" context="{'noonchange': False}" style="width:8%;"/>&amp;nbsp;
+									<field name="disc_perc" context="{'noonchange': True}" style="width:4%;"/>(%%)&amp;nbsp;&amp;nbsp;&amp;nbsp;
+									<!-- <field name="option" style="width:6%;"/>&amp;nbsp;
+									<field name="order_taxes" readonly="1" style="width:8%;"/>&amp;nbsp;
+									<field name="tax_gbr" style="width:4%;"/>(%%)								 -->
+								</div>	<br/>
+
+								<label for="total_qty" string="Total Quantity"/>
+								<div>
+									<field name="total_qty" style="width:4%;" readonly="1"/>
+									<field name="uom" style="width:4%;" readonly="1"/>
+								</div>	<br/>	
+								<label for="total_weight" string="Total Berat Volume"/>
+								<div>
+									<field name="total_weight" style="width:4%;" readonly="1" />
+									<field name="total_volume" style="width:4%;" readonly="1" string="M3"/>
+								</div>						
+								
+                            	<label for="notes" string="Catatan"/>
+                            	<div>
+                           		 	<field name="notes" class="oe_inline" placeholder="Define your terms and conditions ..."/>
+                           		</div>
+	                           							
+							</page>
+
+							<page string="Lainnya" name="other">
+								<group>
+									<group>
+										<field name="date_planned" string="Tanggal Kirim"/>
+										<field name="incoterm_id" string="Pengiriman by"/>
+										<field name="payment_term_id" string="Term Pembayaran"/>
+										<field name="user_id" string="Permintaan Atas"/>
+									</group>
+									<group>
+										<field name="picking_type_id" string="Kirim ke"/>
+										<field name="invoice_status" attrs="{'invisible': [('state', 'in', ('draft', 'sent', 'to approve', 'cancel'))]}"/>
+
+									</group>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                    
+               		</div>
+                
+					<field name="is_purchase_gbr" invisible="1"/>
+				</form>
+			</field>
+		</record>
+		<record id="view_purchase_order_gbr_tree_view" model="ir.ui.view">
+			<field name="name">purchase.order.gbr.tree</field>
+			<field name="model">purchase.order</field>
+			<field name="type">tree</field>
+			<field name="priority">99</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="state" invisible="1"/>
+					<field name="id"/>
+					<field name="name" string="PO Number" optional="hide"/>
+					<field name="number_join" string="PO" optional="show"/>
+					<field name="date_order" string="Tanggal" optional="show"/>
+					<field name="date_approve" string="Tutup" optional="show"/>
+					<field name="is_purchase_gbr" invisible="1"/>
+					<field name="partner_id" string="Vendor" optional="show"/>
+					<field name="currency_id" string="M.U" optional="show"/>
+					<field name="amount_untaxed" string="Harga" optional="show"/>
+					<field name="amount_disc" string="Discount" invisible="1"/>
+					<field name="amount_disc_total" string="Discount" invisible="0" optional="show"/>
+					<field name="order_taxes" invisible="1" optional="show"/>
+					<field name="option" invisible="1"/>
+					<field name="amount_total" string="Total" optional="show"/>
+					<field name="divisi_id"  optional="show"/>
+					<field name="type_order" optional="show"/>
+					<field name="notes" string="Catatan" optional="show"/>
+					<field name="date_planned" string="Tgl Kirim" optional="hide"/>
+					<field name="picking_type_id" string="Kirim Alamat" optional="hide"/>
+					<field name="incoterm_id" string="Pengiriman Via" optional="hide"/>
+					<field name="gbr_invoice_id" string="Pembelian" optional="hide"/>
+					<field name="payment_term_id" string="Term Pembayaran" optional="hide"/>
+					<field name="print_user_id" string="Print by" optional="hide"/>
+					<field name="create_uid" string="Entry-by" optional="hide"/>
+					<field name="create_date" string="Entry Date" optional="hide"/>
+					<field name="write_uid" string="Last-Edit by" optional="hide"/>
+					<field name="write_date" string="Last-Edit Time" optional="hide"/>
+				</tree>
+			</field>
+		</record>
+		<record id="purchase_order_view_search" model="ir.ui.view">
+            <field name="name">purchase.order.select</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Purchase Order">
+                	<field name="id" string="ID"/>
+                	<field name="is_semua_data"/>
+                	<field name="date_order" string="Tanggal"/>
+                	<field name="date_planned" string="Tgl Kirim"/>
+                	<field name="number_join" string="PO"/>                    
+                    <field name="partner_id" operator="child_of" string="Vendor"/>
+                    <field name="notes" string="Catatan"/>                   
+                    <!-- <field name="name" string="PO Number"
+                        filter_domain="['|', '|', ('name', 'ilike', self), ('partner_ref', 'ilike', self), ('partner_id', 'child_of', self)]"/> -->
+                    
+                    <filter name="my_Orders" string="My Orders" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter name="not_invoiced" string="Waiting Bills" domain="[('invoice_status', '=', 'to invoice')]" help="Purchase orders that include lines not invoiced."/>
+                    <filter name="invoiced" string="Bills Received" domain="[('invoice_status', '=', 'invoiced')]" help="Purchase orders that have been invoiced."/>
+                    <separator/>
+                    <filter name="order_date" string="Order Date" date="date_order"/>
+                    <separator/>
+                    <filter invisible="1" string="Late Activities" name="activities_overdue"
+                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                    <filter invisible="1" string="Today Activities" name="activities_today"
+                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Warnings" name="activities_exception"
+                        domain="[('activity_exception_decoration', '!=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Vendor" name="vendor" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Purchase Representative" name="representative" domain="[]" context="{'group_by': 'user_id'}"/>
+                        <filter string="Order Date" name="order_date" domain="[]" context="{'group_by': 'date_order'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+		<record id="view_purchase_order_gbr_form_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="view_purchase_order_gbr_tree_view"/>
+            <field name="search_view_id" ref="gbr_custom.purchase_order_view_search"/>
+            <field name="domain">[('is_purchase_gbr', '=', True)]</field>            
+            <field name="context">{'form_view_ref': 'gbr_custom.view_purchase_order_gbr_form_view', 
+            					   'tree_view_ref': 'gbr_custom.view_purchase_order_gbr_tree_view',
+            					   'disable_search':True
+            					   }</field>
+            <field name="help" type="html">
+	             <p class="o_view_nocontent_smiling_face">
+	               Pembelian - Purchase Order
+	             </p><p>
+	              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+	             </p>
+            </field>
+        </record>
+        <menuitem action="view_purchase_order_gbr_form_action" 
+        		 id="menu_purchase_form_action"
+        		 parent="menu_gbr_pembelian" 
+        		 sequence="1"/>
+
+
+	</data>
+</odoo>

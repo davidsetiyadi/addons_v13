@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<data>
+
+	<record id="view_pelanggan_gbr_tree" model="ir.ui.view">
+		<field name="name">view.pelanggan.gbr.tree</field>
+		<field name="model">res.partner</field>
+		<field name="priority">99</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree js_class="pelanggan_tree">
+				<field name="is_customer" invisible="1"/>
+				<field name="id" optional="show"/>
+				<field name="date" string="Tanggal" optional="show"/>
+				<field name="non_active" optional="show"/>
+				<field name="npwp" optional="show"/>
+				<field name="name" optional="show"/>
+				<field name="address" optional="show"/>
+				<field name="state_id" string="Daerah" optional="show"/>
+				<field name="country_id" optional="show"/>
+				<field name="phone" optional="show"/>
+				<field name="phone2" string="Telp(2)" optional="show"/>
+				<field name="phone3" string="Telp(3)" optional="show"/>
+				<field name="fax" optional="show"/>
+				<field name="contact_person1" string="Hubungi" optional="show"/>
+				<field name="contact_number1" string="Hub-Telp" optional="show"/>
+				<field name="contact_person2" string="Hubungi *2" optional="show"/>
+				<field name="contact_number2" string="Hub-Telp *2" optional="show"/>
+				<field name="contact_person3" string="Hubungi *3" optional="show"/>
+				<field name="contact_number3" string="Hub-Telp *3" optional="show"/>
+				<field name="email" optional="show"/>
+				<field name="website" string="Website" optional="show"/>
+				<field name="comment" optional="show"/>
+				<field name="global_dis" optional="show"/>
+				<field name="item_disc" optional="show"/>
+				<field name="kurs" optional="show"/>
+				<field name="property_supplier_payment_term_id" optional="show"/>
+				<field name="nominal_maxCrd" optional="show"/>
+				<field name="nominal_maxCrd2" optional="show"/>
+				<field name="protect1" optional="show"/>
+				<field name="max_payment_term_credit" optional="show"/>
+				<field name="max_payment_term_credit2" optional="show"/>
+				<field name="protect2" optional="show"/>
+				<field name="max_payment_term" optional="show"/>
+				<field name="pricelist_id" optional="show"/>
+				<field name="type_sale_id" optional="show"/>
+				<field name="department_id" optional="show"/>
+				<field name="religion" optional="hide"/>
+				<field name="default_mu_jual_id" string="Mu-Jual" optional="hide"/>
+				<field name="write_uid" string="Entry-by" optional="hide"/>
+				<field name="create_date" string="Create-Date" optional="hide"/>
+				<field name="write_date" string="Last-Edit Date" optional="hide"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_pelanggan_gbr_form" model="ir.ui.view">
+		<field name="name">view.pelanggan.gbr.form</field>
+		<field name="model">res.partner</field>
+		<field name="priority">99</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		<form name="vendor" string="Vendors">
+		<sheet>
+			<group>
+				<group>
+					<group>
+						<field name="date" string="Tanggal"/>
+					</group>
+					<group>
+						<field name="non_active"/>
+					</group>									
+					<h1>
+	                	<field name="name" default_focus="1" placeholder="Name"/>
+	                </h1>
+	                <field name="is_customer" invisible="1"/>
+         		</group>
+
+         		<group>
+         			<group>
+         				<!-- <field name="corporate" class="oe_inline" /> -->
+         				<field name="is_company" string="Corporate/Perusahaan" invisible="1"/>
+         			</group>
+         			<group>
+         				<!-- <field name="personal" class="oe_inline"/> -->
+         			</group>				         			
+	         			<div style="margin-left:30px;">
+	         				<field name="is_personal" string="Corporate/Perusahaan" class="oe_inline" widget="radio"/>
+	         				<label for="is_personal" class="oe_inline"/>	<br/>			         				
+         					<field name="is_mix" class="oe_inline"/>
+         					<label for="is_mix" class="oe_inline"/>
+         					<field name="is_sale" class="oe_inline"/>
+	         				<label for="is_sale" class="oe_inline" string="Harga jual diambil dari harga jual terakhir"/>
+	         				<field name="is_black_list" class="oe_inline"/>
+	         				<label for="is_black_list" class="oe_inline" string="Penjualan : Daftar Pelanggan di black list"/>
+	         				<field name="is_limit" class="oe_inline"/>
+	         				<label for="is_limit" class="oe_inline"/>
+         				</div>				         				
+         		</group>
+
+       		 </group>
+
+            <notebook>
+            	<page name="data_utama2" string="Data Utama" icon="sold">		                		
+            		<group name="vendors_data_utama" col="2">
+            			<group>
+            				<label for="title"/>
+            				<div>
+                				<field name="title" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+                				<field name="gender" widget="radio" class="oe_inline" options="{'horizontal': true}" attrs="{'invisible': [('is_company','=',False)]}"/>
+                			</div>
+                			<field name="gbr_category_id" widget="radio" string="Kategori"/>
+                			<field name="address"/>
+                			<field name="zip" string="Kode POS"/>
+                			<label for="country_id" string="Negara"/>
+                			<div>
+                				<field name="country_id" placeholder="Negara" required="1" class="oe_inline" style="padding-right: 10px;" context="{'default_country_id': 100}"/>&amp;nbsp; &amp;nbsp;
+                				<field name="religion" placeholder="---" class="oe_inline" attrs="{'invisible': [('is_company','=',True)]}"/>
+                			</div>
+                			<label for="state_id" string="Daerah"/>
+                			<div>
+	                			<field name="state_id" string="Daerah" domain="[('country_id','=',country_id)]" style="padding-right: 10px;"/>
+	                			<field name="kota_id" string="Kota" domain="[('state_id','=',state_id)]" style="padding-right: 10px;"/>
+	                			
+	                		</div>
+	                		<label for="kecamatan_id" string="Kecamatan"/>
+                			<div>
+                				<field name="kecamatan_id" string="kecamatan_id" invisible="0" domain="[('kota_id','=',kota_id)]" style="padding-right: 10px;"/>
+                				<field name="kelurahan_id" string="Kelurahan" invisible="0" domain="[('kecamatan_id','=',kecamatan_id)]" style="padding-right: 10px;"/>
+                			</div>
+                			
+                			<field name="npwp"/>
+                			<label for="phone" string="Telephone"/>
+                			<div>
+                				<field name="phone" placeholder="Phone Number 1" style="padding-right: 10px;"/>
+                				<field name="phone2" placeholder="Phone Number 2" style="padding-right: 10px;"/>
+                				<field name="phone3" placeholder="Phone Number 3" style="padding-right: 10px;"/>
+                			</div>
+                			<field name="fax"/>
+                			<field name="email"/>
+                			<field name="website"/>
+                		</group>
+                		<group>
+                		
+                		<label for="contact_person1" attrs="{'invisible': [('is_company','=',False)]}"/>
+            			<div attrs="{'invisible': [('is_company','=',False)]}">
+            				<field name="contact_person1" class="oe_inline" placeholder="Name" />&amp;nbsp; &amp;nbsp;	            
+            				<field name="contact_number1" class="oe_inline" placeholder="Phone"/>
+            				<div>
+                				<field name="contact_person2" class="oe_inline" placeholder="Name"/>&amp;nbsp; &amp;nbsp;
+                				<field name="contact_number2" class="oe_inline" placeholder="Phone" />
+            				</div>
+            				<div>
+                				<field name="contact_person3" class="oe_inline" placeholder="Name"/>&amp;nbsp; &amp;nbsp;
+                				<field name="contact_number3" class="oe_inline" placeholder="Phone" />
+            				</div>
+            			</div>	
+
+            			<field name="ktp" string="No KTP" attrs="{'invisible': [('is_company','=',True)]}"/>
+            			<label for="born" attrs="{'invisible': [('is_company','=',True)]}"/>
+            			<div attrs="{'invisible': [('is_company','=',True)]}">
+            				<field name="born" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="birth" class="oe_inline"/>
+            			</div>
+            			<field name="status" attrs="{'invisible': [('is_company','=',True)]}"/>
+            			<field name="pend_akh" attrs="{'invisible': [('is_company','=',True)]}"/>
+
+                		<label for="property_supplier_payment_term_id" string="Credit"/>
+            			<div>
+            				<field name="property_supplier_payment_term_id" placeholder="0 hari" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="term_cred" placeholder="+ 0 EOM" class="oe_inline"/>
+            			</div>
+            			<label for="global_dis"/>
+            			<div>
+            				<field name="global_dis" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="option_promo1" class="oe_inline"/>
+            			</div>
+            			<label for="item_disc"/>
+            			<div>
+            				<field name="item_disc" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="option_promo2" class="oe_inline"/>
+            			</div>
+            			<label for='kurs'/>
+            			<div>
+            				<field name="kurs" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="nominal_maxCrd" class="oe_inline" placeholder="0" />&amp;nbsp; &amp;nbsp;
+            				<field name="nominal_maxCrd2" placeholder="0 Lbr Invoice" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="protect1" class="oe_inline"/>
+            			</div> 
+
+            			<label for='max_payment_term_credit' string="Jatuh Tempo"/>
+            			<div>
+            				<field name="max_payment_term_credit" class="oe_inline" placeholder="0" />&amp;nbsp; &amp;nbsp;
+            				<field name="max_payment_term_credit2" placeholder="0 Lbr Invoice" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="protect2" placeholder="---"/>
+            			</div>
+            			<label for="max_payment_term" string="Max" placeholder="0 hari"/>
+            			<div>
+            				<field name="max_payment_term" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="protect3" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+            				<field name="default_mu_jual_id" placeholder="Default MU Jual"/>
+            			</div>
+            			
+            			<field name="property_product_pricelist" string="H.Jual"/>
+            			<label for="group_cust_id" string="Kelompok"/>
+            			<div>
+                			<field name="group_cust_id" style="padding-right:10px;" domain="[('group_cust_id', '!=', False)]" context="{'default_group_cust_id' : 1}" options="{'no_open': True}"/>
+                			<field name="group_cust_2_id" domain="[('group_cust_2_id', '!=', False)]" context="{'default_group_cust_2_id' : 1}" options="{'no_open': True}"/>
+            			</div>
+            			
+            			<field name="sales_employee_id" string="Sales" domain="[('is_sales','=',True)]"  options='{"no_quick_create": True,"no_create": True,"no_open": True}'/>
+            			<field name="collector_employee_id" string="Collector" domain="[('is_collector','=',True)]" options='{"no_quick_create": True,"no_create": True,"no_open": True}'/>
+            			<label for="type_sale_id"/>
+            			<div>
+                			<field name="type_sale_id"/>
+                			<field name="department_id"/>
+            			</div>
+                		</group>
+            		</group>		                		
+            	</page> 
+            	<page name="inisialisasi" string="Inisialisasi" invisible="0">		                		
+            		<group name="inisialisasi" col="12">
+            			<notebook name="group_user_setting">
+            				<page string="Inisialisasi">
+                				<group colspan="5">
+		                			<label for="pajak_type"/>
+			                		<div>
+			                			<field name="pajak_type" class="oe_inline"/>&amp;nbsp;
+			                			<field name="account_taxId" class="oe_inline"/>		                			
+			                		</div>
+			                		<field name="no_tax_fakture"/>
+			                		<field name="pricelist_id" string="Hj Item"/>
+			                	</group>
+			                	<group colspan="5">
+			                		<field name="image_1920" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_128&quot;}"/>
+		                		</group>                				
+		                		<group>
+			                		<field name="is_noted" help="Catatan ditampilkan setiap pemilihan Pelangan"/>
+			                		<field name="comment" string="Catatan" placeholder="Make yours comments here"/>
+			                	</group>		                		
+                			</page>
+                			<page string="Group User">
+                				<group>
+	                				 <group>			                		
+			                			<!-- <field name="group_user_ids" widget="many2many_checkboxes"/> -->
+			                			<field name="is_group_user_po"/>
+			                			<field name="is_group_user_pch"/>
+			                			<field name="is_group_user_pcr"/>
+			                			<field name="is_group_user_rpch"/>
+			                			<field name="is_group_user_rpcr"/>
+			                			<field name="is_group_user_dnh"/>
+			                			<field name="is_group_user_cnh"/>
+			                			<field name="is_group_user_dp"/>
+			                		</group>
+			                		<group>	
+			                			<field name="is_user_level_1"/>
+										<field name="is_user_level_2"/>
+										<field name="is_user_level_3"/>
+										<field name="is_user_level_4"/>
+										<field name="is_user_level_5"/>
+										<field name="is_user_level_6"/>
+										<field name="is_user_level_7"/>
+										<field name="is_user_level_8"/>
+										<field name="is_user_level_9"/>
+										<field name="is_user_level_10"/>
+										<field name="is_user_level_11"/>
+										<field name="is_user_level_12"/>
+										<field name="is_user_level_13"/>
+										<field name="is_user_level_14"/>
+										<field name="is_user_level_15"/>
+										<field name="is_user_level_16"/>
+										<field name="is_user_level_17"/>
+										<field name="is_user_level_18"/>
+										<field name="is_user_level_19"/>
+										<field name="is_user_level_20"/>
+										<field name="is_user_level_21"/>
+										<field name="is_user_level_22"/>
+										<field name="is_user_level_23"/>
+										<field name="is_user_level_24"/>
+										<field name="is_user_level_25"/>
+										<field name="is_user_level_26"/>
+										<field name="is_user_level_27"/>
+										<field name="is_user_level_28"/>
+										<field name="is_user_level_29"/>
+										<field name="is_user_level_30"/>
+			                			<!-- <field name="group_level_ids" widget="many2many_checkboxes"/> -->
+			                		</group>             					
+                				</group>                				
+                			</page>
+                		</notebook>
+                		
+              		</group>
+            	</page> 
+
+            	<page name="Barang_spesial" string="Harga Barang Spesial" invisible="0">
+            		<group name="harga_spesial" string="Promo Harga Spesial">
+            			<group>
+            				<field name="pricelist_id" string="Set harga spesial"/>
+            			</group>
+            		</group>
+            	</page>
+
+            	<page name="info" string="Extra Info" invisible="0">
+            		<group name="notes" string="Comments">
+            			<field name="comment"/>
+            		</group>
+            	</page>
+            	<page string="Data Personal" attrs="{'invisible': [('is_company','=',False)]}" invisible="0">
+               	 	<field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_zip': zip, 'default_country_id': country_id, 'default_type': 'other'}">
+	                    <kanban>
+	                        <field name="id"/>
+	                        <field name="color"/>
+	                        <field name="name"/>
+	                        <field name="title"/>
+	                        <field name="type"/>
+	                        <field name="email"/>
+	                        <field name="parent_id"/>
+	                        <field name="is_company"/>
+	                        <field name="function"/>
+	                        <field name="phone"/>
+	                       <!--  <field name="street"/>
+	                        <field name="street2"/> -->
+	                        <field name="zip"/>
+	                        <!-- <field name="city"/> -->
+	                        <field name="country_id"/>
+	                        <field name="mobile"/>
+	                        <!-- <field name="state_id"/> -->
+	                        <field name="image_128"/>
+	                        <!-- <field name="lang"/> -->
+	                        <!-- fields in form x2many view to diminish requests -->
+	                        <field name="comment"/>
+	                        <field name="display_name"/>
+	                        <templates>
+	                            <t t-name="kanban-box">
+	                                <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+	                                <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+	                                    <div class="o_kanban_image">
+	                                        <img alt="" t-if="record.image_128.raw_value" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"/>
+	                                        <t t-if="!record.image_128.raw_value">
+	                                            <img alt="Delivery" t-if="record.type.raw_value === 'delivery'" t-att-src='_s + "/base/static/img/truck.png"'/>
+	                                            <img alt="Invoice" t-if="record.type.raw_value === 'invoice'" t-att-src='_s + "/base/static/img/money.png"'/>
+	                                            <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+	                                                <img alt="Logo" t-if="record.is_company.raw_value === true" t-att-src='_s + "/base/static/img/company_image.png"'/>
+	                                                <img alt="Avatar" t-if="record.is_company.raw_value === false" t-att-src='_s + "/base/static/img/avatar_grey.png"'/>
+	                                            </t>
+	                                        </t>
+	                                    </div>
+	                                    <div class="oe_kanban_details">
+	                                        <field name="name"/>
+	                                        <div t-if="record.function.raw_value"><field name="function"/></div>
+	                                        <div t-if="record.email.raw_value"><field name="email" widget="email"/></div>
+	                                        <div t-if="record.type.raw_value != 'contact'">
+	                                            <div>
+	                                                <field name="zip"/>
+	                                                <!-- <field name="city"/> -->
+	                                            </div>
+	                                            <!-- <field t-if="record.state_id.raw_value" name="state_id"/> -->
+	                                            <field name="country_id"/>
+	                                        </div>
+	                                        <div t-if="record.phone.raw_value">Phone: <field name="phone" widget="phone"/></div>
+	                                        <div t-if="record.mobile.raw_value">Mobile: <field name="mobile" widget="phone"/></div>
+	                                    </div>
+	                                </div>
+	                            </t>
+	                        </templates>
+	                    </kanban>
+	                    <form string="Contact / Address">
+	                        <sheet>
+	                            <!-- parent_id and type fields needed in attrs in base_address_city module which overwrites
+	                            _fields_view_get() of partner. It would be better to put those fields there but the web client
+	                            dosen't support when a field is displayed several times in the same view.-->
+	                            <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+	                            <field name="parent_id" invisible="1"/>
+	                            <hr/>
+	                            <group col="12">
+	                                <group colspan="5">
+	                                    <field name="name" string="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+	                                    <field name="title" placeholder="e.g. Mr."
+	                                        attrs="{'invisible': [('type','!=', 'contact')]}"/>
+	                                    <field name="function" placeholder="e.g. Sales Director"
+	                                        attrs="{'invisible': [('type','!=', 'contact')]}"/>
+	                                    <label for="street" string="Alamat" attrs="{'invisible': [('type','=', 'contact')]}"/>
+	                                    <div attrs="{'invisible': [('type','=', 'contact')]}">
+	                                        <div class="o_address_format" name="div_address">
+	                                           <field name="address"/>
+	                                        </div>
+	                                    </div>
+	                                    <label for="contact_number1"/>
+	                                    <div>
+	                                    	<field name="contact_number1" class="oe_inline"/>
+	                                    	<field name="contact_number2" class="oe_inline"/>	
+											<field name="contact_number3" class="oe_inline"/>
+	                                    </div>
+	                                    <field name="birth" string="Tgl Lahir"/>
+	                                    <field name="relation"/>
+	                                    <field name="email" widget="email"/>
+	                                    <field name="comment" placeholder="Internal notes..."/>
+	                                </group>
+	                                <group colspan="5">
+	                                    <field name="user_ids">
+	                                    	<tree string="User yang perlu diingatkan" editable="bottom">
+	                                    		<field name="user_id"/>
+	                                    	</tree>
+	                                    </field>
+	                                  
+	                                </group>
+	                                <group colspan="1">
+	                                    <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
+	                                </group>
+	                            </group>
+	                                                               
+	                        </sheet>
+	                    </form>
+	                </field>
+           		</page>		                	
+	        	<page name="link_perkiraan" string="Link Perkiraan" invisible="0">
+	        		<div>
+        				<h4 style="background-color:#7FFF00;text-align:center;height:42px;font-weight:bold;margin-top:6px;">
+        					Diisi apabila anda ingin link perkiraan berbeda dengan link Default perkiraan yang telah di set..
+						</h4>
+        			</div>
+            		<notebook name="link_perkiraan">
+            			<page string="Credit">
+            				<group>
+                				<group>
+                					<label for="kurs_2_id" string="Mata Uang"/>
+                					<div>
+                						<field name="kurs_2_id"/>
+                					</div>
+                				</group>
+                				<group>
+                				</group>
+            				</group>
+            				<group>
+            					<group>		                						
+                					<field name="account_debit_no_item_gbr_id"/>
+                					<field name="property_account_receivable_id" string="Piutang Penjualan Credit"/>
+                					<!-- <field name="account_credit_gbr_id" />				                		 -->
+            					</group>		                					
+            				</group>	
+            				
+            			</page>
+            			<page string="Retur Credit">
+            				<group>
+            					<group>
+            						<label for="kurs_2_id" string="Mata Uang"/>
+            						<div>
+            							<field name="kurs_2_id"/>
+            						</div>
+            					</group>
+            					<group>
+            					</group>
+            				</group>		                				
+            				<group>
+            					<group >		                						
+                					<field name="account_retur_debit_id"/>
+            					</group>		                					
+            				</group>
+            			</page>
+            			<page string="Debit note">
+            				<group>
+            					<group>
+            						<label for="kurs_2_id" string="Mata Uang"/>
+            						<div>
+            							<field name="kurs_2_id"/>
+            						</div>
+            					</group>
+            					<group>
+            					</group>
+            				</group>		                				
+            				<group>
+            					<group >
+            						<field name="account_p_debit_note_id"/>
+            						<field name="account_p_credit_no_item_id"/>		                					
+            					</group>		                					
+            				</group>
+            			</page>
+            			<page string="Credit Note">
+            				<group>
+            					<group>
+            						<label for="kurs_2_id" string="Mata Uang"/>
+            						<div>
+            							<field name="kurs_2_id"/>
+            						</div>
+            					</group>
+            					<group>
+            					</group>
+            				</group>		                				
+            				<group>
+            					<group >
+            						<field name="account_p_credit_no_item_id"/>
+            						<field name="account_p_credit_note_id"/>		                					
+            					</group>		                					
+            				</group>
+            			</page>
+            			<page string="Lainnya">
+            				<group>
+            					<group>
+            						<label for="kurs_2_id" string="Mata Uang"/>
+            						<div>
+            							<field name="kurs_2_id"/>
+            						</div>
+            					</group>
+            					<group>
+            					</group>
+            				</group>		                				
+            				<group>
+            					<group >
+            						<field name="account_p_deposit_id"/>			                					
+            						<field name="account_p_inv_stat_id"/>	
+            						<field name="account_p_hold_receive_id"/>	
+            					</group>		                					
+            				</group>
+            			</page>
+            		</notebook>
+	        	</page>
+	        	<page name="kartupiutang" string="Kartu Piutang" invisible="0">
+            		<div name="button_box">
+	                    <button type="object"
+	                        class="oe_stat_button"
+	                        id="partner_ledger_button"
+	                        icon="fa-pencil-square-o"
+	                        name="open_partner_ledger"
+	                        string="Kartu Piutang"
+	                        context="{'default_partner_id': active_id}">
+	                    </button>
+	                </div>
+            	</page>
+        	</notebook>
+  		</sheet>
+		</form>
+		</field>
+	</record> 
+
+    <record id="view_gbr_p_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                    <field name="id" string="ID"/>
+                    <field name="is_semua_data"/>
+                    <field name="name"
+                        filter_domain="['|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)]" string="Nama"/>
+                    <field name="state_id" string="Daerah"
+                       filter_domain="[
+                        '|','|','|',
+                        ('state_id.name', 'ilike', self),('kecamatan_id.name', 'ilike', self), ('kota_id.name', 'ilike', self),('kelurahan_id.name', 'ilike', self)]"/>
+                    <field name="group_id" string="Kelompok" filter_domain="['|',('group_cust_id.name','ilike',self),('group_cust_2_id.name','ilike',self)]"/>
+                     <!-- <field name="group3_id" string="Grouping" filter_domain="['|','|',('group3_id.name','ilike',self),('group4_id.name','ilike',self),('group5_id.name','ilike',self)]"/> -->
+                    <field name="contact_person1" string="Hubungi" filter_domain="['|', '|', '|' ,'|' ,'|' ,('contact_person1', 'ilike', self), ('contact_person2', '=', self), ('contact_person3', 'ilike', self), ('contact_number1', 'ilike', self), ('contact_number2', 'ilike', self), ('contact_number3', 'ilike', self)]"/>
+                    <field name="comment" string="Catatan"/>
+                    <!-- <field name="parent_id" domain="[('is_company', '=', True)]" operator="child_of"/>
+                    <field name="email" filter_domain="[('email', 'ilike', self)]"/>
+                    <field name="phone" filter_domain="['|', ('phone', 'ilike', self), ('mobile', '=', self)]"/>
+                    <field name="user_id"/>-->
+                    <field name="sales_employee_id" string="Sales"/> 
+                    <separator/>
+                    <filter string="Individuals" name="type_person" domain="[('is_company', '=', False)]"/>
+                    <filter string="Companies" name="type_company" domain="[('is_company', '=', True)]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by' : 'user_id'}" />
+                        <filter name="group_company" string="Company" context="{'group_by': 'parent_id'}"/>
+                        <filter name="group_country" string="Country" context="{'group_by': 'country_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+	<record id="gbr_pelanggan_form" model="ir.actions.act_window">
+        <field name="name">Pelanggan</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+       	<field name="view_id" ref="view_pelanggan_gbr_tree"/>
+       	<field name="search_view_id" ref="gbr_custom.view_gbr_p_res_partner_filter"/>
+        <field name="context">{'tree_view_ref': 'gbr_custom.view_pelanggan_gbr_tree',
+        					   'form_view_ref': 'gbr_custom.view_pelanggan_gbr_form',
+        					   'default_customer_rank': 1,'default_is_customer': 1, 'default_is_company': 1,
+        					   'search_default_customer': 1,'res_partner_search_mode': 'customer' ,'default_country_id': 100,
+                               'disable_search':True
+        					   }</field>
+        <field name="domain">[('is_customer','=',True)]</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+               Master File - Vendor
+             </p><p>
+              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+             </p>
+        </field>
+    </record>    
+
+  
+    <record id="view_grouping_pelangan_1_tree" model="ir.ui.view">
+		<field name="name">view.gbr.group.7.tree</field>
+		<field name="model">gbr.group.7</field>
+		<field name="type">tree</field>
+		<field name="priority">99</field>
+		<field name="arch" type="xml">
+			<tree name="vendor" string="Grouping Pelanggan 1" editable="bottom">					
+				<field name="name"/>	
+				<field name="create_uid" string="Entry-by"/>
+				<field name="create_date" string="Entry-Date"/>
+				<field name="write_uid" string="Last-Edit by"/>					
+				<field name="write_date" string="Last-Edit Date"/>				
+			</tree>
+		</field>
+	</record> 
+	<record id="view_grouping_pelangan_2_tree" model="ir.ui.view">
+		<field name="name">view.gbr.group.8.tree</field>
+		<field name="model">gbr.group.8</field>
+		<field name="type">tree</field>
+		<field name="priority">99</field>
+		<field name="arch" type="xml">
+			<tree name="vendor" string="Grouping Pelanggan 2" editable="bottom">					
+				<field name="name"/>	
+				<field name="create_uid" string="Entry-by"/>
+				<field name="create_date" string="Entry-Date"/>
+				<field name="write_uid" string="Last-Edit by"/>					
+				<field name="write_date" string="Last-Edit Date"/>				
+			</tree>
+		</field>
+	</record> 
+    <!-- <record id="gbr_pelanggan_form_1" model="ir.actions.act_window">
+        <field name="name">Grouping Pelanggan 1</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gbr.group.7</field>
+        <field name="view_mode">tree,form</field>
+       	<field name="view_id" ref="view_grouping_pelangan_1_tree"/>           
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new group in your address book
+          </p><p>
+            SGEEDE helps you easily track all activities related to a customer.
+          </p>
+        </field>
+    </record>
+    <record id="gbr_pelanggan_form_2" model="ir.actions.act_window">
+        <field name="name">Grouping Pelanggan 2</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gbr.group.8</field>
+        <field name="view_mode">tree,form</field>
+       	<field name="view_id" ref="view_grouping_pelangan_2_tree"/>            
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new group in your address book
+          </p><p>
+            SGEEDE helps you easily track all activities related to a customer.
+          </p>
+        </field>
+    </record> -->
+    <!-- parent menu_gbr_customer -->
+    <menuitem
+        id="menu_gbr_customer_name"
+        name="Pelanggan"
+        action="gbr_pelanggan_form"
+        parent="menu_gbr_custom_root"
+        sequence="3"/>
+
+     <!-- <menuitem
+        id="menu_gbr_customer_name_1"
+        name="Grouping Pelanggan 1"
+        action="gbr_pelanggan_form_1"
+        parent="gbr_custom.menu_gbr_unused"
+        sequence="2"/>
+     <menuitem
+        id="menu_gbr_customer_name_2"
+        name="Grouping Pelanggan 2"
+        action="gbr_pelanggan_form_2"
+        parent="gbr_custom.menu_gbr_unused"
+        sequence="2"/> -->
+
+
+</data>
+</odoo>

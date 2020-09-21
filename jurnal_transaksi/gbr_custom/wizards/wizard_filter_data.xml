@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="view_gbr_filter_data_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Filter Data">  
+            	<group>
+                    <group>
+                    <label for="input_date" string="Tanggal Input"/>
+                    <div for="input_date" class="o_row" >
+                        <field name="input_date" readonly="0" style="padding-right:10px"/>
+                        <field name="input_date_end" readonly="0"/>
+                    </div>
+                    <label for="mod_date" string="Tanggal Ubah"/>
+                    <div for="mod_date" class="o_row" >
+                        <field name="mod_date" readonly="0" style="padding-right:10px"/>
+                        <field name="mod_date_end" readonly="0"/>
+                    </div>
+                    <label for="confirm_date" string="Tanggal Konf"/>
+                    <div for="confirm_date" class="o_row" >
+                        <field name="confirm_date" readonly="0" style="padding-right:10px"/>
+                        <field name="confirm_date_end" readonly="0"/>
+                    </div>
+                    <field name="input_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="mod_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="confirm_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/><br/>
+                    </group>
+                    <group>
+                    <field name="is_konf"/>
+                    <!-- <label for="is_konf"/><br/>   nolabel="1"-->
+                    <field name="type"/>
+                    <!-- <label for="type"/><br/> -->
+                    <!-- <field name="type" invisible="1"/> -->
+                    </group>
+                   <!--  <button name="button_action_and" class="oe_highlight" string="OR" type="object" 
+                            attrs="{'invisible': [('type', '!=', 'and')]}"/>
+                    <button name="button_action_or" class="oe_highlight" string="AND" type="object" 
+                            attrs="{'invisible': [('type', '!=', 'or')]}"/> -->
+	            </group>
+	            <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_data"                        
+                        name="button_process"
+                        string="Ok"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_po_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Filter Data">  
+                <group>
+                    <group>
+                    <label for="input_date" string="Tanggal Input"/>
+                    <div for="input_date" class="o_row" >
+                        <field name="input_date" readonly="0" style="padding-right:10px"/>
+                        <field name="input_date_end" readonly="0"/>
+                    </div>
+                    <label for="mod_date" string="Tanggal Ubah"/>
+                    <div for="mod_date" class="o_row" >
+                        <field name="mod_date" readonly="0" style="padding-right:10px"/>
+                        <field name="mod_date_end" readonly="0"/>
+                    </div>
+                    <label for="confirm_date" string="Tanggal Konf"/>
+                    <div for="confirm_date" class="o_row" >
+                        <field name="confirm_date" readonly="0" style="padding-right:10px"/>
+                        <field name="confirm_date_end" readonly="0"/>
+                    </div>
+                    <field name="input_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="mod_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="confirm_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/><br/>
+                    </group>
+                    <group>
+                    <field name="is_konf"/>
+                    <!-- <label for="is_konf"/><br/>   nolabel="1"-->
+                    <field name="type"/>
+                    <!-- <label for="type"/><br/> -->
+                    <!-- <field name="type" invisible="1"/> -->
+                    </group>
+                   <!--  <button name="button_action_and" class="oe_highlight" string="OR" type="object" 
+                            attrs="{'invisible': [('type', '!=', 'and')]}"/>
+                    <button name="button_action_or" class="oe_highlight" string="AND" type="object" 
+                            attrs="{'invisible': [('type', '!=', 'or')]}"/> -->
+                </group>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_po"                        
+                        name="button_process_po"
+                        string="Ok"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                    </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_pemb_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_po_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_po" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id2"                        
+                        name="button_process_pembelian"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_partner_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Filter Data">  
+                <group>
+                    <group>
+                    <label for="input_date" string="Tanggal Input"/>
+                    <div for="input_date" class="o_row" >
+                        <field name="input_date" readonly="0" style="padding-right:10px"/>
+                        <field name="input_date_end" readonly="0"/>
+                    </div>
+                    <label for="mod_date" string="Tanggal Ubah"/>
+                    <div for="mod_date" class="o_row" >
+                        <field name="mod_date" readonly="0" style="padding-right:10px"/>
+                        <field name="mod_date_end" readonly="0"/>
+                    </div>
+                  
+                    <field name="input_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="mod_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <br/>
+                    </group>
+                    <group>
+                    <field name="type"/>
+                    </group>                  
+                </group>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_partner"                        
+                        name="button_process_partner"
+                        string="Ok"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                    </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_pelanggan_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Filter Data">  
+                <group>
+                    <group>
+                    <label for="input_date" string="Tanggal Input"/>
+                    <div for="input_date" class="o_row" >
+                        <field name="input_date" readonly="0" style="padding-right:10px"/>
+                        <field name="input_date_end" readonly="0"/>
+                    </div>
+                    <label for="mod_date" string="Tanggal Ubah"/>
+                    <div for="mod_date" class="o_row" >
+                        <field name="mod_date" readonly="0" style="padding-right:10px"/>
+                        <field name="mod_date_end" readonly="0"/>
+                    </div>
+                  
+                    <field name="input_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="mod_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <br/>
+                    </group>
+                    <group>
+                    <field name="type"/>
+                    </group>                  
+                </group>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_pelanggan"                        
+                        name="button_process_pelanggan"
+                        string="Ok"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                    </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_gbr_filter_data_retur_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_pemb_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_pembelian" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_retur"                        
+                        name="button_process_retur_pembelian"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_dn_p_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.dn.p.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_pemb_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_pembelian" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_retur"                        
+                        name="button_process_dn_p"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_cn_p_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.cn.p.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_pemb_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_pembelian" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_retur"                        
+                        name="button_process_cn_p"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_product_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Filter Data">  
+                <group>
+                    <group>
+                    <label for="input_date" string="Tanggal Input"/>
+                    <div for="input_date" class="o_row" >
+                        <field name="input_date" readonly="0" style="padding-right:10px"/>
+                        <field name="input_date_end" readonly="0"/>
+                    </div>
+                    <label for="mod_date" string="Tanggal Ubah"/>
+                    <div for="mod_date" class="o_row" >
+                        <field name="mod_date" readonly="0" style="padding-right:10px"/>
+                        <field name="mod_date_end" readonly="0"/>
+                    </div>
+                  
+                    <field name="input_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <field name="mod_id" readonly="0" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+                    <br/>
+                    </group>
+                    <group>
+                    <field name="type"/>
+                    </group>                  
+                </group>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_product"                        
+                        name="button_process_product"
+                        string="Ok"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                    </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_filter_pv_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_po_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_po" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_pv"                        
+                        name="button_process_pv"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_filter_quotation_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_po_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_po" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_quot"                        
+                        name="button_process_quot"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_filter_sale_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_po_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_po" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_sale"                        
+                        name="button_process_sale"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+    <record id="view_gbr_filter_data_penj_ecrn_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="gbr_custom.view_gbr_filter_data_po_form"/>
+        <field name="arch" type="xml">
+             <button name="button_process_po" position="replace">
+                <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id_penjecrn"                        
+                        name="button_process_pen_ecrn"
+                        string="Ok"
+                        context="{}">
+                    </button>                
+            </button>
+        </field>
+    </record>
+</data>
+</odoo>

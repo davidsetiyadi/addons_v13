@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="view_gbr_filter_data_form" model="ir.ui.view">
+        <field name="name">gbr.filter.data.form</field>
+        <field name="model">gbr.filter.data</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Filter Data">  
+            	<group>
+                    
+                    <label for="input_date" string="Tanggal Input"/>
+                    <div for="input_date" class="o_row" >
+                        <field name="input_date" readonly="0" style="padding-right:10px"/>
+                        <field name="input_date_end" readonly="0"/>
+                    </div>
+                    <label for="mod_date" string="Tanggal Ubah"/>
+                    <div for="mod_date" class="o_row" >
+                        <field name="mod_date" readonly="0" style="padding-right:10px"/>
+                        <field name="mod_date_end" readonly="0"/>
+                    </div>
+                    <label for="confirm_date" string="Tanggal Konf"/>
+                    <div for="confirm_date" class="o_row" >
+                        <field name="confirm_date" readonly="0" style="padding-right:10px"/>
+                        <field name="confirm_date_end" readonly="0"/>
+                    </div>
+                    <field name="input_id" readonly="0"/>
+                    <field name="mod_id" readonly="0"/>
+                    <field name="confirm_id" readonly="0"/><br/>
+                    <field name="is_konf"/>
+                    <label for="is_konf"/><br/>
+                    <field name="type" invisible="1"/>
+                    <button name="button_action_and" class="oe_highlight" string="OR" type="object" 
+                            attrs="{'invisible': [('type', '!=', 'and')]}"/>
+                    <button name="button_action_or" class="oe_highlight" string="AND" type="object" 
+                            attrs="{'invisible': [('type', '!=', 'or')]}"/>
+	            </group>
+	            <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id"                        
+                        name="button_process"
+                        string="Ok"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+            </form>
+        </field>
+    </record>
+</data>
+</odoo>

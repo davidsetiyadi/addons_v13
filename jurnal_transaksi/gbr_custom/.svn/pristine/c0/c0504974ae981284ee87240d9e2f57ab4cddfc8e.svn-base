@@ -1,0 +1,38 @@
+import time
+import math
+import re
+
+from odoo.osv import expression
+from odoo.tools.float_utils import float_round as round, float_compare
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.exceptions import UserError, ValidationError, RedirectWarning
+from odoo import api, fields, models, _, tools
+from odoo.tests.common import Form
+PURCHASE = [('or','Or'),('and','And')]
+
+class GbrFilterData(models.TransientModel):
+	_name = 'gbr.filter.data'
+	_description = 'Gbr Filter Data'
+	#Filter data pembayaran hutang
+
+	confirm_date = fields.Datetime(string='Confirm Date Awal')
+	confirm_date_end = fields.Datetime(string='Confirm Date Akhir')
+	input_date = fields.Datetime(string='Input Date Awal')
+	input_date_end = fields.Datetime(string='Input Date Akhir')
+	mod_date = fields.Datetime(string='Change Date Awal')
+	mod_date_end = fields.Datetime(string='Change Date Akhir')
+	confirm_id = fields.Many2one('res.users', string='Konf Oleh')
+	input_id = fields.Many2one('res.users', string='Input Oleh')
+	mod_id = fields.Many2one('res.users', string='Ubah Oleh')
+	is_konf = fields.Boolean('Belum Konfirmasi')
+	type = fields.Selection(PURCHASE, string="Type")
+
+	def button_action_and(self):
+		self.write({'type':'and'})
+		# return True
+
+	def button_action_or(self):
+		self.write({'type':'or'})
+		# return {
+	 #        "type": "ir.actions.do_nothing",
+	 #    }

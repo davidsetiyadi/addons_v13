@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_gbr_currency_rate_tree" model="ir.ui.view">
+        <field name="name">res.currency.rate.tree</field>
+        <field name="model">res.currency.rate</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree string="Currency Rates" editable="bottom">
+                <field name="name"/>
+                
+                <field name="rate" digits="[12,12]" invisible="1"/>
+                <field name="buying_rate"/>
+                <field name="sale_rate"/>
+                <field name="sale_rate_2"/>
+                <field name="sale_rate_3"/>
+                <field name="sale_rate_4"/>
+                <field name="sale_rate_5"/>
+                <field name="tax_rate" optional="show"/>
+                <field name="ledger_rate" optional="show"/>
+                <field name="create_uid" string="Entry-By" optional="hide"/>
+                <field name="create_date" string="Entry-date" optional="hide"/>
+                <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window
+           id="act_view_currency_rates"
+           name="Kurs"
+           view_mode='tree,form'
+           view_id='gbr_custom.view_gbr_currency_rate_tree'
+           domain="[('currency_id','=', active_id)]"
+           context="{'default_currency_id': active_id}"
+           res_model="res.currency.rate"/>
+    <record id="view_gbr_currency_form" model="ir.ui.view">
+        <field name="name">res.currency.form</field>
+        <field name="model">res.currency</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Currency">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" string="Kurs" type="action" name="%(act_view_currency_rates)d"
+                            icon="fa-money" widget="statinfo" attrs="{'invisible': [('active', '=', False)]}"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" string="Kode"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="rate" digits="[12,12]" invisible="1"/>
+                            <field name="mata_uang"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="currency_unit_label" string="Terbilang (MU)"/>                            
+                            <field name="currency_subunit_label" string="Terbilang (Sen)"/>
+                        </group>
+                    </group>
+                    <group groups="base.group_no_one">
+                        <group string="Price Accuracy">
+                            <field name="rounding"/>
+                            <field name="decimal_places"/>
+                        </group>
+                        <group string="Display">
+                            <field name="symbol"/>
+                            <field name="position"/>
+                        </group>
+                    </group>
+                     <group>
+                        <field name="auto_pay_km_id" domain="[('user_type_id.name','=','Bank and Cash')]"/>
+                        <field name="auto_pay_kk_id" domain="[('user_type_id.name','=','Bank and Cash')]"/>
+                        <field name='is_kurs_dasar' invisible="0"/>
+                     </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_currency_tree" model="ir.ui.view">
+        <field name="name">res.currency.tree</field>
+        <field name="model">res.currency</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree string="Currencies" decoration-muted="(not active)">
+                <field name="name" string="Kode" optional="show"/>
+                <field name="currency_unit_label" string="Mata Uang" invisible="1"/>
+                <field name="mata_uang" optional="show"/>
+                <field name="decimal_places" string="Decimal" optional="show"/>
+                <field name="auto_pay_km_id" domain="[('user_type_id.name','=','Bank and Cash')]" optional="show"/>
+                <field name="auto_pay_kk_id" domain="[('user_type_id.name','=','Bank and Cash')]" optional="show"/>
+                <field name="currency_unit_label" string="Terbilang (MU)"/>                            
+                <field name="currency_subunit_label" string="Terbilang (Sen)"/>
+                <field name="write_uid" string="Entry-By" optional="show"/>
+                <field name="create_date" string="Entry-date" optional="show"/>
+                <field name="write_uid" string="Last-Edit By" optional="show"/>
+                <field name="write_date" string="Last-Edit Date" optional="show"/>
+                <field name="symbol" invisible="1"/>
+                <field name="rate_ids" invisible="1"/>
+                <field name="date" optional="show"/>
+                <field name="rate" digits="[12,6]" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+	<record id="view_gbr_country_form" model="ir.ui.view">
+        <field name="name">res.country.form</field>
+        <field name="model">res.country</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box">
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group name="main_group">
+                        <group name="country_details">
+                            <field name="name"/>
+                            <field name="currency_id"/>
+                            <field name="code"/>
+                        </group>
+                        <group name="phone_vat_settings" invisible="1">
+                            <field name="phone_code"/>
+                            <field name="vat_label"/>
+                        </group>
+                        <group name="advanced_address_formatting" string="Advanced Address Formatting" groups="base.group_no_one" col="4" colspan="4" invisible="1">
+                            <field name="address_view_id"/>
+                            <div colspan="2" class="text-muted">Choose a subview of partners that includes only address fields, to change the way users can input addresses.</div>
+                            <field name="address_format" placeholder="Address format..."/>
+                            <div colspan="2" name="div_address_format" class="text-muted">Change the way addresses are displayed in reports</div>
+                            <field name="name_position"/>
+                        </group>
+                    </group>
+                    <label for="state_ids"/>
+                    <field name="state_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_gbr_country_tree" model="ir.ui.view">
+        <field name="name">res.country.tree</field>
+        <field name="model">res.country</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree string="Country">
+                <field name="name" string="Negara"/>
+                <field name="code" invisible="1"/>
+                <field name="id" string="ID"/>
+                <field name="create_uid" string="Entry-By"/>
+                <field name="create_date" string="Entry-date"/>
+                <field name="write_uid" string="Last-Edit By"/>
+                <field name="write_date" string="Last-Edit Date"/>
+            </tree>
+        </field>
+    </record>  
+    <record id="gbr_countries_view_action_inherit" model="ir.actions.act_window">
+        <field name="name">Negara</field>
+        <field name="res_model">res.country</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'tree_view_ref': 'gbr_custom.view_gbr_country_tree' ,
+                                'form_view_ref': 'gbr_custom.view_gbr_country_form'}</field>    
+    </record>
+
+    <record id="view_account_change_lock_date" model="ir.ui.view">
+            <field name="name">account.change.lock.date.form</field>
+            <field name="model">account.change.lock.date</field>
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="period_lock_date" string="Masukkan Tanggal Proteksi Data"/>
+                            <field name="fiscalyear_lock_date" invisible="1"/>
+                            <field name="tax_lock_date" invisible="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Process" name="change_lock_date" type="object" class="btn-primary"/>
+                        <button string="Tutup" class="btn-secondary" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+    </record>
+    <record id="action_view_account_change_lock_date" model="ir.actions.act_window">
+        <field name="name">Set Tanggal Proteksi Data</field>
+        <field name="res_model">account.change.lock.date</field>
+        <field name="view_mode">form</field>        
+        <field name="view_id" ref="view_account_change_lock_date"/>
+        <field name="target">new</field>
+    </record>
+
+	<record id="action_currency_form_gbr" model="ir.actions.act_window">
+	    <field name="name">Mata Uang</field>
+	    <field name="res_model">res.currency</field>
+	    <field name="view_mode">tree,form</field>
+        <field name="context">{'tree_view_ref': 'gbr_custom.view_gbr_currency_tree',
+                                'form_view_ref': 'gbr_custom.view_gbr_currency_form'}</field>  
+    </record>	
+
+    <record id="action_divisi_form_gbr" model="ir.actions.act_window">
+	    <field name="name">Divisi</field>
+	    <field name="res_model">hr.department</field>
+	    <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="account.view_account_bank_journal_form" model="ir.actions.act_window">
+        <field name="name">Inisialisasi</field>
+        <field name="res_model">account.journal</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="action_gbr_jenis_pembelian_form" model="ir.actions.act_window">
+	    <field name="name">Jenis Pembelian</field>
+	    <field name="res_model">gbr.jenis.pembelian</field>
+	    <field name="view_mode">tree,form</field>
+    </record>	
+
+    <record id="action_gbr_jenis_penjualan_form" model="ir.actions.act_window">
+	    <field name="name">Jenis Penjualan</field>
+	    <field name="res_model">gbr.jenis.penjualan</field>
+	    <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_gbr_owner_machine_form" model="ir.actions.act_window">
+	    <field name="name">Owner / Machine ID</field>
+	    <field name="res_model">gbr.owner.machine</field>
+	    <field name="view_mode">tree,form</field>
+    </record>
+
+     <record id="action_gbr_libur_form" model="ir.actions.act_window">
+	    <field name="name">Libur Nasional</field>
+	    <field name="res_model">gbr.libur.nasional</field>
+	    <field name="view_mode">tree,form</field>
+    </record>
+
+    
+
+    <record id="view_form_divisi_inherit_gbr" model="ir.ui.view">
+    	<field name="name">gbr.divisi.form.inherit</field>
+    	<field name="model">hr.department</field>
+    	<field name="inherit_id" ref="hr.view_department_form"/>
+    	<field name="arch" type="xml">    		
+    		
+    			<field name="name" position="replace">
+    				<field name="name" string="Divisi"/>
+    			</field>
+    	
+	    		<field name="name" position="after">
+	    			<field name="price"/>
+	    		</field>
+	    		<!-- <field name="price" position="after">
+	    			<field name="price2"/>
+	    		</field> --> 	
+    		
+    		<field name="parent_id" position="replace">
+    			<field name="parent_id" invisible="1"/>
+    		</field>
+    		<field name="manager_id" position="replace">
+    			<field name="manager_id" invisible="1"/>
+    		</field>
+	    		
+	    	
+    	</field>
+    </record>
+
+     <record id="view_tree_divisi_inherit_gbr" model="ir.ui.view">
+    	<field name="name">gbr.divisi.tree.inherit</field>
+    	<field name="model">hr.department</field>
+    	<field name="inherit_id" ref="hr.view_department_tree"/>
+    	<field name="arch" type="xml"> 
+    		<field name="parent_id" position="replace">
+    			<field name="parent_id" invisible="1"/>
+    		</field>
+    		<field name="manager_id" position="replace">
+    			<field name="manager_id" invisible="1"/>
+    		</field>
+    		<field name="display_name" position="replace">
+    			<field name="display_name" string="Divisi"/>
+    		</field>
+    		<field name="display_name" position="after">
+    			<field name="price" string="H.Jual"/>
+    		</field>
+    		<field name="price" position="after">
+    			<field name="price2" string="Kel.HJL"/>
+    		</field>
+    		<field name="price2" position="after">
+    			<field name="id"/>
+    		</field>
+    		<field name="id" position="after">
+    			<field name="write_uid" string="Entry-by"/>
+    		</field>
+    		<field name="write_uid" position="after">
+    			<field name="create_date" string="Entry-Date"/>
+    		</field>
+    		<field name="create_date" position="after">
+    			<field name="write_date" string="Last-Edit Date"/>
+    		</field>
+    	</field>
+    </record>    
+
+    <record id="view_form_gbr_jenis_pembelian_gbr" model="ir.ui.view">
+    	<field name="name">form.gbr.jenis.pembelian</field>
+    	<field name="model">gbr.jenis.pembelian</field>
+    	<field name="arch" type="xml">
+    		<form>
+    			<group>
+ 				    <field name="name"/>
+    			</group>
+    		</form>
+    	</field>
+    </record>
+
+    <record id="view_tree_gbr_jenis_pembelian_gbr" model="ir.ui.view">
+    	<field name="name">tree.gbr.jenis.pembelian</field>
+    	<field name="model">gbr.jenis.pembelian</field>
+    	<field name="arch" type="xml">
+    		<tree>
+    			<field name="name"/>
+    			<field name="id"/>
+    			<field name="write_uid" string="Entry-by"/>
+    			<field name="create_date" string="Entry-Date"/>
+    			<field name="write_date" string="Last-Edit Date"/>
+    		</tree>
+    	</field>
+    </record>
+
+    <record id="view_form_gbr_owner_machine" model="ir.ui.view">
+    	<field name="name">form.gbr.owner.machine</field>
+    	<field name="model">gbr.owner.machine</field>
+    	<field name="arch" type="xml">
+    		<form>
+    			<group>
+ 				    <field name="name"/>
+    			</group>
+    		</form>
+    	</field>
+    </record>
+
+    <record id="view_tree_gbr_owner_machine" model="ir.ui.view">
+    	<field name="name">tree.gbr.owner.machine</field>
+    	<field name="model">gbr.owner.machine</field>
+    	<field name="arch" type="xml">
+    		<tree>
+    			<field name="name"/>
+    			<field name="id"/>
+    			<field name="write_uid" string="Entry-by"/>
+    			<field name="create_date" string="Entry-Date"/>
+    			<field name="write_date" string="Last-Edit Date"/>
+    		</tree>
+    	</field>
+    </record>
+
+     <record id="view_form_gbr_jenis_penjualan" model="ir.ui.view">
+    	<field name="name">form.gbr.jenis.penjualan</field>
+    	<field name="model">gbr.jenis.penjualan</field>
+    	<field name="arch" type="xml">
+    		<form>
+    			<group>
+ 				    <field name="name"/>
+ 				    <field name="no"/>
+    			</group>
+    		</form>
+    	</field>
+    </record>
+
+     <record id="view_tree_gbr_jenis_penjualan" model="ir.ui.view">
+    	<field name="name">tree.gbr.jenis.penjualan</field>
+    	<field name="model">gbr.jenis.penjualan</field>
+    	<field name="arch" type="xml">
+    		<tree>
+    			<field name="name"/>
+    			<field name="no" string="No Pre"/>
+    			<field name="id"/>
+    			<field name="write_uid" string="Entry-by"/>
+    			<field name="create_date" string="Entry-Date"/>
+    			<field name="write_date" string="Last-Edit Date"/>
+    		</tree>
+    	</field>
+    </record>
+
+    <record id="view_form_gbr_libur_nasional" model="ir.ui.view">
+    	<field name="name">form.gbr.libur.nasional</field>
+    	<field name="model">gbr.libur.nasional</field>
+    	<field name="arch" type="xml">
+    		<form>
+    			<group>
+ 				    <field name="date"/>
+ 				    <field name="reason"/>
+    			</group>
+    		</form>
+    	</field>
+    </record>
+
+     <record id="view_tree_gbr_libur_nasional" model="ir.ui.view">
+    	<field name="name">tree.gbr.libur.nasional</field>
+    	<field name="model">gbr.libur.nasional</field>
+    	<field name="arch" type="xml">
+    		<tree>
+    			<field name="date"/>
+    			<field name="reason"/>
+    			<field name="id"/>
+    			<field name="write_uid" string="Entry-by"/>
+    			<field name="create_date" string="Entry-Date"/>
+    			<field name="write_date" string="Last-Edit Date"/>
+    		</tree>
+    	</field>
+    </record>
+    <record id="action_gbr_custom_configuration" model="ir.actions.act_window">
+        <field name="name">Inisialisasi</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'gbr_custom'}</field>
+    </record>
+    <record id="action_gbr_account_form" model="ir.actions.act_window">
+        <field name="name">Kode Perkiraan</field>
+        <field name="res_model">account.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="account.view_account_search"/>
+        <field name="view_id" ref="gbr_custom.view_gbr_account_list"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Add a new account
+          </p><p>
+            An account is part of a ledger allowing your company
+            to register all kinds of debit and credit transactions.
+            Companies present their annual accounts in two main parts: the
+            balance sheet and the income statement (profit and loss
+            account). The annual accounts of a company are required by law
+            to disclose a certain amount of information.
+          </p>
+        </field>
+    </record>
+
+
+   <!--  <menuitem id="configuration_gbr_setting" 
+    	parent="menu_gbr_sistem_setup" 
+    	name="List" sequence="1"/>
+        
+    <menuitem id="menu_action_countries_form_gbr" 
+         action="gbr_countries_view_action_inherit"
+         name="Negara" 
+         parent="configuration_gbr_setting" 
+         sequence="2"/>
+         
+    <menuitem id="menu_list_daerah_form_gbr" 
+             name="Daerah" 
+             parent="configuration_gbr_setting" 
+             sequence="3"/> -->
+
+    <!-- <menuitem id="coa_gbr_setting" 
+        parent="menu_gbr_sistem_setup" 
+        name="Kode Perkiraan" sequence="2" /> -->
+    <!-- <menuitem id="sisten_configuration_gbr_setting" 
+        parent="menu_gbr_sistem_setup" 
+        name="Sistem Konfigurasi" sequence="3" /> -->
+    <menuitem id="jurnal_item_gbr_setting" 
+        parent="gbr_custom.menu_gbr_unused" 
+        name="Journal Khusus" sequence="4" />
+    <menuitem id="closing_periode_gbr_setting" 
+        parent="menu_gbr_sistem_setup" 
+        name="Set Proteksi Data" sequence="5" />
+    	 <!-- <menuitem id="menu_action_currency_form_gbr" 
+    	 	action="action_currency_form_gbr" 
+    	 	name="Mata Uang/Kurs" 
+    	 	parent="configuration_gbr_setting" 
+    	 	sequence="1"/>
+    	 <menuitem id="menu_action_divisi_form_gbr" 
+    	 	action="action_divisi_form_gbr" 
+    	 	name="Divisi" 
+    	 	parent="configuration_gbr_setting" 
+    	 	sequence="3"/>
+    	 <menuitem id="menu_action_jenis_pembelian_form_gbr"
+    	    action="action_gbr_jenis_pembelian_form" 
+    	    name="Jenis Pembelian" 
+     	    parent="configuration_gbr_setting" 
+     	    sequence="4"/>
+     	 <menuitem id="menu_action_gbr_jenis_penjualan_form"
+    	    action="action_gbr_jenis_penjualan_form" 
+    	    name="Jenis Penjualan" 
+     	    parent="configuration_gbr_setting" 
+     	    sequence="5"/>
+     	 <menuitem id="menu_action_gbr_owner_machine_form"
+    	    action="action_gbr_owner_machine_form" 
+    	    name="Owner / Machine ID" 
+     	    parent="configuration_gbr_setting" 
+     	    sequence="6"/>
+     	 <menuitem id="menu_action_gbr_libur_form"
+    	    action="action_gbr_libur_form" 
+    	    name="Libur Nasional" 
+     	    parent="configuration_gbr_setting" 
+     	    sequence="7"/> -->
+        <menuitem id="view_gbr_account_form"
+            action="action_gbr_account_form"
+            name="Kode Perkiraan"
+            parent="gbr_custom.menu_gbr_sistem_setup"
+            sequence="2"/>
+        <menuitem id="account.view_move_line_form"
+            action="account.action_account_moves_all"
+            name="Jurnal Items"
+            parent="jurnal_item_gbr_setting"
+            sequence="1"/>
+        <menuitem id="action_account_fiscal_year_form_inherit"
+            action="gbr_custom.action_view_account_change_lock_date"
+            name="Closing Periode"
+            parent="closing_periode_gbr_setting"
+            sequence="1"/>
+        <menuitem id="inisialisasi1_GBR_konfigurasi"
+            action="action_gbr_custom_configuration"
+            name="Sistem Konfigurasi"
+            parent="gbr_custom.menu_gbr_sistem_setup"
+            sequence="3"/>    
+
+
+</odoo>

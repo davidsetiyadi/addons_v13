@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="gbr_custom.BillsHiddenUploadForm">
+        <div class="d-none o_vendor_bill_upload">
+            <t t-call="HiddenInputFile">
+                <t t-set="multi_upload" t-value="true"/>
+                <t t-set="fileupload_id" t-value="widget.fileUploadID"/>
+                <t t-set="fileupload_action" t-translation="off">/web/binary/upload_attachment</t>
+                <input type="hidden" name="model" value=""/>
+                <input type="hidden" name="id" value="0"/>
+            </t>
+        </div>
+    </t>
+
+    <t t-extend="ListView.buttons" t-name="ProdukGroupsListView.buttons">
+        <t t-jquery="button.o_list_button_add" t-operation="after">
+            <t t-js="ctx">
+                if (window.odoo._modules.indexOf("base_import") >= 0) {
+                    r.push(context.engine.tools.call(context, 'ImportView.import_button', dict));
+                };
+            </t>
+            <button type="button" class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important; display:none;" name="button_refresh">
+                Kelompok
+                 
+            </button>
+            <a href="/gbr_menu/get_action?group_id=product" class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important">Kelompok</a>
+            <a href="#menu_id=548&amp;action=565"  class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important; display:none;">Kelompok 2</a>
+        </t>
+    </t>
+    <t t-extend="ListView.buttons" t-name="VendorGroupsListView.buttons">
+        <t t-jquery="button.o_list_button_add" t-operation="after">
+            <t t-js="ctx">
+                if (window.odoo._modules.indexOf("base_import") >= 0) {
+                    r.push(context.engine.tools.call(context, 'ImportView.import_button', dict));
+                };
+            </t>
+            <button type="button" class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important; display:none;" name="button_refresh">
+                Kelompok
+                 
+            </button>
+            <a href="/gbr_menu/get_action?group_id=vendor" class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important">Kelompok</a>
+            
+        </t>
+    </t>
+     <t t-extend="ListView.buttons" t-name="PelangganGroupsListView.buttons">
+        <t t-jquery="button.o_list_button_add" t-operation="after">
+            <t t-js="ctx">
+                if (window.odoo._modules.indexOf("base_import") >= 0) {
+                    r.push(context.engine.tools.call(context, 'ImportView.import_button', dict));
+                };
+            </t>
+            <button type="button" class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important; display:none;" name="button_refresh">
+                Kelompok
+                 
+            </button>
+            <a href="/gbr_menu/get_action?group_id=pelanggan" class="btn btn-secondary o_button_kelompok" style="background: #1f487e; color: #ffffff !important">Kelompok</a>
+            
+        </t>
+    </t>
+</templates>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="purchase_filter_filter_form_view" model="ir.ui.view">
+			<field name="name">purchase.filter.filter.form</field>
+			<field name="model">purchase.filter.filter</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Filter">
+					<group>
+                       <div class="container">
+						<table class="table table-bordered">
+						    <thead>
+						      <tr>
+						        <th>GROUPING *1</th>
+						        <th>GROUPING *2</th>
+						        <th>GROUPING *3</th>						       
+						      </tr>
+	    					</thead>
+	    					<tbody>
+						      <tr>
+						        <td><field name="group_1_ids" widget="many2many_checkboxes"/></td>
+						        <td> <field name="group_2_ids" widget="many2many_checkboxes"/></td>
+						        <td><field name="group_3_ids" widget="many2many_checkboxes"/>></td>					        
+						      </tr>      
+						    </tbody>
+						 </table>
+					   </div>                                  
+					</group>
+
+					<footer>
+                        <button type="object" name="button_confirm" class="oe_highlight" string="OK"/>
+                        or
+                        <button string="Batal" type="object" name="button_batal"/>
+                        or
+                        <button string="Tutup" type="object" name="button_batal"/>
+                	</footer>
+				</form>
+			</field>
+		</record>
+		<record id="wizard_purchase_filter_form" model="ir.ui.view">
+			<field name="name">wizard.purchase.filter.form</field>
+			<field name="model">purchase.filter</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Filter List Order">
+					<group>
+						<group>							
+							<field name="date" readonly="1"/>
+							<field name="warehouse_id" readonly="1"/><br/><br/>							
+						</group>
+						<group>	
+							<button type="object" name="get_filter" class="oe_highlight" string="Filter"/>						
+							<!-- <p style="width:370px;height:40px;background-color:#8300b3;color:white;margin-bottom:1px;text-align:justify;">Item yang sudah ada di List, Tidak akan dimunculkan lagi</p>
+							<br/>
+							<p ><field style="width:370px;height:60px;background-color:#ff9900;text-align:justify;" name="name"/></p> -->
+						</group>
+					</group>	
+
+					<field name="filter_ids" widget="section_and_note_one2many">
+						<tree string="Products List" editable="bottom" create="false">
+							<field name="product_id" options="{'no_create': True,'no_quick_create': True, 'no_open': True}"/>
+							<field name="code"/>
+							<field name="barcode"/>
+							<field name="name"/>
+							<field name="product_qty"/>
+							<field name="category_uom_id" invisible="1"/>
+							<field name="uom_id" invisible="0"  options="{'no_create': True,'no_quick_create': True, 'no_open': True}" string="Satuan" domain="[('category_id','=',category_uom_id)]"/>
+							<field name="price_unit" widget="monetary"/>
+							<field name="price_total" widget="monetary" readonly="1"/>
+							<field name="disc1" invisible="0"/>
+							<field name="disc2" invisible="1"/>
+							<field name="disc3" invisible="1"/>
+							<field name="discount" widget="monetary" invisible="1"/>
+							<field name="amount_total" widget="monetary"/>	
+							<field name="note"/>						
+						</tree>
+					</field>			
+
+					<footer>
+                        <button type="object" name="get_list_purchase" class="oe_highlight" string="Masuk List"/>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="wizard_purchase_filter_view" model="ir.actions.act_window">
+			<field name="name">Purchase Order Filter</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">purchase.filter</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_purchase_filter_form"/>
+			<field name="target">new</field>
+		</record>
+		<record id="wizard_purchase_filter_2_form" model="ir.ui.view">
+			<field name="name">wizard.purchase.filter.form</field>
+			<field name="model">purchase.filter</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Realisasi PO">
+					<group>
+						<group>							
+							<field name="kode" invisible="1"/>
+							<field name="barcode_ean" invisible="1"/>			
+							<field name="item_nama" invisible="1"/>	
+							<field name="group_1_id" options="{'no_create': True,'no_quick_create': True, 'no_open': True}" invisible="1"/>	
+							<field name="group_2_id" options="{'no_create': True,'no_quick_create': True, 'no_open': True}" invisible="1"/>				
+							<field name="group_3_id" options="{'no_create': True,'no_quick_create': True, 'no_open': True}" invisible="1"/>	
+						</group>
+						<group>	
+							<!-- <button type="object" name="get_filter" class="oe_highlight" string="Filter"/>						 -->
+							<!-- <p style="width:370px;height:40px;background-color:#8300b3;color:white;margin-bottom:1px;text-align:justify;">Item yang sudah ada di List, Tidak akan dimunculkan lagi</p>
+							<br/>
+							<p ><field style="width:370px;height:60px;background-color:#ff9900;text-align:justify;" name="name"/></p> -->
+						</group>
+					</group>	
+
+					<field name="filter_ids" widget="section_and_note_one2many">
+						<tree string="Products List" editable="bottom" create="false">
+							<field name="is_confirm" string="`"/>
+							<field name="product_id" options="{'no_create': True,'no_quick_create': True, 'no_open': True}" invisible="1"/>
+							<field name="group_1_id" readonly="0" optional="show"/>
+							<field name="group_2_id" readonly="0" optional="show"/>
+							<field name="group_3_id" readonly="0" optional="show"/>
+							<field name="kode" readonly="1" optional="show"/>
+							<field name="barcode_ean" readonly="1" string="Kode (2)" optional="show"/>
+							<field name="product_name" readonly="1" optional="show"/>							
+							<field name="product_qty"/>
+							<field name="category_uom_id" invisible="1"/>
+							<!-- <field name="uom_id" invisible="0"  options="{'no_create': True,'no_quick_create': True, 'no_open': True}" string="Satuan" domain="[('category_id','=',category_uom_id)]" required="1"/> -->
+							<field name="price" widget="monetary" readonly="0" invisible="1"/>
+							<field name="price_2" widget="monetary" readonly="1"/>
+							<field name="price_total" widget="monetary" invisible="1"/>
+							<field name="disc1" invisible="1" readonly="0"/>
+							<field name="disc1_2" invisible="0" readonly="1"/>
+							<field name="disc2" invisible="1"/>
+							<field name="disc3" invisible="1"/>
+							<field name="discount" widget="monetary" invisible="1"/>
+							<field name="amount_total" widget="monetary" readonly="1"/>	
+							<field name="note"/>
+						</tree>
+					</field>			
+
+					<footer>
+                        <button type="object" name="get_list_po" class="oe_highlight" string="Masuk List"/>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="wizard_purchase_realisasi_view" model="ir.actions.act_window">
+			<field name="name">Realisasi PO</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">purchase.filter</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_purchase_filter_2_form"/>
+			<field name="target">new</field>
+		</record>
+		<record id="wizard_sale_realisasi_view" model="ir.actions.act_window">
+			<field name="name">Tambah Dari SO</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">purchase.filter</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_purchase_filter_2_form"/>
+			<field name="target">new</field>
+		</record>
+	</data>
+</odoo>

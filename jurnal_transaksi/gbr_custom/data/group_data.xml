@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1"> 
+        <record id="divisi_1" model="gbr.divisi"><field name="name">Head</field></record>
+        <record id="divisi_2" model="gbr.divisi"><field name="name">Cbg ISP</field></record>
+        <record id="divisi_3" model="gbr.divisi"><field name="name">Cbg JJ</field></record>
+        <record id="divisi_4" model="gbr.divisi"><field name="name">Cbg NGY</field></record>
+        <record id="divisi_5" model="gbr.divisi"><field name="name">Cbg RIAU</field></record>
+        <record id="divisi_6" model="gbr.divisi"><field name="name">Cbg TPI</field></record>
+        <record id="divisi_7" model="gbr.divisi"><field name="name">--Semua Divisi--</field></record>
+        <record id="group_6_1" model="gbr.group.6">
+            <field name="name">Purchase Order</field>
+        </record>
+        <record id="group_6_2" model="gbr.group.6">
+            <field name="name">Pembelian Cash</field>
+        </record>
+        <record id="group_6_3" model="gbr.group.6">
+            <field name="name">Pembelian Credit</field>
+        </record>
+        <record id="group_6_4" model="gbr.group.6">
+            <field name="name">Retur Pembelian Cash</field>
+        </record>
+        <record id="group_6_5" model="gbr.group.6">
+            <field name="name">Retur Pembelian Credit</field>
+        </record>
+        <record id="group_6_6" model="gbr.group.6">
+            <field name="name">Debit Note Hutang</field>
+        </record>
+        <record id="group_6_7" model="gbr.group.6">
+            <field name="name">Credit Note Hutang</field>
+        </record>
+        <record id="group_6_8" model="gbr.group.6">
+            <field name="name">Deposit Pembelian</field>
+        </record>
+        <record id="group_5_1" model="gbr.group.5"><field name="name">User Level 1</field></record>
+        <record id="group_5_2" model="gbr.group.5"><field name="name">User Level 2</field></record>
+        <record id="group_5_3" model="gbr.group.5"><field name="name">User Level 3</field></record>
+        <record id="group_5_4" model="gbr.group.5"><field name="name">User Level 4</field></record>
+        <record id="group_5_5" model="gbr.group.5"><field name="name">User Level 5</field></record>
+        <record id="group_5_6" model="gbr.group.5"><field name="name">User Level 6</field></record>
+        <record id="group_5_7" model="gbr.group.5"><field name="name">User Level 7</field></record>
+        <record id="group_5_8" model="gbr.group.5"><field name="name">User Level 8</field></record>
+        <record id="group_5_9" model="gbr.group.5"><field name="name">User Level 9</field></record>
+        <record id="group_5_10" model="gbr.group.5"><field name="name">User Level 10</field></record>
+        <record id="group_5_11" model="gbr.group.5"><field name="name">User Level 11</field></record>
+        <record id="group_5_12" model="gbr.group.5"><field name="name">User Level 12</field></record>
+        <record id="group_5_13" model="gbr.group.5"><field name="name">User Level 13</field></record>
+        <record id="group_5_14" model="gbr.group.5"><field name="name">User Level 14</field></record>
+        <record id="group_5_15" model="gbr.group.5"><field name="name">User Level 15</field></record>
+        <record id="group_5_16" model="gbr.group.5"><field name="name">User Level 16</field></record>
+        <record id="group_5_17" model="gbr.group.5"><field name="name">User Level 17</field></record>
+        <record id="group_5_18" model="gbr.group.5"><field name="name">User Level 18</field></record>
+        <record id="group_5_19" model="gbr.group.5"><field name="name">User Level 19</field></record>
+        <record id="group_5_20" model="gbr.group.5"><field name="name">User Level 20</field></record>
+        <record id="group_5_21" model="gbr.group.5"><field name="name">User Level 21</field></record>
+        <record id="group_5_22" model="gbr.group.5"><field name="name">User Level 22</field></record>
+        <record id="group_5_23" model="gbr.group.5"><field name="name">User Level 23</field></record>
+        <record id="group_5_24" model="gbr.group.5"><field name="name">User Level 24</field></record>
+        <record id="group_5_25" model="gbr.group.5"><field name="name">User Level 25</field></record>
+        <record id="group_5_26" model="gbr.group.5"><field name="name">User Level 26</field></record>
+        <record id="group_5_27" model="gbr.group.5"><field name="name">User Level 27</field></record>
+        <record id="group_5_28" model="gbr.group.5"><field name="name">User Level 28</field></record>
+        <record id="group_5_29" model="gbr.group.5"><field name="name">User Level 29</field></record>
+        <record id="group_5_30" model="gbr.group.5"><field name="name">User Level 30</field></record>
+        <record id="group_4a_1" model="gbr.group.4a"><field name="name">Master Group</field></record>
+        <record id="group_99_1" model="gbr.group.99"><field name="name">Master Group</field></record>
+        <record id="group_10_1" model="gbr.group.10"><field name="name">BONUS</field></record>
+        <record id="group_10_2" model="gbr.group.10"><field name="name">KEKURANGAN</field></record>
+        <record id="group_10_3" model="gbr.group.10"><field name="name">PEMAKAIAN</field></record>
+        <record id="group_10_4" model="gbr.group.10"><field name="name">RUSAK</field></record>
+        <record id="group_10_5" model="gbr.group.10"><field name="name">SELISIH</field></record>
+        <record id="group_10_6" model="gbr.group.10"><field name="name">SUDAH PERBAIKI</field></record>
+    </data>
+</odoo>

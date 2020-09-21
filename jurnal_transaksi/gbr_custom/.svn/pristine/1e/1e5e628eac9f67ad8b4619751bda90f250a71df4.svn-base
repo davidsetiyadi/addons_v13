@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+ <data>    
+    <menuitem
+        id="gbr_menu_custom"
+        name="GBR Menu" 
+        sequence="1"/> 
+
+    <menuitem
+        id="menu_gbr_custom_root"
+        name="Master File" parent="gbr_custom.gbr_menu_custom" 
+        sequence="2"/>
+
+    <menuitem
+        id="menu_gbr_sistem_setup"
+        name="Sistem Set-Up" parent="gbr_custom.gbr_menu_custom" 
+        sequence="1"/> 
+
+    <menuitem
+        id="menu_gbr_unused"
+        name="Unused" parent="gbr_custom.gbr_menu_custom" 
+        sequence="0"/>    
+            
+    <menuitem
+        id="menu_gbr_pembelian"
+        name="Pembelian" parent="gbr_custom.gbr_menu_custom" 
+        sequence="3"/>  
+
+    <menuitem
+        id="menu_gbr_penjualan"
+        name="Penjualan" parent="gbr_custom.gbr_menu_custom" 
+        sequence="4"/>    
+
+    <menuitem
+        id="menu_gbr_kas"
+        name="Kas" parent="gbr_custom.gbr_menu_custom" 
+        sequence="5"/>   
+    
+        <menuitem
+            id="menu_gbr_vendor"
+            name="Vendor"
+            parent="menu_gbr_custom_root"
+            sequence="2"/>    
+
+            <menuitem
+                id="menu_gbr_item_name"
+                name="Item"
+                action="stock.product_template_action_product"
+                parent="gbr_custom.menu_gbr_custom_root"
+                sequence="4"/>         
+
+    <record id="gbr_product_template_action_product" model="ir.actions.act_window">
+        <field name="name">Sisa Stock</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="stock.product_template_search_form_view_stock"/>
+        <field name="context">{"search_default_consumable": 1, 'default_type': 'product', 'quantity_available_locations_domain': ('internal',)}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new product
+            </p>
+        </field>
+    </record> 
+     
+        <menuitem id="configuration_gbr_setting" 
+            parent="gbr_custom.menu_gbr_unused" 
+            name="List" sequence="1"/>
+
+        <menuitem id="menu_list_daerah_form_gbr" 
+            name="Daerah" 
+            parent="configuration_gbr_setting" 
+            sequence="3"/>
+
+    <menuitem id="menu_kecamatan"
+        parent="menu_list_daerah_form_gbr"
+        sequence="20"
+        action="vit_kelurahan.act_open_vit_kecamatan_view"/> 
+
+    <menuitem id="menu_kelurahan"
+        parent="menu_list_daerah_form_gbr"
+        sequence="20"
+        action="vit_kelurahan.act_open_vit_kelurahan_view"/>
+
+    <menuitem id="menu_kota"
+        parent="menu_list_daerah_form_gbr"
+        sequence="20"
+        action="vit_kelurahan.act_open_vit_kota_view"/>
+
+
+    <record id="view_vit_kota_tree_gbr" model="ir.ui.view">
+        <field name="name">vit.kota.inherit.tree</field>
+        <field name="model">vit.kota</field>
+        <field name="inherit_id" ref="vit_kelurahan.view_vit_kota_tree"/>
+        <field name="arch" type="xml">
+            <field name="state_id" position="replace">
+                <field name="state_id" invisible="0"/>
+                <field name="id" string="ID"/>
+                <field name="create_uid" string="Entry-By"/>
+                <field name="create_date" string="Entry-date"/>
+                <field name="write_uid" string="Last-Edit By"/>
+                <field name="write_date" string="Last-Edit Date"/>
+            </field>            
+        </field>
+    </record>
+    <record id="view_vit_kecamatan_tree_gbr" model="ir.ui.view">
+        <field name="name">vit.kecamatan.inherit.tree</field>
+        <field name="model">vit.kecamatan</field>
+        <field name="inherit_id" ref="vit_kelurahan.view_vit_kecamatan_tree"/>
+        <field name="arch" type="xml">
+            <field name="kota_id" position="replace">
+                <field name="kota_id" invisible="0"/>
+                <field name="id" string="ID"/>
+                <field name="create_uid" string="Entry-By"/>
+                <field name="create_date" string="Entry-date"/>
+                <field name="write_uid" string="Last-Edit By"/>
+                <field name="write_date" string="Last-Edit Date"/>
+            </field>            
+        </field>
+    </record>
+
+    <record id="view_country_state_tree" model="ir.ui.view">
+        <field name="name">res.country.state.tree</field>
+        <field name="model">res.country.state</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree string="State" editable="bottom">
+                <field name="name" string="Daerah"/>
+                <field name="code" string="Kode"/>
+                <field name="country_id" options="{'no_create': True}"/>
+                <field name="id" string="ID"/>
+                <field name="create_uid" string="Entry-By"/>
+                <field name="create_date" string="Entry-date"/>
+                <field name="write_uid" string="Last-Edit By"/>
+                <field name="write_date" string="Last-Edit Date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_country_state" model="ir.actions.act_window">
+        <field name="name">Daerah</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.country.state</field>
+        <field name="view_id" ref="view_country_state_tree"/>
+        <field name="help">You can manage the different federal states you are working on from here. Each state is attached to one country.</field>
+    </record>    
+
+    <menuitem id="menu_gbr_pembelian_management" name="Pembelian"
+            parent="gbr_custom.gbr_menu_custom" sequence="2" />
+        
+       
+        <!-- Penjualan -->               
+
+            <menuitem id="menu_kecamatan"
+                parent="menu_list_daerah_form_gbr"
+                sequence="20"
+                action="vit_kelurahan.act_open_vit_kecamatan_view"/> 
+
+             <menuitem id="menu_kelurahan"
+                parent="menu_list_daerah_form_gbr"
+                sequence="20"
+                action="vit_kelurahan.act_open_vit_kelurahan_view"/>
+
+             <menuitem id="menu_kota"
+                parent="menu_list_daerah_form_gbr"
+                sequence="20"
+                action="vit_kelurahan.act_open_vit_kota_view"/>
+             
+             <menuitem id="menu_provinsi"
+                parent="menu_list_daerah_form_gbr"
+                sequence="21"
+                action="action_country_state"/>
+       
+       
+    <record id="view_gbr_account_list" model="ir.ui.view">
+        <field name="name">account.account.list</field>
+        <field name="model">account.account</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree string="Chart of accounts">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="currency_id" options="{'no_create': True}"/>
+                <field name="currency_id" invisible="0" options="{'no_create': True}"/>
+                <field name="user_type_id"/>
+                <field name="id" string="ID"/>
+                <field name="create_uid" string="Entry-By"/>
+                <field name="create_date" string="Entry-date"/>
+                <field name="write_uid" string="Last-Edit By"/>
+                <field name="write_date" string="Last-Edit Date"/>
+
+                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+    
+
+    
+ </data>
+</odoo>

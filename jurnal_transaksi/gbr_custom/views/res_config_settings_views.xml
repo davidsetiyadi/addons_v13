@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.gbr_custom</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Inisialisasi" string="Inisialisasi" data-key="gbr_custom">
+                    <h2>Inisialisasi</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-12 o_setting_box">
+                            <div class="o_setting_left_pane"/>                            
+                            <div class="o_setting_right_pane">
+                                <div class="text-muted mb16">
+                                    Inisialisasi.
+                                </div>
+                                <field name="partner_id" string="Nama"/>                                  
+                                <field name="street" placeholder="Alamat"/> 
+                                <field name="city" placeholder="Kota"/> 
+                                <field name="country_id" placeholder="Negara"/> 
+                                <field name="phone" placeholder="Telepon"/> 
+                                <field name="fax" placeholder="Fax"/> 
+                                <field name="email" placeholder="Email"/> 
+                                <field name="website" placeholder="Website"/> 
+                                <div class="text-muted mb16">
+                                    Faktur Pajak.
+                                </div>
+                                <field name="faktur_pjk" placeholder="Faktur Pajak"/> 
+                                <field name="faktur_rtr_pjk" placeholder="Faktur Retur Pajak"/> 
+                                <field name="ttd" placeholder="TTD"/> 
+                                <field name="heading" placeholder="Heading pada laporan"/> 
+                                <field name="singkatan" placeholder="Singkatan nama perusahaan"/>                               
+                                <div class="text-muted mb16">
+                                    Config Partner.
+                                </div>
+                                <field name="other_customer_id"/>
+                                 <div class="text-muted mb16">
+                                    
+                                </div>
+                                <div class="col-12 col-lg-12 o_setting_box" title="Awalan Pembelian dan Voucher">
+                                    <div class="o_setting_right_pane">
+                                        <div>
+                                            <label string="Awalan pada nota Pembelian" for="awalan_pembelian"/>
+                                            <div class="content-group mt16">
+                                                <field name="awalan_pembelian" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>   
+                                        <div>
+                                            <label string="Awalan pada nota Pembayaran Voucher" for="awalan_voucher"/>
+                                            <div class="content-group mt16">
+                                                <field name="awalan_voucher" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>                           
+                                
+                                <div class="col-12 col-lg-12 o_setting_box" title="Link Perkiraan">
+                                    <div class="o_setting_right_pane">
+                                        <div>
+                                            <label string="Hutang Debit Note Hutang Pembelian" for="account_debit_note_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_debit_note_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>  
+                                        <div>
+                                            <label string="Hutang Credit Note Hutang Pembelian" for="account_credit_note_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_credit_note_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div> 
+                                        <div>
+                                            <label string="Piutang Debit Note Piutang Penjualan" for="account_p_debit_note_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_p_debit_note_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div> 
+                                        <div>
+                                            <label string="Piutang Credit Note Piutang Penjualan" for="account_p_credit_note_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_p_credit_note_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label string="Deposit Pembelian" for="account_deposit_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_deposit_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label string="Deposit Penjualan" for="account_p_deposit_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_p_deposit_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>   
+                                        <div>
+                                            <label string="Hutang Retur Pembelian (CR)" for="account_retur_credit_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_retur_credit_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label string="Piutang Retur Penjualan (DB)" for="account_retur_debit_id"/>
+                                            <div class="content-group mt16">
+                                                <field name="account_retur_debit_id" colspan="4" nolabel="1"/>
+                                            </div>
+                                        </div> 
+                                        
+                                        
+
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_gbr_config_settings" model="ir.ui.view">
+            <field name="name">GBR Settings</field>
+            <field name="model">gbr.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure GBR" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <div style="clear: both"/>
+                    </header>
+                    <field name="company_id" invisible="1"/>
+                    <sheet>
+                        <notebook>
+                        <page string="Mata Uang">
+                        <group colspan='2' name="mata_uang" string="Mata Uang">
+                            <field name="mata_uang_ids" widget="one2many_list" nolabel='1'>
+                                <tree string="Currencies" decoration-muted="(not active)" create="false">
+                                    <field name="name" string="Kode" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="currency_unit_label" string="Mata Uang" invisible="1"/>
+                                    <field name="mata_uang" optional="show"/>
+                                    <field name="decimal_places" string="Decimal" optional="show"/>
+                                    <field name="auto_pay_km_id" domain="[('user_type_id.name','=','Bank and Cash')]" optional="show"/>
+                                    <field name="auto_pay_kk_id" domain="[('user_type_id.name','=','Bank and Cash')]" optional="show"/>
+                                    <field name="currency_unit_label" string="Terbilang (MU)" optional="show"/>                            
+                                    <field name="currency_subunit_label" string="Terbilang (Sen)" optional="show"/>
+                                    <field name="create_uid" string="Entry-By" optional="hide"/>
+                                    <field name="create_date" string="Entry-date" optional="hide"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                    <field name="symbol" invisible="1"/>
+                                    <field name="rate_ids" invisible="1"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="rate" digits="[12,6]" invisible="1"/>
+                                    <field name="active" invisible="1"/>
+                                </tree>
+                                <form string="Currency" create="false">
+                                    <sheet>
+                                        <div class="oe_button_box" name="button_box">
+                                            <button class="oe_stat_button" string="Kurs" type="action" name="%(act_view_currency_rates)d"
+                                                icon="fa-money" widget="statinfo" attrs="{'invisible': [('active', '=', False)]}"/>
+                                        </div>
+                                        <group>
+                                            <group>
+                                                <field name="name" string="Kode"/>
+                                                <field name="company_id" invisible="1"/>
+                                                <field name="rate" digits="[12,12]" invisible="1"/>
+                                                <field name="mata_uang"/>
+                                                <field name="active" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="currency_unit_label" string="Terbilang (MU)"/>                            
+                                                <field name="currency_subunit_label" string="Terbilang (Sen)"/>
+                                            </group>
+                                        </group>
+                                        <group groups="base.group_no_one">
+                                            <group string="Price Accuracy">
+                                                <field name="rounding"/>
+                                                <field name="decimal_places"/>
+                                            </group>
+                                            <group string="Display">
+                                                <field name="symbol"/>
+                                                <field name="position"/>
+                                            </group>
+                                        </group>
+                                         <group>
+                                            <field name="auto_pay_km_id" domain="[('user_type_id.name','=','Bank and Cash')]"/>
+                                            <field name="auto_pay_kk_id" domain="[('user_type_id.name','=','Bank and Cash')]"/>
+                                            <field name='is_kurs_dasar' invisible="0"/>
+                                         </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </group>
+                        </page>
+                        <page string="Negara">
+                            <field name="country_ids" string="Negara">
+                                <tree editable="bottom">
+                                    <field name="name" string="Negara" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Daerah">
+                            <field name="state_ids" string="Daerah">
+                                <tree editable="bottom">
+                                    <field name="name" string="Daerah" optional="show"/>
+                                    <field name="code" string="Kode" optional="show"/>
+                                    <field name="country_id" options="{'no_create': True}" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Kota/Kab">
+                             <field name="kota_ids" string="Kota/Kab">
+                                <tree editable="bottom">
+                                    <field name="name" string="Kota" optional="show"/>
+                                    <field name="state_id" optional="show" string="Prov" options="{'no_create': True}"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Kecamatan">
+                             <field name="kecamatan_ids" string="Kecamatan">
+                                <tree editable="bottom">
+                                    <field name="name" string="Kecamatan" optional="show"/>
+                                    <field name="kota_id" optional="show" string="Kota/Kab" options="{'no_create': True}"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Kelurahan">
+                             <field name="kelurahan_ids" string="Kelurahan">
+                                <tree editable="bottom">
+                                    <field name="name" string="Kelurahan" optional="show"/>
+                                    <field name="kecamatan_id" optional="show" string="Kecamatan" options="{'no_create': True}"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Divisi">
+                             <field name="divisi_ids" string="Divisi">
+                                <tree editable="bottom">
+                                    <field name="name" string="Divisi" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Jenis Pembelian">
+                            <field name="jenis_pembelian_ids" string="Jenis Pembelian">
+                                <tree editable="bottom">
+                                    <field name="name" string="Jenis Pembelian" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Jenis Penjualan">
+                            <field name="jenis_penjualan_ids" string="Jenis Penjualan">
+                                <tree editable="bottom">
+                                    <field name="name" string="Jenis Penjualan" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Owner/Machine ID">
+                            <field name="owner_ids" string="Owner/Machine ID">
+                                <tree editable="bottom">
+                                    <field name="name" string="Owner/Machine ID" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Libur Nasional">
+                            <field name="libur_ids" string="Divisi">
+                                <tree editable="bottom">
+                                    <field name="date" string="Tanggal" optional="show"/>
+                                    <field name="reason" string="Liburan" optional="show"/>
+                                    <field name="id" string="ID" optional="show"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="create_uid" string="Entry-By" optional="show"/>
+                                    <field name="create_date" string="Entry-date" optional="show"/>
+                                    <field name="write_uid" string="Last-Edit By" optional="hide"/>
+                                    <field name="write_date" string="Last-Edit Date" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="gbr_action_configuration" model="ir.actions.act_window">
+            <field name="name">General Settings</field>
+            <field name="res_model">gbr.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+       
+        <menuitem name="List (Mata Uang,Negara, dsb)" 
+            id="gbr_configuration_list" 
+            parent="gbr_custom.menu_gbr_sistem_setup" 
+            action="gbr_action_configuration" sequence="1"/>
+</odoo>

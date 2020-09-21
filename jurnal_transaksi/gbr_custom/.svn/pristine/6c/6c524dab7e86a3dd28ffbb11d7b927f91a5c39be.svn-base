@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <template id="assets_backend" name="gbr_custom assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">         
+            <script type="text/javascript" src="/gbr_custom/static/src/js/product_tree_groups.js"/>
+        </xpath>
+    </template>
+</odoo>

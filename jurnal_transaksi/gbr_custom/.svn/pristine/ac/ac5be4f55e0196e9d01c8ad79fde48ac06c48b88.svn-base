@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="view_proses_laporan_form" model="ir.ui.view">
+        <field name="name">gbr.proses.laporan.form</field>
+        <field name="model">gbr.proses.laporan</field>
+        <field name="priority">99</field>
+         <field name="arch" type="xml">
+            <form string="Proses Laporan"  create="true">  
+            	<label for="state" string="Kelompok Laporan"/>
+            	<field name="state" required="1"/>
+            	<group>            		
+	            	<field name="last_process_date" readonly="0" invisible="1"/>
+	            </group>
+	            <footer>                     
+                    <button name="%(account_reports.action_account_report_ar)d" states="pembelian" string="Laporan" icon="fa-arrow-right" type="action"/> 
+                    <button name="%(account_reports.action_account_report_ap)d" states="penjualan" string="Laporan" icon="fa-arrow-right" type="action"/>    
+                    <button name="%(account_reports.action_account_report_pnl)d" states="hpp" string="Laporan" icon="fa-arrow-right" type="action"/>
+                    	or
+                    <button string="Tutup" class="oe_highlight" special="cancel"/>
+            	</footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_view_proses_laporan_form" model="ir.actions.act_window">
+			<field name="name">Proses Laporan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">gbr.proses.laporan</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_proses_laporan_form"/>
+			<field name="target">new</field>
+		</record>
+    <menuitem name="Proses Laporan Total Transaksi" action="action_view_proses_laporan_form" id="gbr_ui_custom.menu_gbr_other_transaction_report" parent="gbr_ui_custom.menu_gbr_other" sequence="8"/>
+</data>
+</odoo>

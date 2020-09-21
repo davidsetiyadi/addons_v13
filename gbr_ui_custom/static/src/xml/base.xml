@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <header t-extend="Menu">
+        <t t-jquery=".o_main_navbar" t-operation="before">
+            <nav class="o_main_navbar gbr_top_menu d-none d-md-block" t-if="widget.top_menu_data.children">
+                <ul class="gbr_menu_sections" role="menu">
+                    <t t-foreach="widget.top_menu_data.children" t-as="first_level_menu">
+                        <li t-att-class="'gbr_master_menu ' + first_level_menu.id">
+                            <a t-attf-href="#{first_level_menu.children.length ? '#' : '#menu_id=#'+first_level_menu.id+'&amp;action='+(first_level_menu.action ? first_level_menu.action.split(',')[1] : '')}" class="dropdown-toggle o-no-caret o_menu_header_lvl_1" t-att-data-menu-xmlid="first_level_menu.xmlid" t-att-data-toggle="first_level_menu.children.length ? 'dropdown' : ''" role="button" aria-expanded="false">
+                                <t t-esc="first_level_menu.name"/>
+                            </a>
+                            <t t-if="first_level_menu.children.length">
+                                <ul class="dropdown-menu" role="menu">
+                                    <t t-foreach="first_level_menu.children" t-as="second_level_menu">
+                                        <t t-if="!second_level_menu.children.length">
+                                            <t t-call="Menu.link">
+                                                <t t-set="menu" t-value="second_level_menu"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <li class="dropdown-submenu dropright">
+                                                <a href="#" class="dropdown-subparent dropdown-item o_menu_header_lvl_1">
+                                                    <t t-esc="second_level_menu.name"/>
+                                                </a>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <t t-foreach="second_level_menu.children" t-as="third_level_menu">
+                                                        <t t-call="Menu.link">
+                                                            <t t-set="depth" t-value="1"/>
+                                                            <t t-set="menu" t-value="third_level_menu"/>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                            </li>
+                                        </t>
+                                    </t>
+                                </ul>
+                            </t>
+                        </li>
+                    </t>
+                </ul>
+            </nav>
+        </t>
+    </header>
+</templates>

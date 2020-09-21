@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+  <t t-name="SearchViewBottom">
+    <div class="gbr_search_view">
+      <h3 data-toggle="collapse" data-target="#gbr_search_content" aria-expanded="true" aria-controls="gbr_search_content"><i class="fa fa-arrow-circle-down"/> SEARCH</h3>
+      <div id="gbr_search_content" class="collapse show">
+        <div class="row clearfix">
+          <div class="gbr_search_column col-lg-6">
+            <form class="gbr_search_form">
+              <div class="row">
+                <t t-set="column_count" t-value="0"/>
+                <t t-foreach="fieldColumns" t-as="column">
+                  <t t-set="column_count" t-value="column_count + 1"/>
+                  <div class="col-6">
+                    <div class="row">
+                      <table class="table table-borderless">
+                        <t t-foreach="column" t-as="field">
+                          <tr>
+                            <td><span t-esc="field.attrs.string"/></td>
+                            <td>
+                              <t t-if="field.attrs.type == 'selection'">
+                                <div class="gbr_search_field">
+                                  <select class="form-control gbr_field" t-att-data-filter-id="field.filter.id">
+                                    <option></option>
+                                    <t t-foreach="field.attrs.selection" t-as="option">
+                                      <option t-att-value="option[0]" t-att-data-label="option[1]"><t t-esc="option[1]"/></option>
+                                    </t>
+                                  </select>
+                                </div>
+                              </t>
+                              <t t-if="field.attrs.type == 'boolean'">
+                                <div class="gbr_search_field gbr_radio">
+                                  <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input gbr_field" t-att-name="field.attrs.name" t-att-data-name="field.attrs.name" data-label="Yes" t-att-data-filter-id="field.filter.id" t-att-id="field.attrs.name + '_true'" value="true"/>
+                                    <label class="custom-control-label" t-att-for="field.attrs.name + '_true'">Yes</label>
+                                  </div>
+                                  <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input gbr_field" t-att-name="field.attrs.name" t-att-data-name="field.attrs.name" data-label="No" t-att-data-filter-id="field.filter.id" t-att-id="field.attrs.name + '_false'" value="false"/>
+                                    <label class="custom-control-label" t-att-for="field.attrs.name + '_false'">No</label>
+                                  </div>
+                                </div>
+                              </t>
+                              <t t-if="field.attrs.type == 'date' || field.attrs.type == 'datetime'">
+                                <div class="gbr_search_field gbr_date input-group">
+                                  <div class="input-group gbr_date_from" t-att-data-type="field.attrs.type" t-att-id="field.filter.id + '_from'" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input gbr_field" t-att-data-filter-id="field.filter.id" t-att-data-target="'#' + field.filter.id + '_from'" t-att-data-name="field.attrs.name" t-att-data-string="field.attrs.string"/>
+                                    <div class="input-group-append" t-att-data-target="'#' + field.filter.id + '_from'" data-toggle="datetimepicker">
+                                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                  </div>
+                                  <div class="input-group gbr_date_to" t-att-data-type="field.attrs.type" t-att-id="field.filter.id + '_to'" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input gbr_field" t-att-data-filter-id="field.filter.id" t-att-data-target="'#' + field.filter.id + '_to'" t-att-data-name="field.attrs.name" t-att-data-string="field.attrs.string"/>
+                                    <div class="input-group-append" t-att-data-target="'#' + field.filter.id + '_to'" data-toggle="datetimepicker">
+                                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </t>
+                              <t t-if="field.attrs.type != 'selection' and field.attrs.type != 'date' and field.attrs.type != 'datetime' and field.attrs.type != 'boolean'">
+                                <div class="gbr_search_field">
+                                  <input type="text" class="form-control gbr_field" t-att-data-filter-id="field.filter.id"/>
+                                </div>
+                              </t>
+                            </td>
+                          </tr>
+                        </t>
+                      </table>
+                    </div>
+                  </div>
+                </t>
+              </div>
+            </form>
+          </div>
+
+          <div t-attf-class="gbr_search_column gbr_search_act #{isDetailPopup ? 'col-lg-4' : 'col-lg-6'}">
+            <div class="row">
+              <div class="col-6">
+                <button type="button" class="btn btn-primary w-100 gbr_search_submit"><i class="fa fa-search"/> Confirm</button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-secondary w-100 gbr_search_reset"><i class="fa fa-undo"/> Reset</button>
+              </div>
+              <div class="col-12">
+                <button type="button" class="btn btn-secondary w-100 gbr_search_clear" accesskey="CTRL+F7"><i class="fa fa-trash"/> CTRL + F7</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="gbr_search_column col-lg-2" t-if="isDetailPopup">
+            <t t-set="detailCount" t-value="0"/>
+            <div class="row">
+              <t t-foreach="detailPopups" t-as="detailPopup">
+                <div class="col-12">
+                  <button type="button" class="btn w-100 gbr_search_popup" t-att-data-index="detailCount"><i class="fa fa-share-square-o"/> <span t-esc="detailPopup.name"/> (<span class="detailState">DISABLED</span>)</button>
+                </div>
+                <t t-set="detailCount" t-value="detailCount + 1"/>
+              </t>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </t>
+</templates>

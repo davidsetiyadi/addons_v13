@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		
+		<record id="wizard_statement_filter_form" model="ir.ui.view">
+			<field name="name">wizard.statement.filter.form</field>
+			<field name="model">statement.filter</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Filter List Order">
+					<group>
+						<group>							
+							<field name="partner_id" readonly="1"/>
+													
+						</group>
+						<group>	
+							<field name="is_jt_tmpo" readonly="0" string="Tampilkan Jatuh Tempo"/>
+							<field name="is_not_jt_tmpo" readonly="0" string="Tampilkan Belum Jatuh Tempo"/>
+						</group>
+					</group>	
+
+					<field name="filter_ids" widget="section_and_note_one2many">
+						<tree string="Statement List" create="false" editable="bottom">
+							<field name="is_confirm" string=" " optional="show"/>
+							<field name="invoice_id" options="{'no_create': True,'no_quick_create': True, 'no_open': True}" invisible="1"/>
+							<field name="type_code" optional="show" readonly="1"/>
+							<field name="no" optional="show" readonly="1"/>
+							<field name="ref" optional="show" readonly="1"/>
+							<field name="invoice_date" optional="show" readonly="1"/>
+							<field name="partner_id" optional="show" readonly="0"/>
+							<field name="currency_id" optional="show" readonly="1"/>
+							<field name="harga_jual" optional="show" readonly="1"/>	
+							<field name="discount" optional="show" readonly="1"/>	
+							<field name="nilai_jual" widget="monetary" optional="show" readonly="1"/>	
+							<field name="jt_tmpo" optional="show" readonly="1"/>
+							<field name="invoice_date_due" optional="show" readonly="1"/>
+							<field name="sale_order_id" optional="show" readonly="1"/>
+							<field name="purchase_order_id" optional="show" readonly="1"/>
+							<field name="divisi_id" optional="show" readonly="1"/>						
+						</tree>
+					</field>			
+
+					<footer>
+                        <button type="object" name="get_list_statement" class="oe_highlight" string="Masuk List"/>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_wizard_statement_filter_view" model="ir.actions.act_window">
+			<field name="name">Statement Filter</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">statement.filter</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_statement_filter_form"/>
+			<field name="target">new</field>
+		</record>
+		
+	</data>
+</odoo>

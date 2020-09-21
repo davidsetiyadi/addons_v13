@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>	
+	<data>
+		<record id="view_configuration_bank_gbr" model="ir.ui.view">
+	    	<field name="name">account.bank.gbr.form</field>
+	    	<field name="model">res.partner.bank</field>	    	
+    		<field name="arch" type="xml">    			
+				<tree editable="bottom">
+					<field name="bank_id"/>
+					<field name="acc_number"/>
+					<!-- <field name="is_value" invisible="1"/> -->
+				</tree>
+			</field>
+		</record> 
+		<record id="account_bank_inherit_gbr" model="ir.actions.act_window">
+            <field name="name">account.bank.inherit.gbr</field>
+            <field name="res_model">res.partner.bank</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_configuration_bank_gbr"/>
+            <field name="domain">[('is_value','=', True)]</field>
+        </record>   
+       <!--  <menuitem id="inisialisasi2_GBR_konfigurasi"
+            action="account_bank_inherit_gbr"
+            name="Inisialisasi 2"
+            parent="sisten_configuration_gbr_setting"
+            sequence="2"/> -->
+            
+		<record id="view_vendor_gbr_inherit_tree" model="ir.ui.view">
+			<field name="name">view.vendor.gbr.inherit.tree</field>
+			<field name="model">res.partner</field>
+			<field name="type">tree</field>
+			<field name="priority">99</field>
+			<field name="arch" type="xml">
+				<tree name="vendor" string="Vendors" js_class="vendor_tree">
+					<field name="id" optional="show"/>					
+					<field name="npwp" optional="show"/>
+					<field name="name" optional="show"/>
+					<field name="address" optional="show"/>	
+					<field name="location_id" optional="show"/>
+					<field name="country_id" string="Negara" optional="show"/>    
+					<field name="phone" string="Telephone" optional="show"/>
+					<field name="phone2" string="Telp(2)" optional="show"/>
+					<field name="phone3" string="Telp(3)" optional="show"/> 
+					<field name="fax" optional="show"/>
+					<field name="contact_person1" string="Hubungi" optional="show"/>
+					<field name="contact_number1" string="Hub - Telp" optional="show"/>
+					<field name="contact_person2" string="Hubungi *2" optional="show"/>
+					<field name="contact_number2" string="Hub - Telp *2" optional="show"/>
+					<field name="contact_person3" string="Hubungi *3" optional="show"/>
+					<field name="contact_number3" string="Hub - Telp *3" optional="show"/>
+					<field name="email" optional="show"/>
+					<field name="website" optional="show"/>
+					<field name="department_id" optional="show"/>
+					<field name="comment" optional="show"/>
+					<field name="property_supplier_payment_term_id" string="TermCrd" optional="show"/>
+					<field name="nominal_credit" string="MaxCrd" optional="show"/>
+					<field name="mu_transaction" string="MU-Beli" optional="show"/>
+					<field name="pajak_type" string="PJK" optional="show"/>
+					<field name="account_taxId" string="%" optional="show"/>
+					<field name="create_uid" string="Entry-by" optional="hide"/>
+					<field name="create_date" string="Create-Date" optional="hide"/>
+					<field name="write_uid" string="Last-Edit-by"  optional="hide"/>
+					<field name="write_date" string="Last-Edit Date" optional="hide"/>
+					<field name="is_value" invisible="1"/>
+
+				</tree>
+			</field>
+		</record> 
+
+		<record id="view_vendor_gbr_inherit_form" model="ir.ui.view">
+			<field name="name">view.vendor.gbr.inherit.form</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="priority">99</field>
+			<field name="arch" type="xml">
+				<form name="vendor" string="Vendors">
+					<sheet>
+						<div class="oe_button_box" name="button_box"/>
+						<field name="image_1920" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_128&quot;}"/>
+						<h1>
+		                	<field name="name" default_focus="1" placeholder="Name"/>
+		                </h1>
+		                <field name="is_value" invisible="1"/>
+		                <notebook>
+		                	<page name="data_utama" string="Data Utama" icon="sold">		                		
+		                		<group name="vendors_data_utama" col="2">
+		                			<field name="category_id" widget="many2many_checkboxes" invisible="1"/> 
+		                			<field name="gbr_category_id" widget="radio" string="Kategori"/>
+		                			<field name="address"/>
+		                			<field name="zip" string="Kode POS"/>
+		                			<label for="state_id"/>
+		                			<div>
+		                				<field name="country_id" placeholder="Negara" class="oe_inline" style="padding-right: 10px;" context="{'default_country_id': 100}"/>
+		                				<field name="state_id" placeholder="Daerah" class="oe_inline" readonly="0" domain="[('country_id','=',country_id)]" style="padding-right: 10px;"/>
+		                					                				
+		                			</div>
+		                			<label for="kota_id"/>
+		                			<div>
+		                				<field name="kota_id" placeholder="Kota" class="oe_inline" domain="[('state_id','=',state_id)]" style="padding-right: 10px;"/>
+		                				<field name="kecamatan_id" placeholder="Kecataman" class="oe_inline" domain="[('kota_id','=',kota_id)]" style="padding-right: 10px;"/>	
+		                			</div>
+		                			<field name="npwp"/>
+		                		</group>
+		                		<group>
+			                		<group name="vendors_data_utama2">
+			                			<label for="phone" string="Telephone"/>
+			                			<div>
+			                				<field name="phone" placeholder="Phone Number 1" style="padding-right: 10px;"/>
+			                				<field name="phone2" placeholder="Phone Number 2" style="padding-right: 10px;"/>
+			                				<field name="phone3" placeholder="Phone Number 3" style="padding-right: 10px;"/>
+			                			</div>
+			                			<field name="fax"/>
+			                			<label for="bank_ids" string="Rekening"/>
+			                			<div>
+				                			<field name="bank_ids">
+				                				<tree editable="bottom">
+				                					<field name="bank_id"/>
+				                					<field name="acc_number"/>
+				                				</tree>
+				                			</field>
+				                		</div>
+				                		<field name="property_supplier_payment_term_id" string="Credit" placeholder="0 hari"/>
+				                		<label for="kurs_id" string="Max Crd"/>
+				                		<div>
+				                			<field name="kurs_id" class="oe_inline" string="Max Crd"/>&amp;nbsp; &amp;nbsp;
+				                			<field name="nominal_credit" class="oe_inline" />
+				                		</div>	
+				                		<label for="pajak_type"/>
+				                		<div>
+				                			<field name="pajak_type" class="oe_inline"/>&amp;nbsp; &amp;nbsp;
+				                			<field name="account_taxId" class="oe_inline"/>
+				                		</div>
+			                		</group>
+		                		
+			                		<group name="vendors_data_utama3">
+			                			<label for="contact_person1"/>
+			                			<div>
+			                				<field name="contact_person1" class="oe_inline" placeholder="Name" />&amp;nbsp; &amp;nbsp;	            
+			                				<field name="contact_number1" class="oe_inline" placeholder="Phone"/>
+			                				<div>
+				                				<field name="contact_person2" class="oe_inline" placeholder="Name"/>&amp;nbsp; &amp;nbsp;
+				                				<field name="contact_number2" class="oe_inline" placeholder="Phone" />
+			                				</div>
+			                				<div>
+				                				<field name="contact_person3" class="oe_inline" placeholder="Name"/>&amp;nbsp; &amp;nbsp;
+				                				<field name="contact_number3" class="oe_inline" placeholder="Phone" />
+			                				</div>
+			                			</div>	
+
+			                			<field name="email"/>
+			                			<field name="website"/>
+			                			<label for="group_id" invisible="0" string="Kelompok"/>
+			                			<div>
+			                				<field name="group_id" placeholder="Kelompok" string="Kelompok" class="oe_inline" style="padding-right:10px;" domain="[('group_id', '!=', False)]" context="{'default_group_id' : 1}" options="{'no_open': True}"/>   
+			                				<field name="group2_id" placeholder="Kelompok" string="Kelompok" class="oe_inline" style="padding-right:10px;" domain="[('group2_id', '!=', False)]" context="{'default_group2_id' : 1}" options="{'no_open': True}"/>
+			                			</div>
+			                			<label for="group3_id" invisible="0" string="Grouping"/>
+			                			<div>
+			                				<field name="group3_id" placeholder="Grouping 1" string="Grouping 1" class="oe_inline" style="padding-right:10px;" domain="[('group3_id', '!=', False)]" context="{'default_group3_id' : 1}" options="{'no_open': True}"/>   
+			                				<field name="group4_id" placeholder="Grouping 2" string="Grouping 2" class="oe_inline" style="padding-right:10px;" domain="[('group4_id', '!=', False)]" context="{'default_group4_id' : 1}" options="{'no_open': True}"/>
+			                				<field name="group5_id" placeholder="Grouping 3" string="Grouping 3" class="oe_inline" style="padding-right:10px;" domain="[('group5_id', '!=', False)]" context="{'default_group5_id' : 1}" options="{'no_open': True}" /> 
+			                			</div>
+			                			<field name="default_mu_jual_id" string="Default MU Transaksi"/>
+			                			<label for="is_value_sale_price" invisible="1"/>
+			                			<div>
+				                			<field name="is_value_sale_price" class="oe_inline"/>      
+				                			<p class="oe_inline">Pembelian : Harga Beli diambil dari Harga Beli Terakhir</p>
+			                			</div>
+			                		</group>
+
+		                		</group>
+		                		
+		                	</page> 
+		                	<page name="groups" string="Inisialisasi" invisible="0">
+		                		<group>
+		                			<group>			                		
+			                			<!-- <field name="group_user_ids" widget="many2many_checkboxes"/> -->
+			                			<field name="is_group_user_po"/>
+			                			<field name="is_group_user_pch"/>
+			                			<field name="is_group_user_pcr"/>
+			                			<field name="is_group_user_rpch"/>
+			                			<field name="is_group_user_rpcr"/>
+			                			<field name="is_group_user_dnh"/>
+			                			<field name="is_group_user_cnh"/>
+			                			<field name="is_group_user_dp"/>
+			                		</group>
+			                		<group>	
+			                			<field name="is_user_level_1"/>
+										<field name="is_user_level_2"/>
+										<field name="is_user_level_3"/>
+										<field name="is_user_level_4"/>
+										<field name="is_user_level_5"/>
+										<field name="is_user_level_6"/>
+										<field name="is_user_level_7"/>
+										<field name="is_user_level_8"/>
+										<field name="is_user_level_9"/>
+										<field name="is_user_level_10"/>
+										<field name="is_user_level_11"/>
+										<field name="is_user_level_12"/>
+										<field name="is_user_level_13"/>
+										<field name="is_user_level_14"/>
+										<field name="is_user_level_15"/>
+										<field name="is_user_level_16"/>
+										<field name="is_user_level_17"/>
+										<field name="is_user_level_18"/>
+										<field name="is_user_level_19"/>
+										<field name="is_user_level_20"/>
+										<field name="is_user_level_21"/>
+										<field name="is_user_level_22"/>
+										<field name="is_user_level_23"/>
+										<field name="is_user_level_24"/>
+										<field name="is_user_level_25"/>
+										<field name="is_user_level_26"/>
+										<field name="is_user_level_27"/>
+										<field name="is_user_level_28"/>
+										<field name="is_user_level_29"/>
+										<field name="is_user_level_30"/>
+			                			<!-- <field name="group_level_ids" widget="many2many_checkboxes"/> -->
+			                		</group>			                		
+			                	</group>
+		                	</page>
+		                	<page name="inisialisasi" string="Memo" invisible="0">
+		                		<group><field name="is_noted" help="Catatan ditampilkan setiap pemilihan Vendor"/></group>
+		                		<group>
+		                		<field name="comment" string="Catatan" placeholder="Make yours comments here"/></group>
+		                		<group>
+			                		<label for="memo1"/>
+			                		<div>
+			                			<field name="memo1" widget="html"/>
+			                			<field name="memo2" widget="html"/>
+			                		</div>
+			                	</group>
+		                	</page> 		                	
+		                	<page name="link" string="Link Perkiraan" invisible="0">		                		
+	                			<div>
+	                				<h4 style="background-color:#7FFF00;text-align:center;height:42px;font-weight:bold;margin-top:6px;">
+	                					Diisi apabila anda ingin link perkiraan berbeda dengan link Default perkiraan yang telah di set..
+									</h4>
+	                			</div>
+		                		<notebook name="link_perkiraan">
+		                			<page string="Accounting Entries">
+		                				<group string="Accounting Entries" name="accounting_entries2" groups="account.group_account_user">
+			                                <field name="currency_id" invisible="0"/>
+			                                <field name="property_account_receivable_id"/>
+			                                <field name="property_account_payable_id"/>
+			                                <field name="account_debit_note_id"/>
+			                                <field name="account_credit_note_id"/>
+			                                <field name="account_p_debit_note_id"/>
+			                                <field name="account_p_credit_note_id"/>
+			                                <field name="account_deposit_id"/>
+			                                <field name="account_p_deposit_id"/>
+			                            </group>
+		                			</page>
+		                			<!-- <page string="Credit">
+		                				<group>
+			                				<group>
+			                					<label for="kurs_2_id" string="Mata Uang"/>
+			                					<div>
+			                						<field name="kurs_2_id"/>
+			                					</div>
+			                				</group>
+			                				<group>
+			                				</group>
+		                				</group>
+		                				<group>
+		                					<group>		                						
+			                					<field name="account_credit_no_item_gbr_id"/>
+			                					<field name="property_account_payable_id" string="Hutang Pembelian Credit"/>
+			                					<field name="account_credit_gbr_id" />				                		
+		                					</group>		                					
+		                				</group>	
+		                				
+		                			</page>
+		                			<page string="Retur Credit">
+		                				<group>
+		                					<group>
+		                						<label for="kurs_2_id" string="Mata Uang"/>
+		                						<div>
+		                							<field name="kurs_2_id"/>
+		                						</div>
+		                					</group>
+		                					<group>
+		                					</group>
+		                				</group>		                				
+		                				<group>
+		                					<group >		                						
+			                					<field name="account_retur_credit_id"/>
+		                					</group>		                					
+		                				</group>
+		                			</page>
+		                			<page string="Debit note">
+		                				<group>
+		                					<group>
+		                						<label for="kurs_2_id" string="Mata Uang"/>
+		                						<div>
+		                							<field name="kurs_2_id"/>
+		                						</div>
+		                					</group>
+		                					<group>
+		                					</group>
+		                				</group>		                				
+		                				<group>
+		                					<group >
+		                						<field name="account_debit_no_item_id"/>
+		                						<field name="account_debit_note_id"/>		                					
+		                					</group>		                					
+		                				</group>
+		                			</page>
+		                			<page string="Credit Note">
+		                				<group>
+		                					<group>
+		                						<label for="kurs_2_id" string="Mata Uang"/>
+		                						<div>
+		                							<field name="kurs_2_id"/>
+		                						</div>
+		                					</group>
+		                					<group>
+		                					</group>
+		                				</group>		                				
+		                				<group>
+		                					<group >
+		                						<field name="account_credit_no_item_id"/>
+		                						<field name="account_credit_note_id"/>		                					
+		                					</group>		                					
+		                				</group>
+		                			</page>
+		                			<page string="Lainnya">
+		                				<group>
+		                					<group>
+		                						<label for="kurs_2_id" string="Mata Uang"/>
+		                						<div>
+		                							<field name="kurs_2_id"/>
+		                						</div>
+		                					</group>
+		                					<group>
+		                					</group>
+		                				</group>		                				
+		                				<group>
+		                					<group >
+		                						<field name="account_retur_credit_id"/>			                					
+		                					</group>		                					
+		                				</group>
+		                			</page> -->
+		                		</notebook>
+		                	</page>
+		                	<page name="kartuhutang" string="Kartu Hutang" invisible="0">
+		                		<div name="button_box">
+				                    <button type="object"
+				                        class="oe_stat_button"
+				                        id="partner_ledger_button"
+				                        icon="fa-pencil-square-o"
+				                        name="open_partner_ledger"
+				                        string="Kartu Hutang"
+				                        context="{'default_partner_id': active_id}">
+				                    </button>
+				                </div>
+		                	</page>
+		                </notebook>
+	          		</sheet>
+				</form>
+			</field>
+		</record> 
+
+		<record model="ir.ui.view" id="gbr_partner_view_buttons">
+            <field name="name">partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="gbr_custom.view_vendor_gbr_inherit_form" />
+            <field name="priority" eval="13"/>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button type="object"
+                        class="oe_stat_button"
+                        id="partner_ledger_button"
+                        icon="fa-pencil-square-o"
+                        name="open_partner_ledger"
+                        string="Kartu Hutang"
+                        context="{'default_partner_id': active_id}">
+                    </button>
+                </div>
+            </field>
+        </record>
+        <record id="view_gbr_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                	<field name="id" string="ID"/>
+                	<field name="is_semua_data"/>
+                    <field name="name"
+                        filter_domain="['|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)]" string="Nama"/>
+                    <field name="state_id" string="Daerah"
+                       filter_domain="[
+                        '|','|','|',
+                        ('state_id.name', 'ilike', self),('kecamatan_id.name', 'ilike', self), ('kota_id.name', 'ilike', self),('kelurahan_id.name', 'ilike', self)]"/>
+                    <field name="group_id" string="Kelompok" filter_domain="['|',('group_id.name','ilike',self),('group2_id.name','ilike',self)]"/>
+                     <field name="group3_id" string="Grouping" filter_domain="['|','|',('group3_id.name','ilike',self),('group4_id.name','ilike',self),('group5_id.name','ilike',self)]"/>
+                    <field name="contact_person1" string="Hubungi" filter_domain="['|', '|', '|' ,'|' ,'|' ,('contact_person1', 'ilike', self), ('contact_person2', '=', self), ('contact_person3', 'ilike', self), ('contact_number1', 'ilike', self), ('contact_number2', 'ilike', self), ('contact_number3', 'ilike', self)]"/>
+                    <field name="comment" string="Catatan"/>
+                    <!-- <field name="parent_id" domain="[('is_company', '=', True)]" operator="child_of"/>
+                    <field name="email" filter_domain="[('email', 'ilike', self)]"/>
+                    <field name="phone" filter_domain="['|', ('phone', 'ilike', self), ('mobile', '=', self)]"/>
+                    <field name="user_id"/>-->
+                    <!-- <field name="sales_employee_id" string="Sales"/>  -->
+                    <separator/>
+                    <filter string="Individuals" name="type_person" domain="[('is_company', '=', False)]"/>
+                    <filter string="Companies" name="type_company" domain="[('is_company', '=', True)]"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" name="group_by" string="Group By">
+                        <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by' : 'user_id'}" />
+                        <filter name="group_company" string="Company" context="{'group_by': 'parent_id'}"/>
+                        <filter name="group_country" string="Country" context="{'group_by': 'country_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_grouping_vendor_tree" model="ir.ui.view">
+			<field name="name">view.gbr.group.4.tree</field>
+			<field name="model">gbr.group.4</field>
+			<field name="type">tree</field>
+			<field name="priority">99</field>
+			<field name="arch" type="xml">
+				<tree name="vendor" string="Grouping Vendors" editable="bottom">					
+					<field name="name"/>	
+					<field name="create_uid" string="Entry-by"/>
+					<field name="create_date" string="Entry-Date"/>
+					<field name="write_uid" string="Last-Edit by"/>					
+					<field name="write_date" string="Last-Edit Date"/>				
+				</tree>
+			</field>
+		</record> 		
+
+		<record id="action_menu_vendors_gbr" model="ir.actions.act_window">
+	        <field name="name">Vendors</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">res.partner</field>
+	        <field name="view_id" ref="view_vendor_gbr_inherit_tree"/>
+	        <field name="search_view_id" ref="gbr_custom.view_gbr_res_partner_filter"/>
+	        <field name="view_mode">tree,form</field>
+	        <field name="context">{'tree_view_ref': 'gbr_custom.view_vendor_gbr_inherit_tree',
+	        					   'form_view_ref': 'gbr_custom.view_vendor_gbr_inherit_form',
+	        					   'default_is_value' : 1,
+	        					   'default_supplier_rank': 1,
+	        					   'search_default_supplier': 1,'res_partner_search_mode': 'supplier',
+	        					   'default_is_company': True ,
+	        					   'default_country_id': 100,
+	        					   'disable_search':True
+	        					   }</field>
+	        <field name="domain">[('is_value', '=', True)]</field>
+	        <field name="help" type="html">
+             <p class="o_view_nocontent_smiling_face">
+               Master File - Vendor
+             </p><p>
+              Silahkan gunakan menu search untuk mencari dan menampilkan Data
+             </p>
+            </field>
+   		</record>   		
+
+   		<record id="action_menu_grouping_vendors_gbr" model="ir.actions.act_window">
+	        <field name="name">Grouping Vendors</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">gbr.group.4</field>
+	        <field name="view_id" ref="view_grouping_vendor_tree"/>
+	        <field name="view_mode">tree,form</field>
+	        <field name="context">{'tree_view_ref': 'gbr_custom.view_grouping_vendor_tree'}</field>
+	        
+   		</record>
+        <menuitem
+            id="menu_gbr_supplier_name"
+            name="Vendor"
+            action="action_menu_vendors_gbr"
+            parent="menu_gbr_custom_root" 
+            sequence="2"/> 
+		<!-- menu_gbr_vendor -->
+        <menuitem
+            id="menu_gbr_supplier_group"
+            name="Grouping Vendors"
+            action="action_menu_grouping_vendors_gbr"
+            parent="gbr_custom.menu_gbr_unused"
+            sequence="2"/> 
+
+      
+		
+
+	</data>
+</odoo>

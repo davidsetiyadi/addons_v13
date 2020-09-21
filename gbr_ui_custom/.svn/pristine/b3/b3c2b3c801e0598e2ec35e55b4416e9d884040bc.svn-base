@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="Sistem Setup" id="menu_gbr_system_setup" parent="base.menu_custom" sequence="1"/>
+    <menuitem name="List (List Mata Uang, Kurs, Negara, Daerah, dsbnya)" action="base.action_open_website" id="menu_gbr_system_setup_list" parent="menu_gbr_system_setup" sequence="1"/>
+    <menuitem name="Kode Perkiraan" action="base.action_open_website" id="menu_gbr_system_setup_coa" parent="menu_gbr_system_setup" sequence="2"/>
+    <menuitem name="Sistem Konfigurasi" action="base.action_open_website" id="menu_gbr_system_setup_config" parent="menu_gbr_system_setup" sequence="3"/>
+    <menuitem name="Buat Jurnal Khusus (Jurnal Transaksi)" action="base.action_open_website" id="menu_gbr_system_setup_journal" parent="menu_gbr_system_setup" sequence="4"/>
+    <menuitem name="Set Proteksi Data" action="base.action_open_website" id="menu_gbr_system_setup_protection" parent="menu_gbr_system_setup" sequence="5"/>
+
+    <menuitem name="Master File" id="menu_gbr_master_file" parent="base.menu_custom" sequence="2"/>
+    <menuitem name="Karyawan" action="base.action_open_website" id="menu_gbr_master_file_employee" parent="menu_gbr_master_file" sequence="1"/>
+    <menuitem name="Vendor" action="base.action_open_website" id="menu_gbr_master_file_vendor" parent="menu_gbr_master_file" sequence="2"/>
+    <menuitem name="Pelanggan" action="base.action_open_website" id="menu_gbr_master_file_customer" parent="menu_gbr_master_file" sequence="3"/>
+    <menuitem name="Item" action="base.action_open_website" id="menu_gbr_master_file_product" parent="menu_gbr_master_file" sequence="4"/>
+
+    <menuitem name="Pembelian" id="menu_gbr_purchase" parent="base.menu_custom" sequence="3"/>
+    <menuitem name="Purchase Order" action="base.action_open_website" id="menu_gbr_purchase_order" parent="menu_gbr_purchase" sequence="1"/>
+    <menuitem name="Pembelian" action="base.action_open_website" id="menu_gbr_purchase_receive" parent="menu_gbr_purchase" sequence="2"/>
+    <menuitem name="Retur Pembelian" action="base.action_open_website" id="menu_gbr_purchase_return" parent="menu_gbr_purchase" sequence="3"/>
+    <menuitem name="Debit Note Pembelian Hutang" action="base.action_open_website" id="menu_gbr_purchase_debit_note" parent="menu_gbr_purchase" sequence="4"/>
+    <menuitem name="Credit Note Pembelian Hutang" action="base.action_open_website" id="menu_gbr_purchase_credit_note" parent="menu_gbr_purchase" sequence="5"/>
+    <menuitem name="Deposit" action="base.action_open_website" id="menu_gbr_purchase_deposit" parent="menu_gbr_purchase" sequence="6"/>
+    <menuitem name="Pembayaran Hutang" action="base.action_open_website" id="menu_gbr_purchase_pay_payable" parent="menu_gbr_purchase" sequence="7"/>
+    <menuitem name="Daftar Hutang" action="base.action_open_website" id="menu_gbr_purchase_payable" parent="menu_gbr_purchase" sequence="8"/>
+
+    <menuitem name="Penjualan" id="menu_gbr_sale" parent="base.menu_custom" sequence="4"/>
+    <menuitem name="Quotation" action="base.action_open_website" id="menu_gbr_sale_quotation" parent="menu_gbr_sale" sequence="1"/>
+    <menuitem name="Sales Order" action="base.action_open_website" id="menu_gbr_sale_order" parent="menu_gbr_sale" sequence="2"/>
+    <menuitem name="Rekap Pengeluaran Barang Penjualan" action="base.action_open_website" id="menu_gbr_sale_outgoing" parent="menu_gbr_sale" sequence="3"/>
+    <menuitem name="Penjualan Eceran" action="base.action_open_website" id="menu_gbr_sale_pos" parent="menu_gbr_sale" sequence="4"/>
+    <menuitem name="Penjualan" action="base.action_open_website" id="menu_gbr_sale_delivery" parent="menu_gbr_sale" sequence="5"/>
+    <menuitem name="Retur Penjualan" action="base.action_open_website" id="menu_gbr_sale_return" parent="menu_gbr_sale" sequence="6"/>
+    <menuitem name="Debit Note Piutang Penjualan" action="base.action_open_website" id="menu_gbr_sale_debit_note" parent="menu_gbr_sale" sequence="7"/>
+    <menuitem name="Credit Note Piutang Penjualan" action="base.action_open_website" id="menu_gbr_sale_credit_note" parent="menu_gbr_sale" sequence="8"/>
+    <menuitem name="Invoice Statement Penjualan" action="base.action_open_website" id="menu_gbr_sale_statement" parent="menu_gbr_sale" sequence="9"/>
+    <menuitem name="Deposit" action="base.action_open_website" id="menu_gbr_sale_deposit" parent="menu_gbr_sale" sequence="10"/>
+    <menuitem name="Penerimaan Piutang" action="base.action_open_website" id="menu_gbr_sale_receive_receivable" parent="menu_gbr_sale" sequence="11"/>
+    <menuitem name="Daftar Piutang" action="base.action_open_website" id="menu_gbr_sale_receivable" parent="menu_gbr_sale" sequence="12"/>
+
+    <menuitem name="Kas" id="menu_gbr_cash" parent="base.menu_custom" sequence="5"/>
+    <menuitem name="Kas Masuk" action="base.action_open_website" id="menu_gbr_cash_income" parent="menu_gbr_cash" sequence="1"/>
+    <menuitem name="Kas Keluar" action="base.action_open_website" id="menu_gbr_cash_outcome" parent="menu_gbr_cash" sequence="2"/>
+    <menuitem name="Transfer Kas" action="base.action_open_website" id="menu_gbr_cash_transfer" parent="menu_gbr_cash" sequence="3"/>
+    <menuitem name="Pencairan CH/BG Kas Masuk" action="base.action_open_website" id="menu_gbr_cash_income_disbursement" parent="menu_gbr_cash" sequence="4"/>
+    <menuitem name="Pencairan CH/BG Kas Keluar" action="base.action_open_website" id="menu_gbr_cash_outcome_disbursement" parent="menu_gbr_cash" sequence="5"/>
+
+    <menuitem name="Lainnya" id="menu_gbr_other" parent="base.menu_custom" sequence="6"/>
+    <menuitem name="Barang Transfer" action="base.action_open_website" id="menu_gbr_other_stock_transfer" parent="menu_gbr_other" sequence="1"/>
+    <menuitem name="Barang Untransfer" action="base.action_open_website" id="menu_gbr_other_stock_untransfer" parent="menu_gbr_other" sequence="2"/>
+    <menuitem name="Barang Pindah Gudang" action="base.action_open_website" id="menu_gbr_other_stock_warehouse" parent="menu_gbr_other" sequence="3"/>
+    <menuitem name="Barang Masuk (Penyesuaian Stock)" action="base.action_open_website" id="menu_gbr_other_stock_incoming" parent="menu_gbr_other" sequence="4"/>
+    <menuitem name="Barang Keluar (Rusak/Hilang/Free/...)" action="base.action_open_website" id="menu_gbr_other_stock_outgoing" parent="menu_gbr_other" sequence="5"/>
+    <menuitem name="Kartu Stock" action="base.action_open_website" id="menu_gbr_other_stock_balance" parent="menu_gbr_other" sequence="6"/>
+    <menuitem name="Proses Laporan Total Transaksi" action="base.action_open_website" id="menu_gbr_other_transaction_report" parent="menu_gbr_other" sequence="8"/>
+</odoo>

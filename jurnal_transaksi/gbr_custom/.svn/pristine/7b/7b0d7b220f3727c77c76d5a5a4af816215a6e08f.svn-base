@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+    <record id="view_gbr_pencairan" model="ir.ui.view">
+        <field name="name">gbr.pencairan.form</field>
+        <field name="model">gbr.pencairan</field>
+        <field name="arch" type="xml">
+            <form string="GBR Pencairan">
+                
+                <group col="4">
+                     <group colspan="4">
+                        <label for="date" string="Tanggal"/>
+                        <div for="journal_id" class="o_row" >
+                            <field name="date" string="Tanggal" style="padding-right:10px"/>                                    
+                            <field name="tanggal_char" string="Tanggal" style="background:greenyellow;"/>
+                        </div>                                 
+                    
+                        <label for="journal_id" string="Cair ke"/>
+                        <div for="journal_id" class="o_row" >
+                            <field name="journal_id" string="Cair ke" style="padding-right:10px" domain="[('type', 'in', ('bank','cash'))]"/>
+                            <field name="source_acc_id" readonly="1"/>
+                        </div>       
+                     </group>
+                     <group colspan="4">
+                        <field name="reason" string="Catatan"/>
+                     </group>
+                </group>
+                <footer>
+                    <button string='Cairkan' name="reverse_moves" type="object" class="btn-primary"/>
+                    <button string="Tutup" class="btn-secondary" special="cancel"/>
+                </footer>
+           </form>
+        </field>
+    </record>
+     <record id="view_gbr_pencairan2" model="ir.ui.view">
+        <field name="name">gbr.pencairan.form</field>
+        <field name="model">gbr.pencairan</field>
+        <field name="arch" type="xml">
+            <form string="GBR Pencairan">
+                
+                <group col="4">
+                     <group colspan="4">
+                        <label for="date" string="Tanggal"/>
+                        <div for="journal_id" class="o_row" >
+                            <field name="date" string="Tanggal" style="padding-right:10px"/>                                    
+                            <field name="tanggal_char" string="Tanggal" style="background:greenyellow;"/>
+                        </div>                                 
+                    
+                        <label for="journal_id" string="Cair ke"/>
+                        <div for="journal_id" class="o_row" >
+                            <field name="journal_id" string="Cair ke" style="padding-right:10px" domain="[('type', 'in', ('bank','cash'))]"/>
+                            <field name="source_acc_id" readonly="1"/>
+                        </div>       
+                     </group>
+                     <group colspan="4">
+                        <field name="reason" string="Catatan"/>
+                     </group>
+                </group>
+                <footer>
+                    <button string='Cairkan' name="reverse_moves2" type="object" class="btn-primary"/>
+                    <button string="Tutup" class="btn-secondary" special="cancel"/>
+                </footer>
+           </form>
+        </field>
+    </record>
+
+    <record id="action_view_gbr_pencairan" model="ir.actions.act_window">
+        <field name="name">Cair CH/BG</field>
+        <field name="res_model">gbr.pencairan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_gbr_pencairan"/>
+        <field name="target">new</field>
+    </record>
+    <record id="action_view_gbr_pencairan2" model="ir.actions.act_window">
+        <field name="name">Cair CH/BG</field>
+        <field name="res_model">gbr.pencairan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_gbr_pencairan2"/>
+        <field name="target">new</field>
+    </record>
+	<record id="wizard_gbr_pencairan_cek_form" model="ir.ui.view">
+        <field name="name">gbr.pencairan.cek.form</field>
+        <field name="model">gbr.pencairan.cek</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="true">               
+                <sheet>                    
+                    
+                    <notebook>                        
+                        <page id="other_tab" string="Yang Belum Cair" name="other_info">
+                        	<group col="4">
+		                        <group colspan="2">
+		                        <label for="date_start" string="Tanggal"/>
+		                        <div>
+		                            <field name="date_start" class="oe_inline" style="padding-right:10px;" required="1"/>
+		                            <field name="date_end" class="oe_inline" required="1"/>
+		                        </div>    
+		                   		</group>   
+		                   		 <group colspan="2">
+		                   		 	<field name="cari_1" class="oe_inline"/>
+		                   		 	<button type="object" name="button_search" class="oe_highlight" string="Cari"/>
+		                   		 </group>              		
+		                    </group>
+                            <field name="pencairan_ids" >
+                                <tree editable="bottom" create="false">     
+                                	<field name="is_selected" optional="show" invisible="1"/>  
+                                    <field name="id" string="ID" optional="hide" invisible="1"/>
+                                    <field name="db_cr" optional="show"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="currency_id" optional="show"/>
+                                    <field name="perkiraan" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="tgl_cair" optional="show"/>
+                                    <field name="partner2_id" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="partner_id" optional="show"/>
+                                    <field name="information" optional="show"/>
+                                    <button type="object" name="button_reconcile" class="oe_highlight" string="Cairkan"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Yang Sudah Cair" name="other_info_2">
+                            <group col="4">
+                                <group colspan="2">
+                                <label for="date_start" string="Tanggal"/>
+                                <div>
+                                    <field name="date_start2" class="oe_inline" style="padding-right:10px;" required="1"/>
+                                    <field name="date_end2" class="oe_inline" required="1"/>
+                                </div>    
+                                </group>   
+                                 <group colspan="2">
+                                    <field name="cari_1" class="oe_inline"/>
+                                    <button type="object" name="button_search" class="oe_highlight" string="Cari"/>
+                                 </group>                   
+                            </group>
+                            <field name="pencairan_lns_id" >
+                                <tree editable="bottom" create="false">     
+                                    <field name="is_selected" optional="show" invisible="1"/>  
+                                    <field name="id" string="ID" optional="hide" invisible="1"/>
+                                    <field name="db_cr" optional="show"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="currency_id" optional="show"/>
+                                    <field name="perkiraan" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="tgl_cair" optional="show"/>
+                                    <field name="partner2_id" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="partner_id" optional="show"/>
+                                    <field name="information" optional="show"/>
+                                    <field name="full_reconcile_id" invisible="1"/>
+                                    <field name="move_line_id" invisible="1"/>
+                                    <button type="object" name="button_cancel" class="oe_highlight" string="Batalkan"/>
+                                </tree>                                       
+                            </field>                                             
+                        </page>
+                        
+                    </notebook>
+                </sheet>              
+                              
+                <footer>
+                    <button class="btn-secondary" special="cancel" string="Tutup" style="justify-content: center; width: 100% !important;, background-color:#1F487E !important"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="wizard_gbr_pencairan_cek2_form" model="ir.ui.view">
+        <field name="name">gbr.pencairan.cek.form</field>
+        <field name="model">gbr.pencairan.cek</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Grouping"  create="true">               
+                <sheet>
+                    <notebook>                        
+                        <page id="other_tab" string="Yang Belum Cair" name="other_info">
+                            <group col="4">
+                                <group colspan="2">
+                                <label for="date_start" string="Tanggal"/>
+                                <div>
+                                    <field name="date_start" class="oe_inline" style="padding-right:10px;" required="1"/>
+                                    <field name="date_end" class="oe_inline" required="1"/>
+                                </div>    
+                                </group>   
+                                 <group colspan="2">
+                                    <field name="cari_1" class="oe_inline"/>
+                                    <button type="object" name="button_search_2" class="oe_highlight" string="Cari"/>
+                                 </group>                   
+                            </group>
+                            <field name="pencairan_ids" >
+                                <tree editable="bottom" create="false">     
+                                    <field name="is_selected" optional="show" invisible="1"/>  
+                                    <field name="id" string="ID" optional="hide" invisible="1"/>
+                                    <field name="db_cr" optional="show"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="currency_id" optional="show"/>
+                                    <field name="perkiraan" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="tgl_cair" optional="show"/>
+                                    <field name="partner2_id" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="partner_id" optional="show"/>
+                                    <field name="information" optional="show"/>
+                                    <button type="object" name="button_reconcile2" class="oe_highlight" string="Cairkan"/>
+                                </tree>                                
+                            </field>                                             
+                        </page>
+                        <page id="other_tab_2" string="Yang Sudah Cair" name="other_info_2">
+                            <group col="4">
+                                <group colspan="2">
+                                <label for="date_start" string="Tanggal"/>
+                                <div>
+                                    <field name="date_start2" class="oe_inline" style="padding-right:10px;" required="1"/>
+                                    <field name="date_end2" class="oe_inline" required="1"/>
+                                </div>    
+                                </group>   
+                                 <group colspan="2">
+                                    <field name="cari_1" class="oe_inline"/>
+                                    <button type="object" name="button_search_2" class="oe_highlight" string="Cari"/>
+                                 </group>                   
+                            </group>
+                            <field name="pencairan_lns_id" >
+                                <tree editable="bottom" create="false">     
+                                    <field name="is_selected" optional="show" invisible="1"/>  
+                                    <field name="id" string="ID" optional="hide" invisible="1"/>
+                                    <field name="db_cr" optional="show"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="currency_id" optional="show"/>
+                                    <field name="perkiraan" optional="show"/>
+                                    <field name="amount" optional="show"/>
+                                    <field name="tgl_cair" optional="show"/>
+                                    <field name="partner2_id" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="partner_id" optional="show"/>
+                                    <field name="information" optional="show"/>
+                                    <field name="full_reconcile_id" invisible="1"/>
+                                    <field name="move_line_id" invisible="1"/>
+                                    <button type="object" name="button_cancel2" class="oe_highlight" string="Batalkan"/>
+                                </tree>                                       
+                            </field>                                             
+                        </page>
+                        
+                    </notebook>
+                </sheet>                
+                
+                <!-- Chatter -->
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div> -->
+                <footer>
+                    <button class="btn-secondary" special="cancel" string="Tutup" style="justify-content: center; width: 100% !important;, background-color:#1F487E !important"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_gbr_pencairan_cek" model="ir.actions.act_window">
+        <field name="name">Pencairan CH/BG Kas Masuk</field>
+        <field name="res_model">gbr.pencairan.cek</field>
+        <field name="view_mode">form</field>        
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="wizard_gbr_pencairan_cek_form"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Kas - CH/BG Kas Maasuk
+          </p><p>
+            Silahkan gunakan menu search untuk mencari dan menampilkan Data
+          </p>
+        </field>
+    </record>
+    <record id="action_gbr_pencairan_cek_keluar" model="ir.actions.act_window">
+        <field name="name">Pencairan CH/BG Kas Keluar</field>
+        <field name="res_model">gbr.pencairan.cek</field>
+        <field name="view_mode">form</field>        
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="wizard_gbr_pencairan_cek2_form"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Kas - CH/BG Kas Keluar
+          </p><p>
+            Silahkan gunakan menu search untuk mencari dan menampilkan Data
+          </p>
+        </field>
+    </record>
+  
+    <menuitem action="action_gbr_pencairan_cek" 
+	    id="menu_action_gbr_pencairan_cek" 
+	    parent="gbr_custom.menu_gbr_kas" sequence="4"/>
+
+    <menuitem action="action_gbr_pencairan_cek_keluar" 
+        id="menu_action_gbr_pencairan_cek_keluar" 
+        parent="gbr_custom.menu_gbr_kas" sequence="5"/>
+</data>
+</odoo>

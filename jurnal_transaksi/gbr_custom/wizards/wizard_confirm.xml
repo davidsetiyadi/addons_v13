@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+<data>
+	<record id="view_gbr_confirm_form" model="ir.ui.view">
+        <field name="name">gbr.confirm.form</field>
+        <field name="model">gbr.confirm</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Mengisi Tanggal Konfirmasi"  create="true">  
+            	<group>
+	            	<field name="confirm_date"/>
+	            	<field name="confirm_id" readonly="1"/>
+	            </group>
+	            <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process_id"                        
+                        name="button_process"
+                        string="Simpan"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                	</footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_confirm_am_form" model="ir.ui.view">
+        <field name="name">gbr.confirm.form</field>
+        <field name="model">gbr.confirm</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Mengisi Tanggal Konfirmasi"  create="true">  
+                <group>
+                    <field name="confirm_date"/>
+                    <field name="confirm_id" readonly="1"/>
+                </group>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process2_id"                        
+                        name="button_process_am"
+                        string="Simpan"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                    </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_gbr_confirm_so_form" model="ir.ui.view">
+        <field name="name">gbr.confirm.form</field>
+        <field name="model">gbr.confirm</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Mengisi Tanggal Konfirmasi"  create="true">  
+                <group>
+                    <field name="confirm_date"/>
+                    <field name="confirm_id" readonly="1"/>
+                </group>
+                <footer>
+                        <button type="object"
+                        class="oe_highlight"
+                        id="button_process2a_id"                        
+                        name="button_process_so"
+                        string="Simpan"
+                        context="{}">
+                    </button>
+                        or
+                        <button string="Tutup" class="oe_highlight" special="cancel"/>
+                    </footer>
+            </form>
+        </field>
+    </record>
+</data>
+</odoo>
